@@ -19,10 +19,10 @@ namespace Vars
 		inline bool ModernDesign = false;
 		inline bool ShowPlayerlist = false;
 		inline bool ShowKeybinds = false;
+
 		inline CVar<bool> ShowDVD{ false };
 		inline CVar<bool> Vignette{ true };
 		inline CVar<bool> CloseOnUnfocus{ true };
-
 		inline CVar<int> MenuKey{ 0 };
 
 		namespace Colors
@@ -46,7 +46,7 @@ namespace Vars
 	{
 		inline CVar<bool> Enabled{ false };
 		inline CVar<int> Latency{ 0 };
-		
+
 
 		namespace BtChams
 		{
@@ -97,7 +97,7 @@ namespace Vars
 			inline CVar<float> PointScale{ .54f };
 			inline CVar<int> SmoothingAmount{ 4 };
 			inline CVar<int> TapFire{ 0 }; //0 - Off, 1 - Distance, 2 - Always
-			inline CVar<float> TapFireDist { 1000.f };
+			inline CVar<float> TapFireDist{ 1000.f };
 			inline CVar<bool> ScanBuildings{ false };
 			inline CVar<bool> WaitForHeadshot{ false };
 			inline CVar<bool> WaitForCharge{ false };
@@ -122,9 +122,10 @@ namespace Vars
 			inline CVar<bool> FeetAimIfOnGround{ false };
 			inline CVar<int> BounceKey{ 0x0 };
 			inline CVar<bool> SplashPrediction{ false };
+			inline CVar<bool> SplashPredictionPrefer{ false }; // fuck you vsc22
 			inline CVar<int> MinSplashPredictionDistance{ 0 };
 			inline CVar<int> MaxSplashPredictionDistance{ 10000 };
-			inline Color_t PredictionColor{ 255, 255, 255, 255 };
+			inline Color_t PredictionColor{ 0, 255, 0, 255 };
 			inline CVar<float> PredictionTime{ 2.0f };
 			inline CVar<bool> PredictObscured{ false };
 			inline CVar<bool> NoSpread{ false };
@@ -207,9 +208,9 @@ namespace Vars
 			inline CVar<bool> AutoVacc{ false };
 			inline CVar<float> HealthLeft{ 35.0f };
 			inline CVar<bool> VoiceCommand{ false };
-			inline CVar<int> ReactFoV{25};
+			inline CVar<int> ReactFoV{ 25 };
 			inline CVar<bool> BulletRes{ true }; inline CVar<bool> BlastRes{ true }; inline CVar<bool> FireRes{ true };
-			inline CVar<int> ReactClasses{0b000000000};	//	this is intuitive
+			inline CVar<int> ReactClasses{ 0b000000000 };	//	this is intuitive
 		}
 	}
 
@@ -220,11 +221,11 @@ namespace Vars
 			inline CVar<bool> Active{ false };
 			inline CVar<bool> Outlinedbar{ false };
 			inline CVar<bool> EnableTeamEnemyColors{ false };
-			inline CVar<bool> DistanceToAlpha{false};
+			inline CVar<bool> DistanceToAlpha{ false };
 			inline CVar<bool> DormantSoundESP{ false };
-			inline CVar<float> DormantTime{1.f};
-			inline CVar<int> DormantDist{1000};
-			inline CVar<int> NetworkedDist{2000};
+			inline CVar<float> DormantTime{ 1.f };
+			inline CVar<int> DormantDist{ 1000 };
+			inline CVar<int> NetworkedDist{ 2000 };
 		}
 
 
@@ -380,7 +381,7 @@ namespace Vars
 		namespace Main
 		{
 			inline CVar<bool> Active{ false };
-			inline CVar<int> Type{0};	//	blur, stencil, fps stencil, wireframe
+			inline CVar<int> Type{ 0 };	//	blur, stencil, fps stencil, wireframe
 			inline CVar<int> Scale{ 5 };
 		}
 
@@ -539,7 +540,7 @@ namespace Vars
 		inline CVar<bool> MoveSimSeperators{ false };
 		inline CVar<int> SeperatorLength{ 12 };
 		inline CVar<int> SeperatorSpacing{ 6 };
-		
+
 		inline CVar<int> ParticleTracer{ 2 };
 		inline std::string ParticleName = "merasmus_zap_beam01"; // dont save this as a var its pointless
 		inline CVar<bool> DoPostProcessing{ false };
@@ -627,7 +628,7 @@ namespace Vars
 
 	namespace Misc
 	{
-		inline CVar<bool> FastDeltaStrafe{false};
+		inline CVar<bool> FastDeltaStrafe{ false };
 		inline CVar<int> AccurateMovement{ false };
 		inline CVar<bool> AutoJump{ false };
 		inline CVar<bool> AutoVote{ false };
@@ -696,18 +697,18 @@ namespace Vars
 
 		namespace CheaterDetection
 		{
-			inline CVar<bool> Enabled{false};
-			inline CVar<int> Methods{0b111111100};			//	Duckspeed, Aimbot, OOB pitch, angles, bhop, fakelag, simtime, high score, high accuracy
-			inline CVar<int> Protections{0b111};			//	double scans, lagging client, timing out
-			inline CVar<int> SuspicionGate{10};				//	the amount of infractions prior to marking someone as a cheater
-			inline CVar<int> PacketManipGate{14};			//	the avg choke for someone to receive and infraction for packet choking
-			inline CVar<int> BHopMaxDelay{1};				//	max groundticks used when detecting a bunny hop.
-			inline CVar<int> BHopDetectionsRequired{5};		//	how many times must some be seen bunny hopping to receive an infraction
-			inline CVar<float> ScoreMultiplier{2.f};		//	multiply the avg score/s by this to receive the maximum amount
-			inline CVar<float> MinimumFlickDistance{20.f};	//	min mouse flick size to suspect someone of angle cheats.
-			inline CVar<float> MaximumNoise{5.f};			//	max mouse noise prior to a flick to mark somebody
-			inline CVar<float> MinimumAimbotFoV{3.f};		//	scaled with how many ticks a player has choked up to ->
-			inline CVar<float> MaxScaledAimbotFoV{20.f};	//	self explanatory
+			inline CVar<bool> Enabled{ false };
+			inline CVar<int> Methods{ 0b111111100 };			//	Duckspeed, Aimbot, OOB pitch, angles, bhop, fakelag, simtime, high score, high accuracy
+			inline CVar<int> Protections{ 0b111 };			//	double scans, lagging client, timing out
+			inline CVar<int> SuspicionGate{ 10 };				//	the amount of infractions prior to marking someone as a cheater
+			inline CVar<int> PacketManipGate{ 14 };			//	the avg choke for someone to receive and infraction for packet choking
+			inline CVar<int> BHopMaxDelay{ 1 };				//	max groundticks used when detecting a bunny hop.
+			inline CVar<int> BHopDetectionsRequired{ 5 };		//	how many times must some be seen bunny hopping to receive an infraction
+			inline CVar<float> ScoreMultiplier{ 2.f };		//	multiply the avg score/s by this to receive the maximum amount
+			inline CVar<float> MinimumFlickDistance{ 20.f };	//	min mouse flick size to suspect someone of angle cheats.
+			inline CVar<float> MaximumNoise{ 5.f };			//	max mouse noise prior to a flick to mark somebody
+			inline CVar<float> MinimumAimbotFoV{ 3.f };		//	scaled with how many ticks a player has choked up to ->
+			inline CVar<float> MaxScaledAimbotFoV{ 20.f };	//	self explanatory
 		}
 
 		namespace CL_Move
@@ -732,16 +733,16 @@ namespace Vars
 			inline CVar<bool> AntiWarp{ false }; //H
 			inline CVar<int> DTMode{ 0 }; // 0 - On Key, 1 - Always DT, 2 - Disable on key, 3 - Disabled
 			inline CVar<int> DTBarStyle{ 3 };
-			inline DragBox_t DTIndicator{g_ScreenSize.c, g_ScreenSize.c};
+			inline DragBox_t DTIndicator{ g_ScreenSize.c, g_ScreenSize.c };
 			inline CVar<int> DTTicks{ 21 };
 			inline CVar<bool> WaitForDT{ false };
 			inline CVar<bool> Fakelag{ false };
 			inline CVar<int> FakelagMode{ 0 }; // 0 - plain, 1 - random
-			inline CVar<bool> WhileMoving { false };
-			inline CVar<bool> WhileVisible { false };
-			inline CVar<bool> PredictVisibility { false };
-			inline CVar<bool> WhileUnducking { false };
-			inline CVar<bool> WhileInAir { false };
+			inline CVar<bool> WhileMoving{ false };
+			inline CVar<bool> WhileVisible{ false };
+			inline CVar<bool> PredictVisibility{ false };
+			inline CVar<bool> WhileUnducking{ false };
+			inline CVar<bool> WhileInAir{ false };
 			inline CVar<int> FakelagMin{ 1 }; //	only show when FakelagMode=2
 			inline CVar<int> FakelagMax{ 22 };
 			inline CVar<bool> FakelagOnKey{ false }; // dont show when fakelagmode=2|3

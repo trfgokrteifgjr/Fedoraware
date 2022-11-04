@@ -1,6 +1,6 @@
 #include "Visuals.h"
 #include "../Vars.h"
-#include "../ESP/ESP.h"
+#include "../ESP/LocalConditions/LocalConditions.h"
 
 void CVisuals::DrawHitboxMatrix(CBaseEntity* pEntity, Color_t colourface, Color_t colouredge, float time)
 {
@@ -63,14 +63,14 @@ void CVisuals::DrawOnScreenConditions(CBaseEntity* pLocal)
 	const int x = Vars::Visuals::OnScreenConditions.c;
 	int y = Vars::Visuals::OnScreenConditions.y;
 
-	std::vector<std::wstring> conditionsVec = F::ESP.GetPlayerConds(pLocal);
+	std::vector<std::wstring> conditionsVec = F::LocalConditions.GetPlayerConditions(pLocal);
 
 	int nTextOffset = g_Draw.m_vecFonts[FONT_MENU].nTall;
 	//int longestText = 40;
 	int width, height;
 	for (const std::wstring& cond : conditionsVec)
 	{
-		g_Draw.String(FONT_MENU, x, y + nTextOffset, { 255, 255, 255, 255 }, ALIGN_CENTER, cond.data());
+		g_Draw.String(FONT_MENU, x , y + nTextOffset, { 255, 255, 255, 255 }, ALIGN_CENTER, cond.data());
 		I::VGuiSurface->GetTextSize(g_Draw.m_vecFonts[FONT_MENU].dwFont, cond.data(), width, height);
 		//if (width > longestText)
 		//{
@@ -84,9 +84,8 @@ void CVisuals::DrawOnScreenConditions(CBaseEntity* pLocal)
 	//ConditionH = y + nTextOffset;
 }
 
-void CVisuals::DrawOnScreenPing(CBaseEntity* pLocal){
+void CVisuals::DrawOnScreenPing(CBaseEntity* pLocal) {
 	if (!Vars::Visuals::DrawOnScreenPing.Value) { return; }
-	if (!pLocal->IsAlive() || pLocal->IsAGhost()) { return; }
 
 	CTFPlayerResource* cResource = g_EntityCache.GetPR();
 	if (!cResource) { return; }
@@ -94,7 +93,8 @@ void CVisuals::DrawOnScreenPing(CBaseEntity* pLocal){
 	INetChannel* iNetChan = I::EngineClient->GetNetChannelInfo();
 	if (!iNetChan) { return; }
 
-	const float flLatencyReal = (iNetChan->GetLatency(FLOW_INCOMING) + iNetChan->GetLatency(FLOW_OUTGOING)) * 1000;
+	const float flLatencyReal = (iNetChan->GetLatency(FLOW_INCOMING) + iNetChan->GetLatency(FLOW_OUTGOING)) * 850;
+	const int flFakeLatency = Vars::Backtrack::Latency.Value;
 	const int flLatencyScoreBoard = cResource->GetPing(pLocal->GetIndex());
 
 	const int x = Vars::Visuals::OnScreenPing.x;
@@ -103,8 +103,15 @@ void CVisuals::DrawOnScreenPing(CBaseEntity* pLocal){
 
 	const int nTextOffset = g_Draw.m_vecFonts[FONT_MENU].nTall;
 	{
-		g_Draw.String(FONT_MENU, x, y, {255, 255, 255, 255 }, ALIGN_DEFAULT, "ping real : %.0f", flLatencyReal);
-		g_Draw.String(FONT_MENU, x, y + h - nTextOffset, {255, 255, 255, 255 }, ALIGN_DEFAULT,	"ping scoreboard : %d", flLatencyScoreBoard);
+	//	if (Vars::Backtrack::Enabled.Value)
+	//	{
+	//		g_Draw.String2(FONT_MENU, x, y, { 255, 255, 255, 255 }, ALIGN_DEFAULT, "Real %.0f", "(+ %d) ms", flLatencyReal, flFakeLatency);
+	//	}
+	//	else
+	//	{
+			g_Draw.String(FONT_INDICATORS, x + 20, y, { 255, 255, 255, 255 }, ALIGN_DEFAULT, "Real %.0f ms", flLatencyReal);
+	//	}
+		g_Draw.String(FONT_INDICATORS, x, y + h - nTextOffset, { 255, 255, 255, 255 }, ALIGN_DEFAULT, "Scoreboard %d ms", flLatencyScoreBoard);
 	}
 }
 

@@ -396,6 +396,10 @@ void CMenu::MenuAimbot()
 				
 				SectionTitle("Splash");
 				WToggle("Splash prediction", &Vars::Aimbot::Projectile::SplashPrediction.Value); HelpMarker("Will shoot the area near the target to hit them with splash damage");
+				if (Vars::Aimbot::Projectile::SplashPrediction.Value == 1)
+				{
+					WToggle("Prefer Splash", &Vars::Aimbot::Projectile::SplashPredictionPrefer.Value); HelpMarker("Predicts splash even if the target is visible");
+				}
 				WSlider("Minimum splash distance", &Vars::Aimbot::Projectile::MinSplashPredictionDistance.Value, 0.f, Vars::Aimbot::Projectile::MaxSplashPredictionDistance.Value); HelpMarker("The minimum distance to try going for splash damage");
 				WSlider("Maximum splash distance", &Vars::Aimbot::Projectile::MaxSplashPredictionDistance.Value, Vars::Aimbot::Projectile::MinSplashPredictionDistance.Value, 10000.f); HelpMarker("The maximum distance to try going for splash damage");
 				WToggle("Wait for hit", &Vars::Aimbot::Projectile::WaitForHit.Value); HelpMarker("lol");
