@@ -57,15 +57,13 @@ bool CAimbotProjectile::GetProjectileInfo(CBaseCombatWeapon* pWeapon, Projectile
 		{
 			out = { 1100.0f, 0.0f };
 			IsBoosted = true;
-			m_flPredictionTime;
 			break;
 		}
 
 		case Soldier_m_TheDirectHit:
 		{
 			out = { 1980.0f, 0.0f };
-			IsBoosted = true;
-			m_flPredictionTime;
+			IsBoosted = true
 			break;
 		}
 
@@ -73,7 +71,6 @@ bool CAimbotProjectile::GetProjectileInfo(CBaseCombatWeapon* pWeapon, Projectile
 		{
 			out = { 1540.0f, 0.0f };
 			IsBoosted = true;
-			m_flPredictionTime;
 			break;
 		}
 
@@ -92,9 +89,7 @@ bool CAimbotProjectile::GetProjectileInfo(CBaseCombatWeapon* pWeapon, Projectile
 			out = { 1216.f, 0.4f };
 			IsBoosted = true;
 			m_flPredictionTime = 2.2f; //https://wiki.teamfortress.com/wiki/Grenade_Launcher
-			m_flPredictionTime;
-			break;
-			
+			break;			
 		}
 
 		case Demoman_m_TheIronBomber:
@@ -102,7 +97,6 @@ bool CAimbotProjectile::GetProjectileInfo(CBaseCombatWeapon* pWeapon, Projectile
 			out = { 1216.f, 0.4f };
 			IsBoosted = true;
 			m_flPredictionTime = 1.5f; // 1.6 causes the cheat to miss
-			m_flPredictionTime;
 			break;
 
 		}
@@ -111,7 +105,6 @@ bool CAimbotProjectile::GetProjectileInfo(CBaseCombatWeapon* pWeapon, Projectile
 		case Engi_m_ThePomson6000:
 		{
 			out = { 1200.0f, 0.0f };
-			m_flPredictionTime;
 			break;
 		}
 
@@ -120,7 +113,6 @@ bool CAimbotProjectile::GetProjectileInfo(CBaseCombatWeapon* pWeapon, Projectile
 			out = { 1453.9f, 0.4f };
 			IsBoosted = true;
 			m_flPredictionTime = 2.2f;
-			m_flPredictionTime;
 			break;
 		}
 
@@ -129,7 +121,6 @@ bool CAimbotProjectile::GetProjectileInfo(CBaseCombatWeapon* pWeapon, Projectile
 			out = { 1513.3f, 0.4f };
 			IsBoosted = true;
 			m_flPredictionTime = 2.2f;
-			m_flPredictionTime;
 			break;
 		}
 
@@ -138,7 +129,6 @@ bool CAimbotProjectile::GetProjectileInfo(CBaseCombatWeapon* pWeapon, Projectile
 		case Medic_m_CrusadersCrossbow:
 		{
 			out = { 2400.0f, 0.2f };
-			m_flPredictionTime;
 			break;
 		}
 
@@ -146,7 +136,6 @@ bool CAimbotProjectile::GetProjectileInfo(CBaseCombatWeapon* pWeapon, Projectile
 		{
 			out = { 3000.0f, 0.0f, 0.1753f };
 			IsFlameThrower = true;
-			m_flPredictionTime;
 			break;
 		}
 
@@ -183,7 +172,6 @@ bool CAimbotProjectile::GetProjectileInfo(CBaseCombatWeapon* pWeapon, Projectile
 		{
 			out = { 1000.0f, 0.0f, 0.33f };
 			IsFlameThrower = true;
-			m_flPredictionTime;
 			break;
 		}
 
@@ -193,7 +181,6 @@ bool CAimbotProjectile::GetProjectileInfo(CBaseCombatWeapon* pWeapon, Projectile
 		case Pyro_s_TheScorchShot:
 		{
 			out = { 2000.0f, 0.3f };
-			m_flPredictionTime;
 			break;
 		}
 
@@ -202,7 +189,6 @@ bool CAimbotProjectile::GetProjectileInfo(CBaseCombatWeapon* pWeapon, Projectile
 		case Scout_s_TheFlyingGuillotineG:
 		{
 			out = { 3000.0f, 0.2f };
-			m_flPredictionTime;
 			break;
 		}
 
@@ -212,7 +198,6 @@ bool CAimbotProjectile::GetProjectileInfo(CBaseCombatWeapon* pWeapon, Projectile
 		case Medic_m_TheOverdose:
 		{
 			out = { 1000.0f, 0.2f };
-			m_flPredictionTime;
 			break;
 		}
 
@@ -225,7 +210,6 @@ bool CAimbotProjectile::GetProjectileInfo(CBaseCombatWeapon* pWeapon, Projectile
 				Math::RemapValClamped(charge, 0.0f, 1.f, 1812.1, 2600),
 				Math::RemapValClamped(charge, 0.0f, 1.f, 0.5, 0.1)
 			};
-			m_flPredictionTime;
 			break;
 		}
 		case Demoman_s_StickybombLauncher:
@@ -239,7 +223,6 @@ bool CAimbotProjectile::GetProjectileInfo(CBaseCombatWeapon* pWeapon, Projectile
 				Math::RemapValClamped(charge, 0.0f, 1.f, 925.38, 2409.2),
 				Math::RemapValClamped(charge, 0.0f, 1.f, 0.483f, 0.085f)
 			};
-			m_flPredictionTime;
 			break;
 		}
 		case Demoman_s_TheQuickiebombLauncher:
@@ -250,7 +233,6 @@ bool CAimbotProjectile::GetProjectileInfo(CBaseCombatWeapon* pWeapon, Projectile
 				Math::RemapValClamped(charge, 0.0f, 1.f, 930.88, 2409.2),
 				Math::RemapValClamped(charge, 0.0f, 1.f, 0.483f, 0.085f)
 			};
-			m_flPredictionTime;
 			break;
 		}
 	}
@@ -317,10 +299,9 @@ bool CAimbotProjectile::SolveProjectile(CBaseEntity* pLocal, CBaseCombatWeapon* 
 
 	Vec3 vLocalPos = pLocal->GetEyePosition();
 	const float maxTime = predictor.m_pEntity->IsPlayer()
-		? (projInfo.m_flMaxTime == 0.f ? Vars::Aimbot::Projectile::PredictionTime.Value : projInfo.m_flMaxTime)
+		? (projInfo.m_flMaxTime == 0.f ? m_flPredictionTime : projInfo.m_flMaxTime)
 		: (projInfo.m_flMaxTime == 0.f ? 1024.f : projInfo.m_flMaxTime);
 	const float fLatency = pNetChannel->GetLatency(MAX_FLOWS);
-
 	/*
 			This should now be able to predict anything that moves.
 			Should also stop wasting time predicting static players.
@@ -613,37 +594,38 @@ Vec3 CAimbotProjectile::GetAimPos(CBaseEntity* pLocal, CBaseEntity* pEntity, con
 			if (pLocal->GetActiveWeapon()->GetSlot() != SLOT_PRIMARY)
 			{
 				break;
+				[[fallthrough]];
 			}
-			[[fallthrough]];
 		}
 		switch (G::CurItemDefIndex)
 		{
-				case TF_WEAPON_GRENADELAUNCHER:
-				case TF_WEAPON_CANNON:
-				{
-					if (Vars::Aimbot::Projectile::FeetAimIfOnGround.Value && pEntity->OnSolid())
-					{
-						aimMethod = 1;
-					}
-					else aimMethod = 1; // dont know if this is needed but im putting it in anyways
-				}
-			break;
-				case TF_WEAPON_PIPEBOMBLAUNCHER:
-				{
-					if (Vars::Aimbot::Projectile::FeetAimIfOnGround.Value && pEntity->OnSolid())
-					{
-						aimMethod = 2;
-					}
-					else { aimMethod = 1; }
-				}
-			break;
+		case TF_WEAPON_GRENADELAUNCHER:
+		case TF_WEAPON_CANNON:
+		{
+			if (Vars::Aimbot::Projectile::FeetAimIfOnGround.Value && pEntity->OnSolid())
+			{
+				aimMethod = 1;
+			}
 		}
+		break;
+		case TF_WEAPON_PIPEBOMBLAUNCHER:
+		{
+			if (Vars::Aimbot::Projectile::FeetAimIfOnGround.Value && pEntity->OnSolid())
+			{
+				aimMethod = 2;
+			}
+			else { aimMethod = 1; }
+		}
+		break;
 		case CLASS_SNIPER:
 		{
-			if (pEntity->OnSolid() && (Vars::Aimbot::Projectile::FeetAimIfOnGround.Value && (bounceKey.Down() || !Vars::Aimbot::Projectile::BounceKey.Value))) {
+			if (pEntity->OnSolid() && (Vars::Aimbot::Projectile::FeetAimIfOnGround.Value && (bounceKey.Down() || !Vars::Aimbot::Projectile::BounceKey.Value))) 
+			{
 				aimMethod = 0;
 			}
 			break;
+			}
+			default: break;
 		}
 	}
 
@@ -676,7 +658,7 @@ Vec3 CAimbotProjectile::GetAimPos(CBaseEntity* pLocal, CBaseEntity* pEntity, con
 		case 0:
 		{
 			//head
-			Math::VectorTransform(vecPoints.at(0), transform, HeadPoint); //	get transformed location of our "best point" for our selected prio hitbox
+			Math::VectorTransform(vecPoints.at(0), transform, HeadPoint); //	get transformed location of our "best point" for our selected priority hitbox
 			for (const auto& aimPoint : visiblePoints)
 			{
 				//	iterate through visible points
@@ -819,7 +801,7 @@ bool CAimbotProjectile::WillProjectileHit(CBaseEntity* pLocal, CBaseCombatWeapon
 			case TF_WEAPON_RAYGUN:
 			case TF_WEAPON_DRG_POMSON:
 			{
-				Vec3 vecOffset(23.5f, -8.0f, -3.0f); //tf_weaponbase_gun.cpp @L568
+				Vec3 vecOffset(23.5f, 8.0f, -3.0f); //tf_weaponbase_gun.cpp @L568
 				if (pLocal->IsDucking())
 				{
 					vecOffset.z = 8.0f;
@@ -1212,7 +1194,6 @@ bool CAimbotProjectile::GetSplashTarget(CBaseEntity* pLocal, CBaseCombatWeapon* 
 		case ETFClassID::CTFParticleCannon: //Cow Mangler
 		{
 			splashRadius = 146.f;
-
 			break;
 		}
 		case ETFClassID::CTFRocketLauncher_AirStrike: //Air Strike
@@ -1259,15 +1240,10 @@ bool CAimbotProjectile::GetSplashTarget(CBaseEntity* pLocal, CBaseCombatWeapon* 
 		if (vLocalOrigin.z < vTargetOrigin.z - 15.f) { continue; } // Don't shoot from below
 
 		// Don't predict enemies that are visible
-		if (Vars::Aimbot::Projectile::SplashPredictionPrefer.Value == 0)
-		{ 
-			if (Utils::VisPos(pLocal, pTarget, pLocal->GetShootPos(), vTargetCenter)) { continue; }	
-		else 
-			continue; 
-		}
-	
-		// Scan every 15 degree angle, could cause performance issues in some cases
-		for (int i = 0; i < 345; i += 15)
+		if (Utils::VisPos(pLocal, pTarget, pLocal->GetShootPos(), vTargetCenter)) { continue; }
+
+		// Scan every 45 degree angle
+		for (int i = 0; i < 315; i += 45)
 		{
 			Vec3 scanPos = Utils::GetRotatedPosition(vTargetCenter, static_cast<float>(i), *splashRadius);
 
@@ -1279,12 +1255,11 @@ bool CAimbotProjectile::GetSplashTarget(CBaseEntity* pLocal, CBaseCombatWeapon* 
 			const float flFOVTo = Math::CalcFov(vLocalAngles, vAngleTo);
 			if ((sortMethod == ESortMethod::FOV || Vars::Aimbot::Projectile::RespectFOV.Value) && flFOVTo > Vars::Aimbot::Global::AimFOV.Value) { continue; }
 
-			// Can the target receive splash damage? (Don't predict through walls)		
-				Utils::Trace(scanPos, pTarget->GetWorldSpaceCenter(), MASK_SOLID, &traceFilter, &trace);
-				if (trace.flFraction < 0.99f && trace.entity != pTarget) { continue; }
+			// Can the target receive splash damage? (Don't predict through walls)
+			Utils::Trace(scanPos, pTarget->GetWorldSpaceCenter(), MASK_SOLID, &traceFilter, &trace);
+			if (trace.flFraction < 0.99f && trace.entity != pTarget) { continue; }
 
-
-			// Is the predicted position visible?
+			// Is the predicted position even visible?
 			if (!Utils::WillProjectileHit(pLocal, pWeapon, scanPos)) { continue; }
 
 			// Get the closest point to the target
@@ -1294,12 +1269,10 @@ bool CAimbotProjectile::GetSplashTarget(CBaseEntity* pLocal, CBaseCombatWeapon* 
 				scanPos = Utils::GetRotatedPosition(vTargetCenter, static_cast<float>(i), currentRadius - 10.f);
 				currentRadius -= 10.f;
 			}
-
 			/*
 			 *	We found the closest point!
 			 *	Now we need to get the shoot pos/angles relative to vTargetOrigin instead of vTargetCenter
 			 */
-
 			currentRadius = std::clamp(currentRadius + 10.f, 0.f, *splashRadius);
 			scanPos = Utils::GetRotatedPosition(vTargetOrigin, static_cast<float>(i), currentRadius);
 
@@ -1311,7 +1284,6 @@ bool CAimbotProjectile::GetSplashTarget(CBaseEntity* pLocal, CBaseCombatWeapon* 
 
 			const Vec3 vAngleToSplash = Math::CalcAngle(pLocal->GetEyePosition(), scanPos);
 			outTarget = { pTarget, ETargetType::PLAYER, vTargetOrigin, vAngleToSplash };
-
 			return true;
 		}
 	}

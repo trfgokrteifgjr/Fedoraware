@@ -145,7 +145,7 @@ std::vector<std::wstring> LCESP::GetPlayerConditions(CBaseEntity* pEntity) const
 
 	if (nCond & TFCond_Zoomed)
 	{
-		szCond.emplace_back(L"DISGUISING");
+		szCond.emplace_back(L"ZOOMED");
 	}
 
 	if (nCond & TFCond_Disguising)

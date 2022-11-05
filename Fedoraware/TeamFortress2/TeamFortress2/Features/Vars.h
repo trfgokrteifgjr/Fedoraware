@@ -122,7 +122,6 @@ namespace Vars
 			inline CVar<bool> FeetAimIfOnGround{ false };
 			inline CVar<int> BounceKey{ 0x0 };
 			inline CVar<bool> SplashPrediction{ false };
-			inline CVar<bool> SplashPredictionPrefer{ false }; // fuck you vsc22
 			inline CVar<int> MinSplashPredictionDistance{ 0 };
 			inline CVar<int> MaxSplashPredictionDistance{ 10000 };
 			inline Color_t PredictionColor{ 0, 255, 0, 255 };
