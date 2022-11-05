@@ -592,8 +592,20 @@ Vec3 CAimbotProjectile::GetAimPos(CBaseEntity* pLocal, CBaseEntity* pEntity, con
 		{
 			if (Vars::Aimbot::Projectile::FeetAimIfOnGround.Value && pEntity->OnSolid())
 			{
-				aimMethod = 2;
+				aimMethod = 1;		
 			}
+			break;
+
+			switch (G::CurItemDefIndex)
+			{
+				case TF_WEAPON_PIPEBOMBLAUNCHER:
+				{
+					if (Vars::Aimbot::Projectile::FeetAimIfOnGround.Value && pEntity->OnSolid())
+					{
+						aimMethod = 2;
+					}
+					else { aimMethod = 1; }
+				}
 			break;
 		}
 		case CLASS_SNIPER:
