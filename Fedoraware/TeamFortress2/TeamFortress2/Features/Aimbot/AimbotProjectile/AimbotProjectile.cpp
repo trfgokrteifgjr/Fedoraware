@@ -77,7 +77,6 @@ bool CAimbotProjectile::GetProjectileInfo(CBaseCombatWeapon* pWeapon, Projectile
 		case Demoman_m_GrenadeLauncher:
 		case Demoman_m_GrenadeLauncherR:
 		case Demoman_m_FestiveGrenadeLauncher:
-		case Demoman_m_TheIronBomber:
 		case Demoman_m_Autumn:
 		case Demoman_m_MacabreWeb:
 		case Demoman_m_Rainbow:
@@ -91,6 +90,15 @@ bool CAimbotProjectile::GetProjectileInfo(CBaseCombatWeapon* pWeapon, Projectile
 			IsBoosted = true;
 			Vars::Aimbot::Projectile::PredictionTime.Value == 2.3f; //https://wiki.teamfortress.com/wiki/Grenade_Launcher
 			break;
+		}
+			
+		case Demoman_m_TheIronBomber:
+		{
+			out = { 1216.f, 0.4f };
+			IsBoosted = true;
+			Vars::Aimbot::Projectile::PredictionTime.Value == 1.6f; // "-30% fuse time on grenades"
+			break;
+
 		}
 
 		case Soldier_s_TheRighteousBison:
