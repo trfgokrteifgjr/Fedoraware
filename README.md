@@ -12,12 +12,6 @@
 
 <hr/>
 
-<p align="center">
-<a href="https://nightly.link/Fedoraware/Fedoraware/workflows/msbuild/main/Fedoraware.zip">
-<img src=".github/assets/download.png" align="center" width="100%" height="auto">
-</a>
-</p>
-
 ## Notes:
 - It is required to use dxlevel 90+ due to issues with ImGui.
 - You might have issues with injecting if you are on Windows 10 upgraded from Windows 7.
