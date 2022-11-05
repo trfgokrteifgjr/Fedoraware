@@ -644,7 +644,7 @@ enum ETFConds
 	TFCondEx_DisguisedRemoved		= (1 << 15),
 	TFCondEx_MarkedForDeathSilent	= (1 << 16),
 	TFCondEx_DisguisedAsDispenser	= (1 << 17),
-	TFCondEx_InKart					= (1 << 18),
+	TFCondEx_Sapped					= (1 << 18),
 	TFCondEx_UberchargedHidden		= (1 << 19),
 	TFCondEx_UberchargedCanteen		= (1 << 20),
 	TFCondEx_HalloweenBombHead		= (1 << 21),
