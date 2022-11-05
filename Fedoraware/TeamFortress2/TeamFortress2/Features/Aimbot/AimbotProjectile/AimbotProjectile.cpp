@@ -588,16 +588,18 @@ Vec3 CAimbotProjectile::GetAimPos(CBaseEntity* pLocal, CBaseEntity* pEntity, con
 			}
 			[[fallthrough]];
 		}
-		case CLASS_DEMOMAN:
+		switch (G::CurItemDefIndex)
 		{
-			if (Vars::Aimbot::Projectile::FeetAimIfOnGround.Value && pEntity->OnSolid())
-			{
-				aimMethod = 1;		
-			}
+				case TF_WEAPON_GRENADELAUNCHER:
+				case TF_WEAPON_CANNON:
+				{
+					if (Vars::Aimbot::Projectile::FeetAimIfOnGround.Value && pEntity->OnSolid())
+					{
+						aimMethod = 1;
+					}
+					else aimMethod = 1; // dont know if this is needed but im putting it in anyways
+				}
 			break;
-
-			switch (G::CurItemDefIndex)
-			{
 				case TF_WEAPON_PIPEBOMBLAUNCHER:
 				{
 					if (Vars::Aimbot::Projectile::FeetAimIfOnGround.Value && pEntity->OnSolid())
