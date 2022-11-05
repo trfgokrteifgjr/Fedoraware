@@ -89,7 +89,7 @@ bool CAimbotProjectile::GetProjectileInfo(CBaseCombatWeapon* pWeapon, Projectile
 		{
 			out = { 1216.f, 0.4f };
 			IsBoosted = true;
-			Vars::Aimbot::Projectile::PredictionTime.Value == 2.3f; //https://wiki.teamfortress.com/wiki/Grenade_Launcher
+			Vars::Aimbot::Projectile::PredictionTime.Value = 2.3f; //https://wiki.teamfortress.com/wiki/Grenade_Launcher
 			break;
 		}
 
@@ -104,7 +104,7 @@ bool CAimbotProjectile::GetProjectileInfo(CBaseCombatWeapon* pWeapon, Projectile
 		{
 			out = { 1453.9f, 0.4f };
 			IsBoosted = true;
-			Vars::Aimbot::Projectile::PredictionTime.Value == 2.3f;
+			Vars::Aimbot::Projectile::PredictionTime.Value = 2.3f;
 			break;
 		}
 
@@ -112,7 +112,7 @@ bool CAimbotProjectile::GetProjectileInfo(CBaseCombatWeapon* pWeapon, Projectile
 		{
 			out = { 1513.3f, 0.4f };
 			IsBoosted = true;
-			Vars::Aimbot::Projectile::PredictionTime.Value == 2.3f;
+			Vars::Aimbot::Projectile::PredictionTime.Value = 2.3f;
 			break;
 		}
 
@@ -1234,7 +1234,7 @@ bool CAimbotProjectile::GetSplashTarget(CBaseEntity* pLocal, CBaseCombatWeapon* 
 		if (vLocalOrigin.z < vTargetOrigin.z - 15.f) { continue; } // Don't shoot from below
 
 		// Don't predict enemies that are visible
-		if (Vars::Aimbot::Projectile::SplashPredictionPrefer.Value == 0); // I don't even think this works as intended
+		if (Vars::Aimbot::Projectile::SplashPredictionPrefer.Value == 0)
 		{ 
 			if (Utils::VisPos(pLocal, pTarget, pLocal->GetShootPos(), vTargetCenter)) { continue; }	
 		else 
