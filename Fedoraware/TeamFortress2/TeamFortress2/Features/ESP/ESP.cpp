@@ -754,14 +754,7 @@ void CESP::DrawBuildings(CBaseEntity* pLocal) const
 				}
 				case EBuildingType::TELEPORTER:
 				{
-					if (building->GetObjectMode())
-					{
-						szName = L"Teleporter Out";
-					}
-					else
-					{
-						szName = L"Teleporter In";
-					}
+					szName = L"Teleporter";
 					break;
 				}
 				default:
@@ -774,16 +767,16 @@ void CESP::DrawBuildings(CBaseEntity* pLocal) const
 				nTextTopOffset += g_Draw.m_vecFonts[FONT_NAME].nTall + g_Draw.m_vecFonts[FONT_NAME].nTall / 4;
 				if (Vars::ESP::Buildings::NameBox.Value)
 				{
-					int wideth, heighth;
+					int width, height;
 					const int middle = x + w / 2;
-					I::VGuiSurface->GetTextSize(g_Draw.m_vecFonts[FONT_NAME].dwFont, szName, wideth, heighth);
+					I::VGuiSurface->GetTextSize(g_Draw.m_vecFonts[FONT_NAME].dwFont, szName, width, height);
 					Color_t LineColor = drawColor;
 					LineColor.a = 180;
 					//g_Draw.Rect((x + (w / 2) - (wideth / 2)) - 5, y - offset - 5, wideth + 10, heighth + 10, { 0,0,0,180 });
-					g_Draw.Rect(middle - wideth / 2 - 5, y - nTextTopOffset, wideth + 10, heighth + 2,
+					g_Draw.Rect(middle - width / 2 - 5, y - nTextTopOffset, width + 10, height + 2,
 						{ 0, 0, 0, 180 });
 					//g_Draw.Rect((x + (w / 2) - (wideth / 2)) - 5, y - offset - 7, wideth + 10, 2, LineColor);
-					g_Draw.Rect(middle - wideth / 2 - 5, y - nTextTopOffset - 2, wideth + 10, 2, LineColor);
+					g_Draw.Rect(middle - width / 2 - 5, y - nTextTopOffset - 2, width + 10, 2, LineColor);
 				}
 				if (Vars::ESP::Buildings::NameCustom.Value)
 				{
@@ -807,7 +800,7 @@ void CESP::DrawBuildings(CBaseEntity* pLocal) const
 					{
 						nTextTopOffset += g_Draw.m_vecFonts[FONT_NAME].nTall + g_Draw.m_vecFonts[FONT_NAME].nTall /
 							4;
-						g_Draw.String(FONT_NAME, x + w / 2, y - nTextTopOffset, drawColor, ALIGN_CENTERHORIZONTAL,
+						g_Draw.String(FONT_NAME, x + w / 2, y - nTextTopOffset, Colors::Cond, ALIGN_CENTERHORIZONTAL,
 							L"Built by: %ls", Utils::ConvertUtf8ToWide(pi.name).data());
 					}
 				}
@@ -818,13 +811,13 @@ void CESP::DrawBuildings(CBaseEntity* pLocal) const
 			// Health text
 			if (Vars::ESP::Buildings::Health.Value)
 			{
-				g_Draw.String(FONT, nTextX, y + nTextOffset, healthColor, ALIGN_DEFAULT, L"%d / %d", nHealth, nHealth, building->GetMaxHealth());
+				g_Draw.String(FONT, nTextX, y + nTextOffset, Colors::White, ALIGN_DEFAULT, L"%d / %d", nHealth, nHealth, building->GetMaxHealth());
 				nTextOffset += g_Draw.m_vecFonts[FONT].nTall;
 			}
 
 			if (flConstructed < 100.0f && static_cast<int>(flConstructed) != 0)
 			{
-				g_Draw.String(FONT, nTextX, y + nTextOffset, drawColor, ALIGN_DEFAULT, L"Building: %0.f%%",
+				g_Draw.String(FONT, nTextX, y + nTextOffset, Colors::Cond, ALIGN_DEFAULT, L"Building: %0.f%%",
 					flConstructed);
 				nTextOffset += g_Draw.m_vecFonts[FONT].nTall;
 			}
@@ -832,7 +825,7 @@ void CESP::DrawBuildings(CBaseEntity* pLocal) const
 			// Building level
 			if (Vars::ESP::Buildings::Level.Value && !bIsMini)
 			{
-				g_Draw.String(FONT, nTextX, y + nTextOffset, drawColor, ALIGN_DEFAULT, L"%d/3",
+				g_Draw.String(FONT, nTextX, y + nTextOffset, Colors::Cond, ALIGN_DEFAULT, L"%d/3",
 					building->GetLevel());
 				nTextOffset += g_Draw.m_vecFonts[FONT].nTall;
 			}
@@ -866,10 +859,10 @@ void CESP::DrawBuildings(CBaseEntity* pLocal) const
 					building->GetAmmoCount(iShells, iMaxShells, iRockets, iMaxRockets);
 
 					if (iShells < iMaxShells)
-						condStrings.emplace_back(L"Needs Ammo");
+						condStrings.emplace_back(L"No Ammo");
 
 					if (iRockets < iMaxRockets)
-						condStrings.emplace_back(L"Needs Rockets");
+						condStrings.emplace_back(L"No Rockets");
 				}
 
 				if (!condStrings.empty())
