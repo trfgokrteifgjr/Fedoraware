@@ -63,7 +63,7 @@ bool CAimbotProjectile::GetProjectileInfo(CBaseCombatWeapon* pWeapon, Projectile
 		case Soldier_m_TheDirectHit:
 		{
 			out = { 1980.0f, 0.0f };
-			IsBoosted = true
+			IsBoosted = true;
 			break;
 		}
 
@@ -599,33 +599,33 @@ Vec3 CAimbotProjectile::GetAimPos(CBaseEntity* pLocal, CBaseEntity* pEntity, con
 		}
 		switch (G::CurItemDefIndex)
 		{
-		case TF_WEAPON_GRENADELAUNCHER:
-		case TF_WEAPON_CANNON:
-		{
-			if (Vars::Aimbot::Projectile::FeetAimIfOnGround.Value && pEntity->OnSolid())
+			case TF_WEAPON_GRENADELAUNCHER:
+			case TF_WEAPON_CANNON:
 			{
-				aimMethod = 1;
-			}
-		}
-		break;
-		case TF_WEAPON_PIPEBOMBLAUNCHER:
-		{
-			if (Vars::Aimbot::Projectile::FeetAimIfOnGround.Value && pEntity->OnSolid())
-			{
-				aimMethod = 2;
-			}
-			else { aimMethod = 1; }
-		}
-		break;
-		case CLASS_SNIPER:
-		{
-			if (pEntity->OnSolid() && (Vars::Aimbot::Projectile::FeetAimIfOnGround.Value && (bounceKey.Down() || !Vars::Aimbot::Projectile::BounceKey.Value))) 
-			{
-				aimMethod = 0;
+				if (Vars::Aimbot::Projectile::FeetAimIfOnGround.Value && pEntity->OnSolid())
+				{
+					aimMethod = 1;
+				}
 			}
 			break;
+			case TF_WEAPON_PIPEBOMBLAUNCHER:
+			{
+				if (Vars::Aimbot::Projectile::FeetAimIfOnGround.Value && pEntity->OnSolid())
+				{
+					aimMethod = 2;
+				}
+				else { aimMethod = 1; }
 			}
-			default: break;
+			break;
+			case CLASS_SNIPER:
+			{
+				if (pEntity->OnSolid() && (Vars::Aimbot::Projectile::FeetAimIfOnGround.Value && (bounceKey.Down() || !Vars::Aimbot::Projectile::BounceKey.Value))) 
+				{
+					aimMethod = 0;
+				}
+				break;
+				}
+		default: aimMethod = 1;
 		}
 	}
 
