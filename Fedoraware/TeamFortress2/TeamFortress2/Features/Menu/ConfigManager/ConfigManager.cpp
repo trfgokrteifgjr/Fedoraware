@@ -1760,7 +1760,7 @@ bool CConfigManager::LoadVisual(const std::string& configName)
 			{ 0x0, "Verdana", 12, 800, FONTFLAG_DROPSHADOW},
 		 });
 
-		CurrentVisuals = configVisuals;
+		CurrentVisuals = configName;
 		F::Notifications.Add("Visual Config " + configName + " loaded");
 	}
 	catch (...)
