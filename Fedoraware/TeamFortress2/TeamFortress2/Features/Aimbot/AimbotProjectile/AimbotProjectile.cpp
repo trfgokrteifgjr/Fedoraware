@@ -86,7 +86,7 @@ bool CAimbotProjectile::GetProjectileInfo(CBaseCombatWeapon* pWeapon, Projectile
 		case Demoman_m_Warhawk:
 		case Demoman_m_ButcherBird:
 		{
-			out = { 1216.f, 0.4f };
+			out = { 1200.f, 0.5f };
 			IsBoosted = true;
 			m_flPredictionTime = 2.2f; //https://wiki.teamfortress.com/wiki/Grenade_Launcher
 			break;			
@@ -94,7 +94,7 @@ bool CAimbotProjectile::GetProjectileInfo(CBaseCombatWeapon* pWeapon, Projectile
 
 		case Demoman_m_TheIronBomber:
 		{
-			out = { 1216.f, 0.4f };
+			out = { 1200.f, 0.5f };
 			IsBoosted = true;
 			m_flPredictionTime = 1.5f; // 1.6 causes the cheat to miss
 			break;
@@ -110,7 +110,7 @@ bool CAimbotProjectile::GetProjectileInfo(CBaseCombatWeapon* pWeapon, Projectile
 
 		case Demoman_m_TheLooseCannon:
 		{
-			out = { 1453.9f, 0.4f };
+			out = { 1440.f, 0.5f };
 			IsBoosted = true;
 			m_flPredictionTime = 2.2f;
 			break;
@@ -118,7 +118,7 @@ bool CAimbotProjectile::GetProjectileInfo(CBaseCombatWeapon* pWeapon, Projectile
 
 		case Demoman_m_TheLochnLoad:
 		{
-			out = { 1513.3f, 0.4f };
+			out = { 1500.f, 0.5f };
 			IsBoosted = true;
 			m_flPredictionTime = 2.2f;
 			break;
@@ -207,7 +207,7 @@ bool CAimbotProjectile::GetProjectileInfo(CBaseCombatWeapon* pWeapon, Projectile
 		{
 			const float charge = (I::GlobalVars->curtime - pWeapon->GetChargeBeginTime());
 			out = {
-				Math::RemapValClamped(charge, 0.0f, 1.f, 1812.1, 2600),
+				Math::RemapValClamped(charge, 0.0f, 1.f, 1800, 2600),
 				Math::RemapValClamped(charge, 0.0f, 1.f, 0.5, 0.1)
 			};
 			break;
@@ -230,7 +230,7 @@ bool CAimbotProjectile::GetProjectileInfo(CBaseCombatWeapon* pWeapon, Projectile
 			//Probably wrong
 			const float charge = (I::GlobalVars->curtime - pWeapon->GetChargeBeginTime());
 			out = {
-				Math::RemapValClamped(charge, 0.0f, 1.f, 930.88, 2409.2),
+				Math::RemapValClamped(charge, 0.0f, 1.f, 900, 2400),
 				Math::RemapValClamped(charge, 0.0f, 1.f, 0.483f, 0.085f)
 			};
 			break;
