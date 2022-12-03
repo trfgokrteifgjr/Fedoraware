@@ -137,7 +137,7 @@ public: //Netvars & conditions
 		M_CONDGET(Slowed, GetCond(), TFCond_Slowed)
 		M_CONDGET(MegaHealed, GetCond(), TFCond_MegaHeal)
 		M_CONDGET(AGhost, GetCondEx2(), TFCondEx2_HalloweenGhostMode)
-		M_CONDGET(InBumperKart, GetCondEx2(), TFCondEx_Sapped)
+		M_CONDGET(InBumperKart, GetCondEx2(), TFCondEx_InKart)
 		M_CONDGET(PhlogUbered, GetCondEx(), TFCondEx_PhlogUber)
 		M_CONDGET(BlastImmune, GetCondEx2(), TFCondEx2_BlastImmune)
 		M_CONDGET(BulletImmune, GetCondEx2(), TFCondEx2_BulletImmune)
@@ -364,7 +364,7 @@ public: //Everything else, lol.
 
 	__inline CTFPlayerAnimState* GetAnimState()
 	{
-		return *reinterpret_cast<CTFPlayerAnimState**>(this + 0x1BF8);
+		return *reinterpret_cast<CTFPlayerAnimState**>(this + 0x1D00);
 	}
 
 	__inline void SetPoseParam(std::array<float, MAXSTUDIOPOSEPARAM> param)
