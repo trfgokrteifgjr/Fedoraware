@@ -175,6 +175,7 @@
     <ClCompile Include="TeamFortress2\Hooks\Detours\COcclusionSystem_IsOccluded.cpp" />
     <ClCompile Include="TeamFortress2\Features\TickHandler\TickHandler.cpp" />
     <ClCompile Include="TeamFortress2\Hooks\Detours\C_BaseViewModel_ShouldFlipViewModel.cpp" />
+    <ClCompile Include="TeamFortress2\Hooks\Detours\C_BaseViewModel_ShouldFlipViewModel.cpp" />
     <ClCompile Include="TeamFortress2\Hooks\Detours\FX_FireBullets.cpp" />
     <ClCompile Include="TeamFortress2\Hooks\Detours\C_BaseAnimating_MaintainSequenceTransitions.cpp" />
     <ClCompile Include="TeamFortress2\Hooks\Detours\CStaticPropMgr_ComputePropOpacity.cpp" />

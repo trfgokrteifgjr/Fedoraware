@@ -532,6 +532,7 @@ namespace Vars
 		inline CVar<bool> OverrideWorldTextures{ false };
 		inline CVar<bool> SkyboxChanger{ false };
 		inline CVar<bool> SkyModulation{ false };
+		inline CVar<bool> ParticleColors{ false };
 		inline CVar<bool> BulletTracer{ false };
 		inline CVar<bool> AimbotViewmodel{ false };
 		inline CVar<bool> ViewmodelSway{ false };

@@ -1591,6 +1591,7 @@ bool CConfigManager::LoadVisual(const std::string& configName)
 		LOAD_VAR(Vars::Visuals::SkyModulation);
 		LOAD_VAR(Vars::Visuals::PropWireframe);
 		LOAD_VAR(Vars::Visuals::SkyboxChanger);
+		LOAD_VAR(Vars::Visuals::ParticleColors);
 		LOAD_VAR(Vars::Visuals::ParticleTracer);
 		LOAD_VAR(Vars::Visuals::BulletTracer);
 		LOAD_VAR(Vars::Visuals::BulletTracerRainbow);
@@ -1685,6 +1686,7 @@ bool CConfigManager::LoadVisual(const std::string& configName)
 		LOAD_OTHER(Colors::WorldModulation);
 		LOAD_OTHER(Colors::SkyModulation);
 		LOAD_OTHER(Colors::StaticPropModulation);
+		LOAD_OTHER(Colors::ParticleColor);
 		LOAD_OTHER(Colors::FOVCircle);
 		LOAD_OTHER(Colors::Bones);
 		LOAD_OTHER(Colors::BulletTracer);

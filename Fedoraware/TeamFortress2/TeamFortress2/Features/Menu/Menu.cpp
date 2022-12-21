@@ -1151,6 +1151,8 @@ void CMenu::MenuVisuals()
 					{
 						I::ViewRender->SetScreenOverlayMaterial(nullptr);
 					}
+					WToggle("Particle Colors", &Vars::Visuals::ParticleColors.Value);
+					ColorPickerL("Particle Color", Colors::ParticleColor);
 					WToggle("Clean Screenshots", &Vars::Visuals::CleanScreenshots.Value);
 					WToggle("Crosshair aim position", &Vars::Visuals::CrosshairAimPos.Value);
 					WToggle("Box aim position", &Vars::Visuals::AimPosSquare.Value);
