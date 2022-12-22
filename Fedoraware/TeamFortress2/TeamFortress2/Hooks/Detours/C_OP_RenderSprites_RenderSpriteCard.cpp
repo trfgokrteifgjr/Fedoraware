@@ -37,11 +37,19 @@ MAKE_HOOK(C_OP_RenderSprites_RenderSpriteCard, g_Pattern.Find(L"client.dll", L"5
     #define colors Colors::ParticleColor
     #define CALL_ORIGINAL Hook.Original<FN>()
 
-    if(Vars::Visuals::ParticleColors.Value = true)
+    if(Vars::Visuals::ParticleColors.Value = true && Vars::Visuals::ParticleColorsRGB.Value = false)
     {
 	    info.m_pRGB[((hParticle / 4) * info.m_nRGBStride) + 0].m128_f32[hParticle & 0x3] = Color::TOFLOAT(colors.r); //red
 	    info.m_pRGB[((hParticle / 4) * info.m_nRGBStride) + 1].m128_f32[hParticle & 0x3] = Color::TOFLOAT(colors.g); //green
 	    info.m_pRGB[((hParticle / 4) * info.m_nRGBStride) + 2].m128_f32[hParticle & 0x3] = Color::TOFLOAT(colors.b); //blue
+    }
+
+    // Rainbow
+    if(Vars::Visuals::ParticleColors.Value = true && Vars::Visuals::RGBParticles.Value = true)
+    {
+	    info.m_pRGB[((hParticle / 4) * info.m_nRGBStride) + 0].m128_f32[hParticle & 0x3] = Color::TOFLOAT(Utils::Rainbow().r);
+	    info.m_pRGB[((hParticle / 4) * info.m_nRGBStride) + 1].m128_f32[hParticle & 0x3] = Color::TOFLOAT(Utils::Rainbow().g);
+	    info.m_pRGB[((hParticle / 4) * info.m_nRGBStride) + 2].m128_f32[hParticle & 0x3] = Color::TOFLOAT(Utils::Rainbow().b);
     }
 
     CALL_ORIGINAL(ecx, edx, meshBuilder, pCtx, info, hParticle, pSortList, pCamera);
