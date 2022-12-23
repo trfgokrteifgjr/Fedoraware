@@ -348,11 +348,6 @@ std::vector<std::wstring> LCESP::GetPlayerConditions(CBaseEntity* pEntity) const
 		szCond.emplace_back(L"DEFENSEBUFF NO CRIT BLOCK");
 	}
 
-	if (nCondEx & TFCondEx_Reprogrammed)
-	{
-		szCond.emplace_back(L"REPROGRAMMED");
-	}
-
 	if (nCondEx & TFCondEx_PyroCrits)
 	{
 		szCond.emplace_back(L"CRITBOOSTED RAGE BUFF");
@@ -376,11 +371,6 @@ std::vector<std::wstring> LCESP::GetPlayerConditions(CBaseEntity* pEntity) const
 	if (nCondEx & TFCondEx_DisguisedAsDispenser)
 	{
 		szCond.emplace_back(L"DISGUISED AS DISPENSER");
-	}
-
-	if (nCondEx & TFCondEx_Sapped)
-	{
-		szCond.emplace_back(L"SAPPED");
 	}
 
 	if (nCondEx & TFCondEx_UberchargedHidden)
