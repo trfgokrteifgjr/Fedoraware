@@ -1148,6 +1148,7 @@ bool CConfigManager::SaveVisual(const std::string& configName)
 		SAVE_VAR(Vars::Glow::Misc::BulletTracers);
 		SAVE_VAR(Vars::Glow::Misc::Sightlines);
 		SAVE_VAR(Vars::Radar::Main::Active);
+		SAVE_VAR(Vars::Radar::Main::NoTitleGradient);
 		SAVE_VAR(Vars::Radar::Main::BackAlpha);
 		SAVE_VAR(Vars::Radar::Main::LineAlpha);
 		SAVE_VAR(Vars::Radar::Main::Range);
@@ -1517,6 +1518,7 @@ bool CConfigManager::LoadVisual(const std::string& configName)
 		LOAD_VAR(Vars::Glow::World::Projectiles);
 		LOAD_VAR(Vars::Glow::World::Alpha);
 		LOAD_VAR(Vars::Radar::Main::Active);
+		LOAD_VAR(Vars::Radar::Main::NoTitleGradient);
 		LOAD_VAR(Vars::Radar::Main::BackAlpha);
 		LOAD_VAR(Vars::Radar::Main::LineAlpha);
 		LOAD_VAR(Vars::Radar::Main::Range);
