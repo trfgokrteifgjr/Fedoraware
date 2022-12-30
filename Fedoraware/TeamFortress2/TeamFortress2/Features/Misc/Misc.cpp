@@ -44,7 +44,8 @@ void CMisc::RunMid(CUserCmd* pCmd, const int nOldGroundEnt)
 {
 	if (const auto& pLocal = g_EntityCache.GetLocal())
 	{
-		EdgeJump(pCmd, nOldGroundEnt);
+		EdgeJump(pLocal, pCmd, nOldGroundEnt);
+		DuckJump(pLocal, pCmd);
 	}
 }
 
@@ -411,32 +412,20 @@ void CMisc::RageRetry(CBaseEntity* pLocal)
 	}
 }
 
-void CMisc::EdgeJump(CUserCmd* pCmd, const int nOldGroundEnt)
+void CMisc::EdgeJump(CBaseEntity* pLocal, CUserCmd* pCmd, const int nOldGroundEnt)
 {
-	if (const auto& pLocal = g_EntityCache.GetLocal())
-	{
-		// Edge Jump
-		if ((nOldGroundEnt >= 0) && Vars::Misc::EdgeJump.Value)
-		{
-			static KeyHelper edgeKey{ &Vars::Misc::EdgeJumpKey.Value };
-			if (!Vars::Misc::EdgeJumpKey.Value || edgeKey.Down())
-			{
-				if (pLocal->IsAlive() && !pLocal->OnSolid() && !pLocal->IsSwimming())
-				{
-					pCmd->buttons |= IN_JUMP;
-				}
-			}
-		}
+	if (nOldGroundEnt < 0 || !Vars::Misc::EdgeJump.Value) { return; }
+	static KeyHelper kEdge{ &Vars::Misc::EdgeJumpKey.Value };
+	if (Vars::Misc::EdgeJumpKey.Value && !kEdge.Down()) { return; }
+	if (!pLocal->IsAlive() || pLocal->OnSolid() || pLocal->IsSwimming()) { return; }
+	pCmd->buttons |= IN_JUMP;
+}
 
-		// Duck Jump
-		if ((Vars::Misc::DuckJump.Value || Vars::Misc::Followbot::Enabled.Value))
-		{
-			if (pLocal->IsAlive() && !pLocal->OnSolid() && !pLocal->IsSwimming() && !pLocal->IsStunned())
-			{
-				pCmd->buttons |= IN_DUCK;
-			}
-		}
-	}
+void CMisc::DuckJump(CBaseEntity* pLocal, CUserCmd* pCmd) {
+	if (!Vars::Misc::DuckJump.Value && !Vars::Misc::Followbot::Enabled.Value) { return; }
+	if (!pLocal->IsAlive() || pLocal->OnSolid() || pLocal->IsSwimming() || pLocal->IsStunned()) { return; }
+
+	pCmd->buttons |= IN_DUCK;
 }
 
 void CMisc::FastAccel(CUserCmd* pCmd, CBaseEntity* pLocal, bool* pSendPacket)
@@ -592,21 +581,31 @@ void CMisc::AutoJump(CUserCmd* pCmd, CBaseEntity* pLocal)
 	const bool bJumpHeld = pCmd->buttons & IN_JUMP;
 	const bool bCurHop = bJumpHeld && pLocal->OnSolid();
 	static bool bHopping = bCurHop;
+	static bool bTried = false;
 
-	if (bCurHop)
+	if (bCurHop && !bTried) 
 	{	//	this is our initial jump
+		bTried = true;
 		bHopping = true; return;
+	}
+	else if (bCurHop && bTried) {
+		//	we tried and failed to bunnyhop, let go of the key and try again the next tick
+		bTried = false;
+		pCmd->buttons &= ~IN_JUMP; return;
 	}
 	else if (bHopping && !pLocal->OnSolid() && bJumpHeld)
 	{	//	 we are not on the ground and the key is in the same hold cycle
+		bTried = false;
 		pCmd->buttons &= ~IN_JUMP; return;
 	}
 	else if (bHopping && !bJumpHeld)
 	{	//	we are no longer in the jump key cycle
+		bTried = false;
 		bHopping = false; return;
 	}
 	else if (!bHopping && bJumpHeld)
 	{	//	we exited the cycle but now we want back in, don't mess with keys for doublejump, enter us back into the cycle for next tick
+		bTried = false;
 		bHopping = true; return;
 	}
 

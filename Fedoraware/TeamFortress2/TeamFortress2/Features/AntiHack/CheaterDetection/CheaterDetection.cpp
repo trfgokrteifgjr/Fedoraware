@@ -96,18 +96,20 @@ bool CCheaterDetection::AreAnglesSuspicious(CBaseEntity* pEntity)
 	if (G::ChokeMap[pEntity->GetIndex()] > 0 || pEntity->GetVelocity().Length() < 10.f || mData[pEntity].vLastAngle.IsZero()) { mData[pEntity].pTrustAngles = { false, {0, 0} }; return false; } //	angles don't update the way I WANT them to if the player is not moving.
 	if (!mData[pEntity].pTrustAngles.first)
 	{	//	we are not suspicious of this player yet
-		const Vec3 vCurAngles = pEntity->GetEyeAngles();
-		const Vec2 vDelta = Vec2{ vCurAngles.x, vCurAngles.y } - mData[pEntity].vLastAngle;
-		const float flDelta = vDelta.Length();
+		const Vec3 vCurAngle = pEntity->GetEyeAngles();
+		const float flDeltaX = RAD2DEG(Math::AngleDiffRad(DEG2RAD(vCurAngle.x), DEG2RAD(mData[pEntity].vLastAngle.x)));
+		const float flDeltaY = RAD2DEG(Math::AngleDiffRad(DEG2RAD(vCurAngle.y), DEG2RAD(mData[pEntity].vLastAngle.y)));
+		const float flDelta = sqrtf(pow(flDeltaX, 2) + pow(flDeltaY, 2));
 
-		if (flDelta > (Vars::Misc::CheaterDetection::MinimumFlickDistance.Value)) { mData[pEntity].pTrustAngles = { true, {vCurAngles.x, vCurAngles.y} }; }
+		if (flDelta > (Vars::Misc::CheaterDetection::MinimumFlickDistance.Value)) { mData[pEntity].pTrustAngles = { true, {vCurAngle.x, vCurAngle.y} }; }
 	}
 	else
 	{
   //	check for noise on this player (how much their mouse moves after the initial flick)
-		const Vec3 vCurAngles = pEntity->GetEyeAngles();
-		const Vec2 vDelta = Vec2{ vCurAngles.x, vCurAngles.y } - mData[pEntity].pTrustAngles.second;
-		const float flDelta = vDelta.Length();
+		const Vec3 vCurAngle = pEntity->GetEyeAngles();
+		const float flDeltaX = RAD2DEG(Math::AngleDiffRad(DEG2RAD(vCurAngle.x), DEG2RAD(mData[pEntity].vLastAngle.x)));
+		const float flDeltaY = RAD2DEG(Math::AngleDiffRad(DEG2RAD(vCurAngle.y), DEG2RAD(mData[pEntity].vLastAngle.y)));
+		const float flDelta = sqrtf(pow(flDeltaX, 2) + pow(flDeltaY, 2));
 
 		if (flDelta < (Vars::Misc::CheaterDetection::MaximumNoise.Value * server.flMultiplier)) { mData[pEntity].pTrustAngles = { false, {0, 0} }; return true; }
 		else { mData[pEntity].pTrustAngles = { false, {0, 0} }; }
@@ -118,8 +120,9 @@ bool CCheaterDetection::AreAnglesSuspicious(CBaseEntity* pEntity)
 void CCheaterDetection::AimbotCheck(CBaseEntity* pEntity)
 {
 	const Vec3 vCurAngle = pEntity->GetEyeAngles();
-	const Vec2 vCurAngle2 = { vCurAngle.x, vCurAngle.y };
-	const float flDelta = vCurAngle.DistTo(mData[pEntity].vLastAngle);	//	aimbot flick (unscaled)
+	const float flDeltaX = RAD2DEG(Math::AngleDiffRad(DEG2RAD(vCurAngle.x), DEG2RAD(mData[pEntity].vLastAngle.x)));
+	const float flDeltaY = RAD2DEG(Math::AngleDiffRad(DEG2RAD(vCurAngle.y), DEG2RAD(mData[pEntity].vLastAngle.y)));
+	const float flDelta = sqrtf(pow(flDeltaX, 2) + pow(flDeltaY, 2));
 	const float flScaled = std::clamp(flDelta * G::ChokeMap[pEntity->GetIndex()], 0.f, Vars::Misc::CheaterDetection::MaxScaledAimbotFoV.Value);	//	aimbot flick scaled
 
 	if (flScaled > Vars::Misc::CheaterDetection::MinimumAimbotFoV.Value)
@@ -153,6 +156,63 @@ bool CCheaterDetection::IsDuckSpeed(CBaseEntity* pEntity)
 		mData[pEntity].pDuckInfo.second += pEntity->GetVelocity().Length2D();
 	}
 	return false;
+}
+
+void CCheaterDetection::BacktrackCheck(CGameEvent* pEvent) {
+	//	get victim & attacker
+	CBaseCombatWeapon* pWeapon = reinterpret_cast<CBaseCombatWeapon*>(I::ClientEntityList->GetClientEntityFromHandle(pEvent->GetInt("weaponid")));
+	if (Utils::GetWeaponType(pWeapon) == EWeaponType::PROJECTILE || Utils::GetWeaponType(pWeapon) == EWeaponType::UNKNOWN) { return; }	//	check that our attacker has lag compensation on their weapon.
+	CBaseEntity* pAttacker = I::ClientEntityList->GetClientEntity(pEvent->GetInt("attacker"));
+	CBaseEntity* pVictim = I::ClientEntityList->GetClientEntity(pEvent->GetInt("userid"));
+	if (!pVictim || !pAttacker) { return; }
+	if (pVictim->GetDormant() || pAttacker->GetDormant()) { return; }
+	if (pVictim->GetVelocity().Length() < 16.f) { return; }	//	don't check static players
+
+	const Vec3 vEyeAng = pAttacker->GetEyeAngles();			//	get attacker angles & pos
+	const Vec3 vEyePos = pAttacker->GetEyePosition();		//	
+
+	const float flAttackerLatency = 0.f;					//	TODO: Get player latencies every 30 seconds from the server somehow :thinking:
+
+	Vec3 vForward = {};
+	Math::AngleVectors(vEyeAng, &vForward);					//	create a fwd vector for the attacker
+
+	const Vec3 vTraceStart = vEyePos;									  //
+	const Vec3 vTraceEnd = (vTraceStart + (vForward * 8192.0f));		  //
+	//
+	CGameTrace trace = {};												  //
+	CTraceFilterHitscan filter = {};									  //
+	filter.pSkip = pAttacker;											  //
+
+	const Vec3 vRestorePos = pVictim->m_vecOrigin();
+	float flTime = 0.f;
+
+	const auto& pRecords = F::Backtrack.GetRecords(pVictim);
+	if (!pRecords) { return; }
+
+	for (const auto& pTick : *pRecords)
+	{
+		pVictim->m_vecOrigin() = pTick.vOrigin;
+		Utils::Trace(vTraceStart, vTraceEnd, (MASK_SHOT), &filter, &trace);		//	do a trace along the players view angle
+		if (trace.entity == pVictim) { flTime = pTick.flCreateTime; break; }	//	we hit a player with the trace and therefor have the time that the attacker was lag comped to
+	}
+
+	pVictim->m_vecOrigin() = vRestorePos;					//	restore old player origin
+
+	if (flTime == 0) { return; }
+
+	const float flDelta = I::GlobalVars->curtime - flTime;	//	get delta between attackers shot and servers time
+	switch (mData[pAttacker].iLagCompChecks) {
+	case 0: {
+		mData[pAttacker].iOrigDelta += flDelta; mData[pAttacker].iLagCompChecks++; return;
+	}
+	case 1: {
+		mData[pAttacker].iOrigDelta += flDelta; mData[pAttacker].iOrigDelta /= 2; mData[pAttacker].iLagCompChecks++; return;
+	}
+	}
+
+	if (flDelta > mData[pAttacker].iOrigDelta + TICKS_TO_TIME(2)) {
+		//	infract?
+	}
 }
 
 void CCheaterDetection::SimTime(CBaseEntity* pEntity)
@@ -256,7 +316,7 @@ void CCheaterDetection::FindScores()
 
 void CCheaterDetection::FindHitchances()
 {	//	runs every 30 seconds
-	if (I::GlobalVars->curtime - flLastAccuracyTime < 30.f) { return; }
+	if (I::GlobalVars->curtime - flLastAccuracyTime < 30.f || !server.iHits || !server.iMisses) { return; }
 	flLastAccuracyTime = I::GlobalVars->curtime;
 
 	const float flAvg = (float)server.iHits / (float)server.iMisses;
@@ -301,11 +361,14 @@ void CCheaterDetection::ReportShot(int iIndex)
 void CCheaterDetection::ReportDamage(CGameEvent* pEvent)
 {
 	const int iIndex = pEvent->GetInt("attacker");
+	if (iIndex == I::EngineClient->GetLocalPlayer()) { return; }
 	CBaseEntity* pEntity = I::ClientEntityList->GetClientEntity(iIndex);
-	if (!pEntity || pEntity->GetDormant()) { return; }
+	if (!pEntity) { return; }
+	if (pEntity->GetDormant()) { return; }
 	CBaseCombatWeapon* pWeapon = pEntity->GetActiveWeapon();
 	if ( !pWeapon ) { return; }
 	AimbotCheck(pEntity);
+	//BacktrackCheck(pEvent);
 	if (I::GlobalVars->tickcount - mData[pEntity].iLastDamageEventTick <= 1) { return; }
 	mData[pEntity].iLastDamageEventTick = I::GlobalVars->tickcount;
 	mData[pEntity].pShots.first++; mData[pEntity].bDidDamage = true;
