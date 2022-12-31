@@ -467,6 +467,7 @@ namespace Vars
 
 	namespace Visuals
 	{
+		inline CVar<bool> MenuCelebration{ true };
 		inline CVar<bool> CleanScreenshots{ true };
 		inline CVar<bool> RemoveDisguises{ false };
 		inline CVar<bool> RemoveTaunts{ false };

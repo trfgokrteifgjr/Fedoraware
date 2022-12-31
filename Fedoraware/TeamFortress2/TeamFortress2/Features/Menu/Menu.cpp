@@ -1151,6 +1151,7 @@ void CMenu::MenuVisuals()
 					{
 						I::ViewRender->SetScreenOverlayMaterial(nullptr);
 					}
+					WToggle("Menu Celebration", &Vars::Visuals::MenuCelebration.Value);
 					WToggle("Particle Colors", &Vars::Visuals::ParticleColors.Value);
 					ColorPickerL("Particle Color", Colors::ParticleColor);
 					if (Vars::Visuals::ParticleColors.Value)

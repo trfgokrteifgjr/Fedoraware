@@ -124,26 +124,22 @@ MAKE_HOOK(EngineVGui_Paint, Utils::GetVFuncPtr(I::EngineVGui, 14), void, __fastc
 				 });
 			}
 
-			if (I::EngineVGui->IsGameUIVisible())
+			if (I::EngineVGui->IsGameUIVisible()) //Snow
 			{
 				if (!I::EngineClient->IsInGame())
 				{
 					static time_t curTime = time(0);
 					static tm* curCalTime = localtime(&curTime);					
 					
-					if (F::Menu.IsOpen)
+					if (F::Menu.IsOpen && Vars::Visuals::MenuCelebration.Value)
 					{
 						g_Draw.String(FONT_MENU, 5, g_ScreenSize.h - 5 - Vars::Fonts::FONT_MENU::nTall.Value, { 116, 255, 48, 255 }, ALIGN_DEFAULT, __DATE__);
 						F::Visuals.DrawDVD();
 						if (curCalTime->tm_mon == 11)
 						{
 							g_Draw.String(FONT_MENU, g_ScreenSize.c, 150, { 255,255,255,255 }, ALIGN_CENTERHORIZONTAL, "MERRY CHRISTMAS!!!!!!!");
+							F::Visuals.DrawMenuSnow();
 						}
-					}
-
-					if (curCalTime->tm_mon == 11)
-					{
-						F::Visuals.DrawMenuSnow();
 					}
 				}
 			}
