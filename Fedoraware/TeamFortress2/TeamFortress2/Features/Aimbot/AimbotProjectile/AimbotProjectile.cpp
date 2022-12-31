@@ -1207,16 +1207,34 @@ bool CAimbotProjectile::GetSplashTarget(CBaseEntity* pLocal, CBaseCombatWeapon* 
 {
 	if (!Vars::Aimbot::Projectile::SplashPrediction.Value) { return false; }
 
-	// All these values are from the TF2 Wiki
 	std::optional<float> splashRadius;
-	splashRadius = Utils::ATTRIB_HOOK_FLOAT(148, "mult_explosion_radius", pLocal->GetActiveWeapon(), 0, 1);
-	std::optional<float> splashRadiusFinal = splashRadius.value() * AirStrikeModifierFinal.value(); //this is the final splash radius value, after the multiplier from the air strike.
+	float AirStrikeModifier;
 
-	// Don't do it with the direct hit or if the splash radius is unknown
-	//this is THE check
-	std::vector<std::wstring> szCond{};
+	//this returns 148 for the rocket launcher, original, rocket jumper, and black box.
+	//this returns 133.199997 for the air strike.
+	//this returns 118.400002 for the beggars bazooka.
+	splashRadius = Utils::ATTRIB_HOOK_FLOAT(148, "mult_explosion_radius", pWeapon, 0, 1);
+	AirStrikeModifier = 0.8f; //tf_weaponbase_rocket.cpp @L674
+	std::optional<float> splashRadiusModified = splashRadius.value() * AirStrikeModifier; //this value will only be used if you are blast jumping with the air strike
 
+	//check if you are rocket jumping, and change the value appropriately, because the air strike blast radius changes if you are rocket jumping.
+	const int nCondEx2 = pLocal->GetCondEx2();
+	if (nCondEx2 & TFCondEx2_BlastJumping)
+		splashRadius = splashRadiusModified;
 
+//	//Debug
+//	if (Vars::Debug::DebugInfo.Value)
+//	{
+//		//print the values in console, because i cant tell what they are
+//		I::Cvar->ConsolePrintf("splashRadius: %f\n", splashRadius.value());
+//		I::Cvar->ConsolePrintf("AirStrikeModifier: %f\n", AirStrikeModifier);
+//		I::Cvar->ConsolePrintf("splashRadiusFinal: %f\n", splashRadiusModified);
+//		if (nCondEx2 & TFCondEx2_BlastJumping) {
+//			I::Cvar->ConsolePrintf("IsBlastJumping: true\n"); }
+//		else I::Cvar->ConsolePrintf("IsBlastJumping: false\n");
+//	}
+
+	// Don't splash predict with the direct hit or if the splash radius is unknown
 	if (pWeapon->GetClassID() == ETFClassID::CTFRocketLauncher_DirectHit || !splashRadius) { return false; }
 
 	const auto& sortMethod = static_cast<ESortMethod>(Vars::Aimbot::Projectile::SortMethod.Value);
