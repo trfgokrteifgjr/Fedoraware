@@ -1187,16 +1187,16 @@ bool CAimbotProjectile::GetSplashTarget(CBaseEntity* pLocal, CBaseCombatWeapon* 
 	if (pLocal->GetCondEx2() & TFCondEx2_BlastJumping && G::CurItemDefIndex == Soldier_m_TheAirStrike)
 		splashRadius = splashRadiusModified;
 
-	//Debug
-	if (Vars::Debug::DebugInfo.Value)
-	{
-		//print the values in console, because i cant tell what they are
-		I::Cvar->ConsolePrintf("splashRadius: %f\n", splashRadius.value());
-		I::Cvar->ConsolePrintf("splashRadiusFinal: %f\n", splashRadiusModified);
-		if (pLocal->GetCondEx2() & TFCondEx2_BlastJumping) {
-			I::Cvar->ConsolePrintf("IsBlastJumping: true\n"); }
-		else I::Cvar->ConsolePrintf("IsBlastJumping: false\n");
-	}
+//	//Debug
+//	if (Vars::Debug::DebugInfo.Value)
+//	{
+//		//print the values in console, because i cant tell what they are
+//		I::Cvar->ConsolePrintf("splashRadius: %f\n", splashRadius.value());
+//		I::Cvar->ConsolePrintf("splashRadiusFinal: %f\n", splashRadiusModified);
+//		if (pLocal->GetCondEx2() & TFCondEx2_BlastJumping) {
+//			I::Cvar->ConsolePrintf("IsBlastJumping: true\n"); }
+//		else I::Cvar->ConsolePrintf("IsBlastJumping: false\n");
+//	}
 
 	// Don't splash predict with the direct hit or if the splash radius is unknown
 	if (pWeapon->GetClassID() == ETFClassID::CTFRocketLauncher_DirectHit || !splashRadius) { return false; }
