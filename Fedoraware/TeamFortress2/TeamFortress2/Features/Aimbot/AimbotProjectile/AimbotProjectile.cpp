@@ -310,8 +310,8 @@ bool CAimbotProjectile::SolveProjectile(CBaseEntity* pLocal, CBaseCombatWeapon* 
 
 	if (!useTPred)
 	{
-		Vec3 staticPos = predictor.m_pEntity->IsPlayer() ? GetAimPos(pLocal, predictor.m_pEntity, predictor.m_vPosition) : GetAimPosBuilding(pLocal, predictor.m_pEntity);
-		if (staticPos.IsZero())
+		std::optional<Vec3> staticPos = predictor.m_pEntity->IsPlayer() ? GetAimPos(pLocal, predictor.m_pEntity, predictor.m_vPosition) : GetAimPosBuilding(pLocal, predictor.m_pEntity);
+		if (!staticPos)
 		{
 			return false;
 		}
@@ -324,7 +324,7 @@ bool CAimbotProjectile::SolveProjectile(CBaseEntity* pLocal, CBaseCombatWeapon* 
 				/*	case TF_WEAPON_STICKBOMB: // What the fuck, why is the caber here
 					case TF_WEAPON_STICKY_BALL_LAUNCHER: This doesn't even exist in game */
 			{
-				Vec3 vDelta = (staticPos - vLocalPos);
+				Vec3 vDelta = (staticPos.value() - vLocalPos);
 				const float fRange = Math::VectorNormalize(vDelta);
 				const float fElevationAngle = std::min(fRange * (G::CurItemDefIndex == Demoman_m_TheLochnLoad ? 0.0075f : 0.013f), 45.f);
 				// if our angle is above 45 degree will we even hit them? shouldn't we just return???
@@ -333,7 +333,7 @@ bool CAimbotProjectile::SolveProjectile(CBaseEntity* pLocal, CBaseCombatWeapon* 
 				Math::SinCos((fElevationAngle * PI / 180.0f), &s, &c);
 
 				const float fElevation = (fRange * (s / c));
-				staticPos.z += (c > 0.0f ? fElevation : 0.0f);
+				staticPos.value().z += (c > 0.0f ? fElevation : 0.0f);
 				break;
 			}
 
@@ -341,10 +341,10 @@ bool CAimbotProjectile::SolveProjectile(CBaseEntity* pLocal, CBaseCombatWeapon* 
 		}
 
 		// trace hull of projectile
-		Utils::TraceHull(predictor.m_vPosition, staticPos, Vec3(-3.8f, -3.8f, -3.8f), Vec3(3.8f, 3.8f, 3.8f), MASK_SOLID_BRUSHONLY, &traceFilter, &trace);
+		Utils::TraceHull(predictor.m_vPosition, staticPos.value(), Vec3(-3.8f, -3.8f, -3.8f), Vec3(3.8f, 3.8f, 3.8f), MASK_SOLID_BRUSHONLY, &traceFilter, &trace);
 		if (trace.DidHit())
 		{
-			staticPos.z = trace.vEndPos.z;
+			staticPos.value().z = trace.vEndPos.z;
 		}
 
 		switch (pWeapon->GetWeaponID())
@@ -362,7 +362,7 @@ bool CAimbotProjectile::SolveProjectile(CBaseEntity* pLocal, CBaseCombatWeapon* 
 			default: break;
 		}
 
-		if (!CalcProjAngle(vLocalPos, staticPos, projInfo, out))
+		if (!CalcProjAngle(vLocalPos, staticPos.value(), projInfo, out)) 
 		{
 			return false;
 		}
@@ -372,9 +372,9 @@ bool CAimbotProjectile::SolveProjectile(CBaseEntity* pLocal, CBaseCombatWeapon* 
 			return false;
 		}
 
-		if (WillProjectileHit(pLocal, pWeapon, pCmd, staticPos, out, projInfo, predictor))
+		if (WillProjectileHit(pLocal, pWeapon, pCmd, staticPos.value(), out, projInfo, predictor)) 
 		{
-			G::PredictedPos = staticPos;
+			G::PredictedPos = staticPos.value();
 			return true;
 		}
 	}
@@ -406,8 +406,8 @@ bool CAimbotProjectile::SolveProjectile(CBaseEntity* pLocal, CBaseCombatWeapon* 
 				F::MoveSim.RunTick(moveData, absOrigin);
 				vPredictedPos = absOrigin;
 
-				const Vec3 aimPosition = GetAimPos(pLocal, predictor.m_pEntity, vPredictedPos);
-				if (aimPosition.IsZero())
+				const std::optional<Vec3> aimPosition = GetAimPos(pLocal, predictor.m_pEntity, vPredictedPos);
+				if (!aimPosition)
 				{
 					bNeedsTimeCheck = true;
 					if (Vars::Aimbot::Projectile::PredictObscured.Value) { continue; }
@@ -424,8 +424,7 @@ bool CAimbotProjectile::SolveProjectile(CBaseEntity* pLocal, CBaseCombatWeapon* 
 				//vPredictedPos.x += abs(vAimDelta.x);
 				//vPredictedPos.y += abs(vAimDelta.y);
 				//vPredictedPos.z += abs(vAimDelta.z);
-				vPredictedPos = aimPosition;
-
+				vPredictedPos = aimPosition.value();
 
 				// get angle offsets for demoman weapons?
 				switch (pWeapon->GetWeaponID())
@@ -522,9 +521,9 @@ bool IsPointAllowed(int nHitbox)
 }
 
 //	Tries to find the best position to aim at on our target.
-Vec3 CAimbotProjectile::GetAimPos(CBaseEntity* pLocal, CBaseEntity* pEntity, const Vec3& targetPredPos)
+std::optional<Vec3> CAimbotProjectile::GetAimPos(CBaseEntity* pLocal, CBaseEntity* pEntity, const Vec3& targetPredPos)
 {
-	Vec3 retVec = pLocal->GetAbsOrigin();
+	std::optional<Vec3> retVec = pLocal->GetAbsOrigin();
 	Vec3 localPos = pLocal->GetAbsOrigin();
 
 	const Vec3 vLocalPos = pLocal->GetShootPos();
@@ -589,7 +588,7 @@ Vec3 CAimbotProjectile::GetAimPos(CBaseEntity* pLocal, CBaseEntity* pEntity, con
 	}
 	if (visiblePoints.empty())
 	{
-		return { 0, 0, 0 };
+		return std::nullopt;
 	}
 
 	Vec3 HeadPoint, TorsoPoint, FeetPoint;
