@@ -599,7 +599,7 @@ namespace Utils
 			case TF_WEAPON_GRENADELAUNCHER:
 			case TF_WEAPON_FLAREGUN:
 			case TF_WEAPON_COMPOUND_BOW:
-			case TF_WEAPON_DIRECTHIT:
+			case TF_WEAPON_ROCKETLAUNCHER_DIRECTHIT:
 			case TF_WEAPON_CROSSBOW:
 			case TF_WEAPON_PARTICLE_CANNON:
 			case TF_WEAPON_DRG_POMSON:
@@ -875,7 +875,7 @@ namespace Utils
 			{
 			case TF_WEAPON_RAYGUN_REVENGE:
 			case TF_WEAPON_ROCKETLAUNCHER:
-			case TF_WEAPON_DIRECTHIT:
+			case TF_WEAPON_ROCKETLAUNCHER_DIRECTHIT:
 			{
 				Vec3 vecOffset(23.5f, 12.0f, -3.0f); //tf_weaponbase_gun.cpp @L529 & @L760
 				if (pLocal->IsDucking())
