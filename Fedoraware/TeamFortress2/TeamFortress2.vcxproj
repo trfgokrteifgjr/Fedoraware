@@ -923,7 +923,7 @@
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
-      <ErrorText>This project references one or more NuGet packages that are missing from this machine. Use NuGet Package Recovery to download the missing files. For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is "{0}" (This basically means you are missing Boost).</ErrorText>
+      <ErrorText>This project references one or more NuGet packages that are missing from this machine. Use NuGet Package Recovery to download the missing files. For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. (Download Boost manually if this method does not work!)</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\boost.1.79.0\build\boost.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\boost.1.79.0\build\boost.targets'))" />
   </Target>
