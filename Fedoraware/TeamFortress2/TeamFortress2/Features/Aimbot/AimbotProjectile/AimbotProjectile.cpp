@@ -1177,26 +1177,12 @@ bool CAimbotProjectile::GetSplashTarget(CBaseEntity* pLocal, CBaseCombatWeapon* 
 
 	std::optional<float> splashRadius;
 
-	//this returns 148 for the rocket launcher, original, rocket jumper, and black box.
-	//this returns 133.199997 for the air strike.
-	//this returns 118.400002 for the beggars bazooka.
 	splashRadius = Utils::ATTRIB_HOOK_FLOAT(148, "mult_explosion_radius", pWeapon, 0, 1);
 	float splashRadiusModified = splashRadius.value() * 0.8; //this value will only be used if you are blast jumping with the air strike
 
 	//check if you are rocket jumping, and change the value appropriately, because the air strike blast radius changes if you are rocket jumping.
 	if (pLocal->GetCondEx2() & TFCondEx2_BlastJumping && G::CurItemDefIndex == Soldier_m_TheAirStrike)
 		splashRadius = splashRadiusModified;
-
-//	//Debug
-//	if (Vars::Debug::DebugInfo.Value)
-//	{
-//		//print the values in console, because i cant tell what they are
-//		I::Cvar->ConsolePrintf("splashRadius: %f\n", splashRadius.value());
-//		I::Cvar->ConsolePrintf("splashRadiusFinal: %f\n", splashRadiusModified);
-//		if (pLocal->GetCondEx2() & TFCondEx2_BlastJumping) {
-//			I::Cvar->ConsolePrintf("IsBlastJumping: true\n"); }
-//		else I::Cvar->ConsolePrintf("IsBlastJumping: false\n");
-//	}
 
 	// Don't splash predict with the direct hit or if the splash radius is unknown
 	if (pWeapon->GetClassID() == ETFClassID::CTFRocketLauncher_DirectHit || !splashRadius) { return false; }
