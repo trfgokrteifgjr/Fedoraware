@@ -683,7 +683,7 @@ std::optional<Vec3> CAimbotProjectile::GetAimPos(CBaseEntity* pLocal, CBaseEntit
 			for (const auto& aimPoint : visiblePoints)
 			{
 				//	iterate through visible points
-				if (aimPoint.DistTo(HeadPoint) < retVec.DistTo(HeadPoint))
+				if (aimPoint.DistTo(HeadPoint) < retVec.value().DistTo(HeadPoint))
 				{
 					//	if the distance to our best point is lower than the previous selected point,
 					retVec = aimPoint; //	set the new point to our currently selected point
@@ -697,7 +697,7 @@ std::optional<Vec3> CAimbotProjectile::GetAimPos(CBaseEntity* pLocal, CBaseEntit
 			Math::VectorTransform(vecPoints.at(1), transform, TorsoPoint);
 			for (const auto& aimPoint : visiblePoints)
 			{
-				if (aimPoint.DistTo(TorsoPoint) < retVec.DistTo(TorsoPoint))
+				if (aimPoint.DistTo(TorsoPoint) < retVec.value().DistTo(TorsoPoint))
 				{
 					retVec = aimPoint;
 				}
@@ -710,7 +710,7 @@ std::optional<Vec3> CAimbotProjectile::GetAimPos(CBaseEntity* pLocal, CBaseEntit
 			Math::VectorTransform(vecPoints.at(2), transform, FeetPoint);
 			for (const auto& aimPoint : visiblePoints)
 			{
-				if (aimPoint.DistTo(FeetPoint) < retVec.DistTo(FeetPoint))
+				if (aimPoint.DistTo(FeetPoint) < retVec.value().DistTo(FeetPoint))
 				{
 					retVec = aimPoint;
 				}
@@ -721,7 +721,7 @@ std::optional<Vec3> CAimbotProjectile::GetAimPos(CBaseEntity* pLocal, CBaseEntit
 	return retVec;
 }
 
-Vec3 CAimbotProjectile::GetAimPosBuilding(CBaseEntity * pLocal, CBaseEntity * pEntity)
+std::optional<Vec3> CAimbotProjectile::GetAimPosBuilding(CBaseEntity* pLocal, CBaseEntity* pEntity) 
 {
 	const Vec3 vLocalPos = pLocal->GetShootPos();
 
@@ -755,7 +755,7 @@ Vec3 CAimbotProjectile::GetAimPosBuilding(CBaseEntity * pLocal, CBaseEntity * pE
 		}
 	}
 
-	return { 0, 0, 0 };
+	return std::nullopt;
 }
 
 bool CAimbotProjectile::WillProjectileHit(CBaseEntity* pLocal, CBaseCombatWeapon* pWeapon, CUserCmd* pCmd, const Vec3& vPredictedPos, Solution_t& out, const ProjectileInfo_t& projInfo,
