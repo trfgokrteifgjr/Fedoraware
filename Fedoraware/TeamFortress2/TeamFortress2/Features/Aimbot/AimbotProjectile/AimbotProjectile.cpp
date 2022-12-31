@@ -597,49 +597,53 @@ Vec3 CAimbotProjectile::GetAimPos(CBaseEntity* pLocal, CBaseEntity* pEntity, con
 	const int classNum = pLocal->GetClassNum();
 	static KeyHelper bounceKey{ &Vars::Aimbot::Projectile::BounceKey.Value };
 
-	switch (classNum)
+	if (aimMethod == 3);
 	{
+		switch (classNum)
+		{
 		case CLASS_SOLDIER:
 		{
-			if (pLocal->GetActiveWeapon()->GetSlot() != SLOT_PRIMARY)
+			if(pEntity->OnSolid() && (Vars::Aimbot::Projectile::FeetAimIfOnGround.Value))
 			{
-				break;
-				[[fallthrough]];
-			}
-		}
-		switch (G::CurItemDefIndex)
-		{
-			case TF_WEAPON_GRENADELAUNCHER:
-			case TF_WEAPON_CANNON:
-			{
-				if (Vars::Aimbot::Projectile::FeetAimIfOnGround.Value && pEntity->OnSolid())
+				switch (G::CurItemDefIndex)
 				{
-					aimMethod = 1;
-				}
-			}
-			break;
-			case TF_WEAPON_PIPEBOMBLAUNCHER:
-			{
-				if (Vars::Aimbot::Projectile::FeetAimIfOnGround.Value && pEntity->OnSolid())
-				{
+				case TF_WEAPON_ROCKETLAUNCHER:
+				case TF_WEAPON_ROCKETLAUNCHER_DIRECTHIT:
 					aimMethod = 2;
+					break;
+				case TF_WEAPON_RAYGUN: //righteous bison
+					aimMethod = 1;
+					break;
 				}
-				else { aimMethod = 1; }
+			}
+			[[fallthrough]];
+		}
+		case CLASS_DEMOMAN:
+		{
+			if(pEntity->OnSolid() && (Vars::Aimbot::Projectile::FeetAimIfOnGround.Value))
+			{
+				switch (G::CurItemDefIndex)
+				{
+				case TF_WEAPON_GRENADELAUNCHER:
+				case TF_WEAPON_CANNON: //loose cannon
+					aimMethod = 1;
+					break;
+				case TF_WEAPON_PIPEBOMBLAUNCHER: //sticky launchers
+					aimMethod = 2;
+					break;
+				}
 			}
 			break;
-			case CLASS_SNIPER:
-			{
-				if (pEntity->OnSolid() && (Vars::Aimbot::Projectile::FeetAimIfOnGround.Value && (bounceKey.Down() || !Vars::Aimbot::Projectile::BounceKey.Value))) 
-				{
-					aimMethod = 0;
-				}
-				break;
-				}
-		default: aimMethod = 1;
 		}
-	}
+		case CLASS_SNIPER:
+			aimMethod = 0;
 
-	if (aimMethod == 3 && classNum)
+		if (bounceKey.Down())
+			aimMethod = 2;
+	}
+}
+
+/*	if (aimMethod == 3 && classNum) This method is shit dont do this
 	{
 		// auto
 		switch (classNum)
@@ -660,8 +664,8 @@ Vec3 CAimbotProjectile::GetAimPos(CBaseEntity* pLocal, CBaseEntity* pEntity, con
 				aimMethod = 1;
 				break;
 			}
-		}
-	}
+		} 
+	}*/ 
 
 	switch (aimMethod)
 	{
@@ -781,7 +785,7 @@ bool CAimbotProjectile::WillProjectileHit(CBaseEntity* pLocal, CBaseCombatWeapon
 			}
 			case TF_WEAPON_RAYGUN_REVENGE:
 			case TF_WEAPON_ROCKETLAUNCHER:
-			case TF_WEAPON_DIRECTHIT:
+			case TF_WEAPON_ROCKETLAUNCHER_DIRECTHIT:
 			case TF_WEAPON_FLAREGUN:
 			{
 				Vec3 vecOffset = Vec3(23.5f, 12.0f, -3.0f); //tf_weaponbase_gun.cpp @L529 & @L760
@@ -859,7 +863,7 @@ bool CAimbotProjectile::WillProjectileHit(CBaseEntity* pLocal, CBaseCombatWeapon
 			break;
 		}
 		case TF_WEAPON_ROCKETLAUNCHER:	 // rockets can go thru 1 HU gaps, so just set this to 0
-		case TF_WEAPON_DIRECTHIT:       // when you use glow in rijin, it has a 1 pixel glow on rockets, proving this further
+		case TF_WEAPON_ROCKETLAUNCHER_DIRECTHIT:       // when you use glow in rijin, it has a 1 pixel glow on rockets, proving this further
 		case TF_WEAPON_PARTICLE_CANNON:
 		{
 			hullSize = { 0.f, 0.f, 0.f }; 
