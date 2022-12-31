@@ -593,62 +593,69 @@ std::optional<Vec3> CAimbotProjectile::GetAimPos(CBaseEntity* pLocal, CBaseEntit
 
 	Vec3 HeadPoint, TorsoPoint, FeetPoint;
 
+	const auto& pWeapon = g_EntityCache.GetWeapon();
+	if (!pWeapon) { return retVec; }
 	const int classNum = pLocal->GetClassNum();
 	static KeyHelper bounceKey{ &Vars::Aimbot::Projectile::BounceKey.Value };
 
-	if (aimMethod == 3);
 	if (aimMethod == 3)
 	{
 		switch (classNum)
 		{
-		case CLASS_SOLDIER:
-		{
-			if(pEntity->OnSolid() && (Vars::Aimbot::Projectile::FeetAimIfOnGround.Value))
+			case CLASS_SOLDIER:
 			{
-				switch (G::CurItemDefIndex)
+				if(pEntity->OnSolid() && (Vars::Aimbot::Projectile::FeetAimIfOnGround.Value))
 				{
-				case TF_WEAPON_ROCKETLAUNCHER:
-				case TF_WEAPON_ROCKETLAUNCHER_DIRECTHIT:
-					aimMethod = 2;
-					break;
-				case TF_WEAPON_RAYGUN: //righteous bison
-					aimMethod = 1;
-					break;
+					switch (pWeapon->GetWeaponID())
+					{
+						case TF_WEAPON_ROCKETLAUNCHER:
+						case TF_WEAPON_ROCKETLAUNCHER_DIRECTHIT:
+							aimMethod = 2;
+							break;
+						case TF_WEAPON_RAYGUN: //righteous bison
+							aimMethod = 1;
+							break;
+					default: aimMethod = 1; break;
+					}
 				}
-				if (!pEntity->OnSolid())
-					aimMethod = 1;
+				[[fallthrough]];
 			}
-			[[fallthrough]];
-		}
-		case CLASS_DEMOMAN:
-		{
-			if(pEntity->OnSolid() && (Vars::Aimbot::Projectile::FeetAimIfOnGround.Value))
+			case CLASS_DEMOMAN:
 			{
-				switch (G::CurItemDefIndex)
+				if(pEntity->OnSolid() && (Vars::Aimbot::Projectile::FeetAimIfOnGround.Value))
 				{
-				case TF_WEAPON_GRENADELAUNCHER:
-				case TF_WEAPON_CANNON: //loose cannon
-					aimMethod = 1;
-					break;
-				case TF_WEAPON_PIPEBOMBLAUNCHER: //sticky launchers
-					aimMethod = 2;
-					break;
+					switch (pWeapon->GetWeaponID())
+					{
+						case TF_WEAPON_GRENADELAUNCHER:
+						case TF_WEAPON_CANNON: //loose cannon
+							aimMethod = 1;
+							break;
+						case TF_WEAPON_PIPEBOMBLAUNCHER: //sticky launchers
+							aimMethod = 2;
+							break;
+					default: aimMethod = 1; break;
+					}
 				}
+			break;
 			}
+			case CLASS_SNIPER:
+			{
+				aimMethod = 0;
+				break;
+			}
+			default: aimMethod = 1; break;
 			break;
 		}
-		case CLASS_SNIPER:
-			aimMethod = 0;
-			break;
-
 		if (bounceKey.Down())
 			aimMethod = 2;
-			break;
-
-	default: aimMethod = 1; break;
-		}
 	}
-}
+	//debug
+	if (Vars::Debug::DebugInfo.Value)
+	{
+		aimMethod;
+		I::Cvar->ConsolePrintf("aimMethod: %d\n", aimMethod);
+	//	I::Cvar->ConsolePrintf("Weapon: %s\n", pWeapon->GetWeaponID());
+	}
 
 /*	if (aimMethod == 3 && classNum) This method is shit dont do this, it will cause misses on certain weapons
 	{
