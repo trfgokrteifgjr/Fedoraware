@@ -615,6 +615,8 @@ Vec3 CAimbotProjectile::GetAimPos(CBaseEntity* pLocal, CBaseEntity* pEntity, con
 					aimMethod = 1;
 					break;
 				}
+				if (!pEntity->OnSolid())
+					aimMethod = 1;
 			}
 			[[fallthrough]];
 		}
@@ -637,9 +639,13 @@ Vec3 CAimbotProjectile::GetAimPos(CBaseEntity* pLocal, CBaseEntity* pEntity, con
 		}
 		case CLASS_SNIPER:
 			aimMethod = 0;
+			break;
 
 		if (bounceKey.Down())
 			aimMethod = 2;
+			break;
+
+	default: aimMethod = 1; break;
 	}
 }
 
