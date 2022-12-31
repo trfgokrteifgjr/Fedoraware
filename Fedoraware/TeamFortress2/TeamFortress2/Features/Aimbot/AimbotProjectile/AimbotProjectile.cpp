@@ -1198,35 +1198,10 @@ bool CAimbotProjectile::GetSplashTarget(CBaseEntity* pLocal, CBaseCombatWeapon* 
 
 	// All these values are from the TF2 Wiki
 	std::optional<float> splashRadius;
-	switch (pWeapon->GetClassID())
-	{
-		case ETFClassID::CTFRocketLauncher: //Rocket Launcher, Original, Black Box, Liberty Launcher
-		case ETFClassID::CTFParticleCannon: //Cow Mangler
-		{
-			splashRadius = 146.f;
-			break;
-		}
-		case ETFClassID::CTFRocketLauncher_AirStrike: //Air Strike
-		{
-			if (pLocal->IsOnGround()) //This is supposed to change the radius when the player is rocket jumping, but I couldn't figure that out
-				splashRadius = 131.f;
-			else
-				splashRadius = 105.f;
-			break;
-		}
-		case ETFClassID::CTFRocketLauncher_Mortar: //Beggar's Bazooka, I'm assuming
-		{
-			splashRadius = 116.f;
-			break;
-		}
-	/*	case ETFClassID::CTFRocketLauncher_DirectHit: //Direct Hit
-		{
-			splashRadius = 44.f;
-			break;
-		} */
-	}
+	splashRadius = Utils::ATTRIB_HOOK_FLOAT(148, "mult_explosion_radius", pLocal->GetActiveWeapon(), 0, 1);
 
-	// Don't splash predict if splashRadius isn't set for the current weapon
+	// Don't do it with the direct hit or if the splash radius is unknown
+	if (pWeapon->GetClassID() == ETFClassID::CTFRocketLauncher_DirectHit || !splashRadius) { return false; }
 
 	const auto& sortMethod = static_cast<ESortMethod>(Vars::Aimbot::Projectile::SortMethod.Value);
 	const auto& vLocalAngles = I::EngineClient->GetViewAngles();
