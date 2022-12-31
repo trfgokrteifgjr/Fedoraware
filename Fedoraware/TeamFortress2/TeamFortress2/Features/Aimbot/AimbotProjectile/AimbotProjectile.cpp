@@ -647,6 +647,7 @@ Vec3 CAimbotProjectile::GetAimPos(CBaseEntity* pLocal, CBaseEntity* pEntity, con
 			break;
 
 	default: aimMethod = 1; break;
+		}
 	}
 }
 
@@ -1083,7 +1084,7 @@ bool CAimbotProjectile::VerifyTarget(CBaseEntity* pLocal, CBaseCombatWeapon* pWe
 }
 
 // Returns the best target
-bool CAimbotProjectile::GetTarget(CBaseEntity* pLocal, CBaseCombatWeapon* pWeapon, CUserCmd* pCmd, Target_t& outTarget)
+bool CAimbotProjectile::GetTarget(CBaseEntity* pLocal, CBaseCombatWeapon* pWeapon, CUserCmd* pCmd, Target_t& outTarget, CBaseEntity* pEntity)
 {
 	auto validTargets = GetTargets(pLocal, pWeapon);
 	if (validTargets.empty()) { return false; }
@@ -1202,16 +1203,20 @@ bool CAimbotProjectile::IsAttacking(const CUserCmd* pCmd, CBaseCombatWeapon* pWe
 }
 
 // Returns the best target for splash damage
-bool CAimbotProjectile::GetSplashTarget(CBaseEntity* pLocal, CBaseCombatWeapon* pWeapon, CUserCmd* pCmd, Target_t& outTarget)
+bool CAimbotProjectile::GetSplashTarget(CBaseEntity* pLocal, CBaseCombatWeapon* pWeapon, CUserCmd* pCmd, Target_t& outTarget, CBaseEntity* pEntity)
 {
-
 	if (!Vars::Aimbot::Projectile::SplashPrediction.Value) { return false; }
 
 	// All these values are from the TF2 Wiki
 	std::optional<float> splashRadius;
 	splashRadius = Utils::ATTRIB_HOOK_FLOAT(148, "mult_explosion_radius", pLocal->GetActiveWeapon(), 0, 1);
+	std::optional<float> splashRadiusFinal = splashRadius.value() * AirStrikeModifierFinal.value(); //this is the final splash radius value, after the multiplier from the air strike.
 
 	// Don't do it with the direct hit or if the splash radius is unknown
+	//this is THE check
+	std::vector<std::wstring> szCond{};
+
+
 	if (pWeapon->GetClassID() == ETFClassID::CTFRocketLauncher_DirectHit || !splashRadius) { return false; }
 
 	const auto& sortMethod = static_cast<ESortMethod>(Vars::Aimbot::Projectile::SortMethod.Value);

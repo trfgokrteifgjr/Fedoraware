@@ -858,10 +858,10 @@ void CESP::DrawBuildings(CBaseEntity* pLocal) const
 
 					building->GetAmmoCount(iShells, iMaxShells, iRockets, iMaxRockets);
 
-					if (iShells = 0)
+					if (iShells == 0)
 						condStrings.emplace_back(L"No Ammo");
 
-					if (iRockets = 0)
+					if (iRockets == 0)
 						condStrings.emplace_back(L"No Rockets");
 				}
 
