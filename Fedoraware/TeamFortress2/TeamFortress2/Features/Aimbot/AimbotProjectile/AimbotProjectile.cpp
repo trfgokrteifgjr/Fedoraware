@@ -1219,7 +1219,7 @@ bool CAimbotProjectile::GetSplashTarget(CBaseEntity* pLocal, CBaseCombatWeapon* 
 	//this returns 133.199997 for the air strike.
 	//this returns 118.400002 for the beggars bazooka.
 	splashRadius = Utils::ATTRIB_HOOK_FLOAT(148, "mult_explosion_radius", pWeapon, 0, 1);
-	float splashRadiusModified = splashRadius.value() * 0.8f; //this value will only be used if you are blast jumping with the air strike
+	float splashRadiusModified = splashRadius.value() * 0.8; //this value will only be used if you are blast jumping with the air strike
 
 	//check if you are rocket jumping, and change the value appropriately, because the air strike blast radius changes if you are rocket jumping.
 	if (pLocal->GetCondEx2() & TFCondEx2_BlastJumping)
