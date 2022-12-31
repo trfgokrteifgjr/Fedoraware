@@ -1221,7 +1221,7 @@ bool CAimbotProjectile::GetSplashTarget(CBaseEntity* pLocal, CBaseCombatWeapon* 
 	//this returns 118.400002 for the beggars bazooka.
 	splashRadius = Utils::ATTRIB_HOOK_FLOAT(148, "mult_explosion_radius", pWeapon, 0, 1);
 	AirStrikeModifier = 0.8f; //tf_weaponbase_rocket.cpp @L674
-	std::optional<float> splashRadiusModified = splashRadius.value() * AirStrikeModifier; //this value will only be used if you are blast jumping with the air strike
+	float splashRadiusModified = splashRadius.value() * AirStrikeModifier; //this value will only be used if you are blast jumping with the air strike
 
 	//check if you are rocket jumping, and change the value appropriately, because the air strike blast radius changes if you are rocket jumping.
 	const int nCondEx2 = pLocal->GetCondEx2();
