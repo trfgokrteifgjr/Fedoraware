@@ -643,7 +643,7 @@ Vec3 CAimbotProjectile::GetAimPos(CBaseEntity* pLocal, CBaseEntity* pEntity, con
 	}
 }
 
-/*	if (aimMethod == 3 && classNum) This method is shit dont do this
+/*	if (aimMethod == 3 && classNum) This method is shit dont do this, it will cause misses on certain weapons
 	{
 		// auto
 		switch (classNum)
