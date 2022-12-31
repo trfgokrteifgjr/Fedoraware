@@ -1084,7 +1084,7 @@ bool CAimbotProjectile::VerifyTarget(CBaseEntity* pLocal, CBaseCombatWeapon* pWe
 }
 
 // Returns the best target
-bool CAimbotProjectile::GetTarget(CBaseEntity* pLocal, CBaseCombatWeapon* pWeapon, CUserCmd* pCmd, Target_t& outTarget, CBaseEntity* pEntity)
+bool CAimbotProjectile::GetTarget(CBaseEntity* pLocal, CBaseCombatWeapon* pWeapon, CUserCmd* pCmd, Target_t& outTarget)
 {
 	auto validTargets = GetTargets(pLocal, pWeapon);
 	if (validTargets.empty()) { return false; }
@@ -1203,7 +1203,7 @@ bool CAimbotProjectile::IsAttacking(const CUserCmd* pCmd, CBaseCombatWeapon* pWe
 }
 
 // Returns the best target for splash damage
-bool CAimbotProjectile::GetSplashTarget(CBaseEntity* pLocal, CBaseCombatWeapon* pWeapon, CUserCmd* pCmd, Target_t& outTarget, CBaseEntity* pEntity)
+bool CAimbotProjectile::GetSplashTarget(CBaseEntity* pLocal, CBaseCombatWeapon* pWeapon, CUserCmd* pCmd, Target_t& outTarget)
 {
 	if (!Vars::Aimbot::Projectile::SplashPrediction.Value) { return false; }
 
