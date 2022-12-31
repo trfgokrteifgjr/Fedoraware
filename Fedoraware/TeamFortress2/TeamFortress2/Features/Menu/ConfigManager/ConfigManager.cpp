@@ -1243,7 +1243,6 @@ bool CConfigManager::SaveVisual(const std::string& configName)
 		SAVE_VAR(Vars::Visuals::FovArrowsDist);
 		SAVE_VAR(Vars::Visuals::AimPosSquare);
 		SAVE_VAR(Vars::Visuals::Rain);
-		SAVE_VAR(Vars::Debug::DebugInfo);
 		SAVE_VAR(Vars::Visuals::DoPostProcessing);
 		SAVE_VAR(Vars::Visuals::EquipRegionUnlock);
 		SAVE_VAR(Vars::Visuals::NoStaticPropFade);
@@ -1631,7 +1630,6 @@ bool CConfigManager::LoadVisual(const std::string& configName)
 		LOAD_VAR(Vars::Visuals::DamageLoggerConsole);
 		LOAD_VAR(Vars::Visuals::VisionModifier);
 		LOAD_VAR(Vars::Visuals::Rain);
-		LOAD_VAR(Vars::Debug::DebugInfo);
 		LOAD_VAR(Vars::Visuals::DoPostProcessing);
 		LOAD_VAR(Vars::Visuals::EquipRegionUnlock);
 
