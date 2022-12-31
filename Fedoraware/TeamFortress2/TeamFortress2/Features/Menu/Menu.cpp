@@ -1903,6 +1903,8 @@ void CMenu::SettingsWindow()
 		}
 		if (Checkbox("Close Menu on Unfocus", &Vars::Menu::CloseOnUnfocus.Value)) { LoadStyle(); }
 
+		Checkbox("Debug Info", &Vars::Debug::DebugInfo.Value);
+
 		WInputText("Cheat Name", &Vars::Menu::CheatName);
 		WInputText("Chat Info Prefix", &Vars::Menu::CheatPrefix);
 

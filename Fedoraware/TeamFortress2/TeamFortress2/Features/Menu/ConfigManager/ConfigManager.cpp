@@ -267,6 +267,7 @@ bool CConfigManager::SaveConfig(const std::string& configName)
 	{
 		WriteTree.clear();
 
+		SAVE_VAR(Vars::Debug::DebugInfo); //I added this because I felt like it
 		SAVE_VAR(Vars::Menu::MenuKey);
 
 		//Aimbot
@@ -650,6 +651,7 @@ bool CConfigManager::LoadConfig(const std::string& configName)
 		ReadTree.clear();
 		read_json(ConfigPath + "\\" + configName + ConfigExtension, ReadTree);
 
+		LOAD_VAR(Vars::Debug::DebugInfo);
 		LOAD_VAR(Vars::Menu::MenuKey);
 
 		//Aimbot
