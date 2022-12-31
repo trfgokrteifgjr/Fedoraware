@@ -598,6 +598,7 @@ Vec3 CAimbotProjectile::GetAimPos(CBaseEntity* pLocal, CBaseEntity* pEntity, con
 	static KeyHelper bounceKey{ &Vars::Aimbot::Projectile::BounceKey.Value };
 
 	if (aimMethod == 3);
+	if (aimMethod == 3)
 	{
 		switch (classNum)
 		{
