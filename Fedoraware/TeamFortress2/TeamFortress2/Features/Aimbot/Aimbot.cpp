@@ -73,7 +73,7 @@ bool CAimbot::ShouldRun(CBaseEntity* pLocal, CBaseCombatWeapon* pWeapon)
 	return true;
 }
 
-void CAimbot::Run(CUserCmd* pCmd, CBaseEntity* pEntity)
+void CAimbot::Run(CUserCmd* pCmd)
 {
 	G::CurrentTargetIdx = 0;
 	G::PredictedPos = Vec3();
@@ -104,7 +104,7 @@ void CAimbot::Run(CUserCmd* pCmd, CBaseEntity* pEntity)
 
 		case EWeaponType::PROJECTILE:
 		{
-			F::AimbotProjectile.Run(pLocal, pWeapon, pCmd, pEntity);
+			F::AimbotProjectile.Run(pLocal, pWeapon, pCmd);
 			break;
 		}
 
