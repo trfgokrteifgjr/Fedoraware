@@ -36,7 +36,7 @@ MAKE_HOOK(C_OP_RenderSprites_RenderSpriteCard, g_Pattern.Find(L"client.dll", L"5
     #define colors Colors::ParticleColor
     #define rainbow Vars::Visuals::RGBParticles.Value
 
-    if ((Vars::Visuals::ParticleColors.Value == true) && (Vars::Visuals::RGBParticles.Value == false))
+    if (Vars::Visuals::ParticleColors.Value == true)
     {
         info.m_pRGB[((hParticle / 4) * info.m_nRGBStride) + 0].m128_f32[hParticle & 0x3] = Color::TOFLOAT(rainbow ? Utils::Rainbow().r : colors.r); //red
         info.m_pRGB[((hParticle / 4) * info.m_nRGBStride) + 1].m128_f32[hParticle & 0x3] = Color::TOFLOAT(rainbow ? Utils::Rainbow().g : colors.g); //green
