@@ -1176,7 +1176,6 @@ bool CAimbotProjectile::GetSplashTarget(CBaseEntity* pLocal, CBaseCombatWeapon* 
 	if (!Vars::Aimbot::Projectile::SplashPrediction.Value) { return false; }
 
 	std::optional<float> splashRadius;
-
 	splashRadius = Utils::ATTRIB_HOOK_FLOAT(148, "mult_explosion_radius", pWeapon, 0, 1);
 	float splashRadiusModified = splashRadius.value() * 0.8; //this value will only be used if you are blast jumping with the air strike
 
