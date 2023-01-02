@@ -285,8 +285,11 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 			// Health Text
 			if (Vars::ESP::Players::HealthText.Value == 1)
 			{
-				g_Draw.String(FONT, nTextX, y + nTextOffset, nHealth > nMaxHealth ? Colors::Overheal : healthColor,
-					ALIGN_DEFAULT, L"%d / %d", nHealth, nMaxHealth);
+				if (nHealth > nMaxHealth) {
+					g_Draw.String(FONT, nTextX, y + nTextOffset, Colors::Overheal, ALIGN_DEFAULT, L"+%d", nHealth - nMaxHealth);
+				} else {
+					g_Draw.String(FONT, nTextX, y + nTextOffset, healthColor, ALIGN_DEFAULT, L"%d / %d", nHealth, nMaxHealth);
+				}
 				nTextOffset += g_Draw.m_vecFonts[FONT].nTall;
 			}
 
@@ -598,11 +601,14 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 
 				if (Vars::ESP::Players::HealthText.Value == 2)
 				{
-					if (Vars::ESP::Players::Choked.Value)
-					{
-						nTextOffset = 8;
+					if (Vars::ESP::Players::Choked.Value) {					
+						nTextOffset = 8; 
 					}
-					g_Draw.String(FONT, x - (17 + nTextOffset), (y + h) - (ratio * h) - 2, Colors::White, ALIGN_CENTERHORIZONTAL, "%d", nHealth);
+					if (nHealth > nMaxHealth) {
+						g_Draw.String(FONT, x - (17 + nTextOffset), (y + h) - (ratio * h) - 2, Colors::Overheal, ALIGN_CENTERHORIZONTAL, "+%d", nHealth - nMaxHealth);
+					} else {
+						g_Draw.String(FONT, x - (17 + nTextOffset), (y + h) - (ratio * h) - 2, Colors::White, ALIGN_CENTERHORIZONTAL, "%d", nHealth); 
+					}
 				}
 
 				x += 1;
