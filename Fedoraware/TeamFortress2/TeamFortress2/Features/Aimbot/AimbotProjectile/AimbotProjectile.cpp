@@ -321,8 +321,6 @@ bool CAimbotProjectile::SolveProjectile(CBaseEntity* pLocal, CBaseCombatWeapon* 
 		{
 			case TF_WEAPON_GRENADELAUNCHER:
 			case TF_WEAPON_PIPEBOMBLAUNCHER:
-				/*	case TF_WEAPON_STICKBOMB: // What the fuck, why is the caber here
-					case TF_WEAPON_STICKY_BALL_LAUNCHER: This doesn't even exist in game */
 			{
 				Vec3 vDelta = (staticPos.value() - vLocalPos);
 				const float fRange = Math::VectorNormalize(vDelta);
@@ -351,8 +349,6 @@ bool CAimbotProjectile::SolveProjectile(CBaseEntity* pLocal, CBaseCombatWeapon* 
 		{
 			case TF_WEAPON_GRENADELAUNCHER:
 			case TF_WEAPON_PIPEBOMBLAUNCHER:
-		/*	case TF_WEAPON_STICKBOMB: // What the fuck, why is the caber here
-			case TF_WEAPON_STICKY_BALL_LAUNCHER: This doesn't even exist in game */
 			{
 				Vec3 vecOffset(16.0f, 8.0f, -6.0f);
 				Utils::GetProjectileFireSetup(pLocal, pCmd->viewangles, vecOffset, &vLocalPos);
@@ -431,8 +427,6 @@ bool CAimbotProjectile::SolveProjectile(CBaseEntity* pLocal, CBaseCombatWeapon* 
 				{
 					case TF_WEAPON_GRENADELAUNCHER:
 					case TF_WEAPON_PIPEBOMBLAUNCHER:
-				/*	case TF_WEAPON_STICKBOMB: // What the fuck, why is the caber here
-					case TF_WEAPON_STICKY_BALL_LAUNCHER: This doesn't even exist in game */
 					{
 						Vec3 vDelta = (vPredictedPos - vLocalPos);
 						const float fRange = Math::VectorNormalize(vDelta);
@@ -462,8 +456,6 @@ bool CAimbotProjectile::SolveProjectile(CBaseEntity* pLocal, CBaseCombatWeapon* 
 				{
 					case TF_WEAPON_GRENADELAUNCHER:
 					case TF_WEAPON_PIPEBOMBLAUNCHER:
-				/*	case TF_WEAPON_STICKBOMB: // What the fuck, why is the caber here
-					case TF_WEAPON_STICKY_BALL_LAUNCHER: This doesn't even exist in game */
 					{
 						Vec3 vecOffset(16.0f, 8.0f, -6.0f);
 						Utils::GetProjectileFireSetup(pLocal, pCmd->viewangles, vecOffset, &vLocalPos);
@@ -642,7 +634,6 @@ std::optional<Vec3> CAimbotProjectile::GetAimPos(CBaseEntity* pLocal, CBaseEntit
 		I::Cvar->ConsolePrintf("iClassNum	: %d\n", iClassNum);
 	}
 
-
 	switch (iAimMethod)
 	{
 		case 0:
@@ -801,8 +792,6 @@ bool CAimbotProjectile::WillProjectileHit(CBaseEntity* pLocal, CBaseCombatWeapon
 			}
 			case TF_WEAPON_GRENADELAUNCHER:
 			case TF_WEAPON_PIPEBOMBLAUNCHER:
-				/*	case TF_WEAPON_STICKBOMB: // What the fuck, why is the caber here
-					case TF_WEAPON_STICKY_BALL_LAUNCHER: This doesn't even exist in game */
 			{
 				auto vecAngle = Vec3(), vecForward = Vec3(), vecRight = Vec3(), vecUp = Vec3();
 				Math::AngleVectors({ -RAD2DEG(out.m_flPitch), RAD2DEG(out.m_flYaw), 0.0f }, &vecForward, &vecRight, &vecUp);
