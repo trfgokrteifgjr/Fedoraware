@@ -488,7 +488,7 @@ void CVisuals::DrawTickbaseInfo(CBaseEntity* pLocal)
 						g_Draw.String(FONT_INDICATORS, DTBox.c, DTBox.y - 3, { 255, 255, 255, 255 }, ALIGN_CENTERHORIZONTAL, L"%i/%i", G::ShiftedTicks, Vars::Misc::CL_Move::DTTicks.Value);
 						break;
 					}
-					case 6: // deadflag2 - thankz cardinal
+					case 6: // deadflag2 (ascendeds1on gave me this) - was originally made by cardinal
 					{
 
 						int w = 80;
