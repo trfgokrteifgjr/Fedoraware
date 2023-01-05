@@ -398,7 +398,6 @@ void CVisuals::DrawTickbaseInfo(CBaseEntity* pLocal)
 	//Tickbase info
 	if (Vars::Misc::CL_Move::Enabled.Value && Vars::Misc::CL_Move::DTBarStyle.Value)
 	{
-
 		const auto& pWeapon = g_EntityCache.GetWeapon();
 
 		if (pWeapon)
@@ -489,11 +488,103 @@ void CVisuals::DrawTickbaseInfo(CBaseEntity* pLocal)
 						g_Draw.String(FONT_INDICATORS, DTBox.c, DTBox.y - 3, { 255, 255, 255, 255 }, ALIGN_CENTERHORIZONTAL, L"%i/%i", G::ShiftedTicks, Vars::Misc::CL_Move::DTTicks.Value);
 						break;
 					}
-						//hhhs0j — Today at 15:19
-						//Add a dt indicator but only with numbers
+					case 6: // deadflag2 - thankz cardinal
+					{
 
+						int w = 80;
+						int h = 3;
+						int offset = 100;
+						int x = g_ScreenSize.c - w / 2;
+						int y = g_ScreenSize.h / 2 + offset;
+						const float ratio = std::clamp(( (float) (G::ShiftedTicks) / Vars::Misc::CL_Move::DTTicks.Value), 0.0f, 1.0f); // ratioInterp is jittery so we will use this.
+
+						g_Draw.GradientRectWH(x - 1, y - 1, w + 2, h + 2, { 35, 35, 35, 255 }, { 20, 20, 20, 255 }, false);
+						g_Draw.OutlinedRect(x - 1, y - 1, w + 2, h + 2, { 20, 20, 20, 255 });
+						g_Draw.GradientRectWH(x, y, w * ratio, h, { 163, 155, 215, 255 }, { 241, 199, 213, 255 }, true);
+
+						if (G::ShiftedTicks == 0 && !G::Recharging)
+						{
+							g_Draw.String(FONT_INDICATORS, g_ScreenSize.c, g_ScreenSize.h / 2 + offset + g_Draw.m_vecFonts[FONT_INDICATORS].nTall, { 191, 70, 70, 255 }, ALIGN_CENTERHORIZONTAL,
+								L"(RapidFire) Too Expensive %i < %i", 0 - G::ShiftedTicks, Vars::Misc::CL_Move::DTTicks.Value);
+
+							g_Draw.String(FONT_INDICATORS, g_ScreenSize.c, g_ScreenSize.h / 2 + offset + g_Draw.m_vecFonts[FONT_INDICATORS].nTall * 2, { 191, 70, 70, 255 }, ALIGN_CENTERHORIZONTAL,
+								L"", 0 - G::ShiftedTicks, Vars::Misc::CL_Move::DTTicks.Value);
+						}
+
+						else if (G::Recharging)
+						{
+							g_Draw.String(FONT_INDICATORS, g_ScreenSize.c, g_ScreenSize.h / 2 + offset + g_Draw.m_vecFonts[FONT_INDICATORS].nTall, { 191, 121, 50, 255 }, ALIGN_CENTERHORIZONTAL,
+								L"(Recharging) %i/%i", Vars::Misc::CL_Move::DTTicks.Value - G::ShiftedTicks, Vars::Misc::CL_Move::DTTicks.Value);
+						}
+
+						else if (G::WaitForShift)
+						{
+							g_Draw.String(FONT_INDICATORS, g_ScreenSize.c, g_ScreenSize.h / 2 + offset + g_Draw.m_vecFonts[FONT_INDICATORS].nTall, { 191, 121, 50, 255 }, ALIGN_CENTERHORIZONTAL,
+								L"(RapidFire) Wait %i/%i", G::WaitForShift, Vars::Misc::CL_Move::DTTicks.Value);
+
+							g_Draw.String(FONT_INDICATORS, g_ScreenSize.c, g_ScreenSize.h / 2 + offset + g_Draw.m_vecFonts[FONT_INDICATORS].nTall * 2, { 60, 160, 110, 255 }, ALIGN_CENTERHORIZONTAL,
+								L"");
+						}
+
+						else if (pLocal->GetClassNum() == CLASS_SNIPER && pWeapon->GetSlot() == SLOT_PRIMARY) // sniper rifle does not work well with rapidfire
+						{
+							g_Draw.String(FONT_INDICATORS, g_ScreenSize.c, g_ScreenSize.h / 2 + offset + g_Draw.m_vecFonts[FONT_INDICATORS].nTall, { 60, 160, 110, 255 }, ALIGN_CENTERHORIZONTAL,
+								L"(RapidFire) Ready");
+
+							g_Draw.String(FONT_INDICATORS, g_ScreenSize.c, g_ScreenSize.h / 2 + offset + g_Draw.m_vecFonts[FONT_INDICATORS].nTall * 2, { 60, 160, 110, 255 }, ALIGN_CENTERHORIZONTAL,
+								L"");
+							Vars::Misc::CL_Move::DTMode.Value = 3;
+							Vars::Backtrack::Enabled.Value = false;
+						}
+
+						else if (pLocal->GetClassNum() == CLASS_PYRO && pWeapon->GetSlot() == SLOT_PRIMARY) // flame thrower does not work well with rapidfire
+						{
+							g_Draw.String(FONT_INDICATORS, g_ScreenSize.c, g_ScreenSize.h / 2 + offset + g_Draw.m_vecFonts[FONT_INDICATORS].nTall, { 191, 70, 70, 255 }, ALIGN_CENTERHORIZONTAL,
+								L"(RapidFire) Weapon Not Supported");
+
+							g_Draw.String(FONT_INDICATORS, g_ScreenSize.c, g_ScreenSize.h / 2 + offset + g_Draw.m_vecFonts[FONT_INDICATORS].nTall * 2, { 60, 160, 110, 255 }, ALIGN_CENTERHORIZONTAL,
+								L"");
+							Vars::Misc::CL_Move::DTMode.Value = 3;
+							Vars::Backtrack::Enabled.Value = false;
+						}
+						else if (pLocal->GetClassNum() == CLASS_SOLDIER && pWeapon->GetSlot() == SLOT_PRIMARY) // rocket launcher does not work well with rapidfire
+						{
+							g_Draw.String(FONT_INDICATORS, g_ScreenSize.c, g_ScreenSize.h / 2 + offset + g_Draw.m_vecFonts[FONT_INDICATORS].nTall, { 60, 160, 110, 255 }, ALIGN_CENTERHORIZONTAL,
+								L"(RapidFire) Ready");
+
+							g_Draw.String(FONT_INDICATORS, g_ScreenSize.c, g_ScreenSize.h / 2 + offset + g_Draw.m_vecFonts[FONT_INDICATORS].nTall * 2, { 60, 160, 110, 255 }, ALIGN_CENTERHORIZONTAL,
+								L"");
+							Vars::Misc::CL_Move::DTMode.Value = 3;
+							Vars::Backtrack::Enabled.Value = false;
+						}
+						else if (pLocal->GetClassNum() == CLASS_DEMOMAN && pWeapon->GetSlot() == SLOT_SECONDARY) // sticky launcher does not work well with rapidfire
+						{
+							g_Draw.String(FONT_INDICATORS, g_ScreenSize.c, g_ScreenSize.h / 2 + offset + g_Draw.m_vecFonts[FONT_INDICATORS].nTall, { 191, 70, 70, 255 }, ALIGN_CENTERHORIZONTAL,
+								L"(RapidFire) Weapon Not Supported");
+
+							g_Draw.String(FONT_INDICATORS, g_ScreenSize.c, g_ScreenSize.h / 2 + offset + g_Draw.m_vecFonts[FONT_INDICATORS].nTall * 2, { 60, 160, 110, 255 }, ALIGN_CENTERHORIZONTAL,
+								L"");
+							Vars::Misc::CL_Move::DTMode.Value = 3;
+							Vars::Backtrack::Enabled.Value = false;
+						}
+						else if (pWeapon->GetSlot() == SLOT_MELEE) // melee does not work well with rapidfire
+						{
+							g_Draw.String(FONT_INDICATORS, g_ScreenSize.c, g_ScreenSize.h / 2 + offset + g_Draw.m_vecFonts[FONT_INDICATORS].nTall, { 191, 70, 70, 255 }, ALIGN_CENTERHORIZONTAL,
+								L"(RapidFire) Weapon Not Supported");
+
+							g_Draw.String(FONT_INDICATORS, g_ScreenSize.c, g_ScreenSize.h / 2 + offset + g_Draw.m_vecFonts[FONT_INDICATORS].nTall * 2, { 60, 160, 110, 255 }, ALIGN_CENTERHORIZONTAL,
+								L"");
+							Vars::Misc::CL_Move::DTMode.Value = 3;
+							Vars::Backtrack::Enabled.Value = true; // sweet sweet melee backtrack
+						}
+						else if (pLocal->GetClassNum() == CLASS_DEMOMAN && pWeapon->GetSlot() == SLOT_PRIMARY) // i forgor that the grenade launcher messes with aimbot
+						{
+							g_Draw.String(FONT_INDICATORS, g_ScreenSize.c, g_ScreenSize.h / 2 + offset + g_Draw.m_vecFonts[FONT_INDICATORS].nTall, { 60, 160, 110, 255 }, ALIGN_CENTERHORIZONTAL,
+								L"(RapidFire) Ready");
+
+						}
+					}
 				}
-
 			}
 		}
 	}
@@ -550,7 +641,7 @@ void CVisuals::DrawMenuSnow()
 		{
 //	do gravity
 			constexpr int drift = 1;
-			flake.position.first += Utils::RandFloatRange(-drift, drift);
+			flake.position.first += Utils::RandIntSimple(-drift, drift);
 			flake.position.second += drift;
 
 			//	calculate alpha

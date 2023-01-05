@@ -135,7 +135,7 @@ void CTickshiftHandler::CLMove(float accumulated_extra_samples, bool bFinalTick)
 		if (iAvailableTicks <= Vars::Misc::CL_Move::DTTicks.Value) { return; }
 		bRecharge = false;
 		G::RechargeQueued = false;
-		G::WaitForShift = iTickRate - Vars::Misc::CL_Move::DTTicks.Value;
+		G::WaitForShift = Vars::Misc::CL_Move::DTTicks.Value;
 	}
 
 	if (bDoubletap)
