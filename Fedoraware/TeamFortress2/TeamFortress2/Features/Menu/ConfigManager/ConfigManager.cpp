@@ -550,8 +550,6 @@ bool CConfigManager::SaveConfig(const std::string& configName)
 				SAVE_VAR(Vars::Misc::CL_Move::RechargeWhileDead);
 				SAVE_VAR(Vars::Misc::CL_Move::AutoRecharge);
 				SAVE_VAR(Vars::Misc::CL_Move::AntiWarp);
-				SAVE_VAR(Vars::Misc::CL_Move::DTBarStyle);
-				SAVE_OTHER(Vars::Misc::CL_Move::DTIndicator);
 				SAVE_VAR(Vars::Misc::CL_Move::DTMode);
 				SAVE_VAR(Vars::Misc::CL_Move::Fakelag); // { 0x52, L"Recharge Key" }; //R
 				SAVE_VAR(Vars::Misc::CL_Move::FakelagMin);
@@ -933,8 +931,6 @@ bool CConfigManager::LoadConfig(const std::string& configName)
 				LOAD_VAR(Vars::Misc::CL_Move::AutoRecharge);
 				LOAD_VAR(Vars::Misc::CL_Move::AntiWarp);
 				LOAD_VAR(Vars::Misc::CL_Move::DoubletapKey); // { 0x52, L"Recharge Key" }; //R
-				LOAD_VAR(Vars::Misc::CL_Move::DTBarStyle);
-				LOAD_OTHER(Vars::Misc::CL_Move::DTIndicator);
 				LOAD_VAR(Vars::Misc::CL_Move::DTMode);
 				LOAD_VAR(Vars::Misc::CL_Move::Fakelag); // { 0x52, L"Recharge Key" }; //R
 				LOAD_VAR(Vars::Misc::CL_Move::FakelagMin);
@@ -1037,6 +1033,8 @@ bool CConfigManager::SaveVisual(const std::string& configName)
 		SAVE_VAR(Vars::Menu::Vignette);
 		SAVE_VAR(Vars::Menu::ShowDVD);
 		SAVE_VAR(Vars::Menu::CloseOnUnfocus);		
+		SAVE_VAR(Vars::Misc::CL_Move::DTBarStyle);
+		SAVE_OTHER(Vars::Misc::CL_Move::DTIndicator);
 		SAVE_VAR(Vars::Backtrack::BtChams::Enabled);
 		SAVE_VAR(Vars::Backtrack::BtChams::LastOnly);
 		SAVE_VAR(Vars::Backtrack::BtChams::EnemyOnly);
@@ -1402,6 +1400,8 @@ bool CConfigManager::LoadVisual(const std::string& configName)
 		LOAD_VAR(Vars::Menu::Vignette);
 		LOAD_VAR(Vars::Menu::ShowDVD);
 		LOAD_VAR(Vars::Menu::CloseOnUnfocus);
+		LOAD_VAR(Vars::Misc::CL_Move::DTBarStyle);
+		LOAD_OTHER(Vars::Misc::CL_Move::DTIndicator);
 		LOAD_VAR(Vars::Backtrack::BtChams::Enabled);
 		LOAD_VAR(Vars::Backtrack::BtChams::LastOnly);
 		LOAD_VAR(Vars::Backtrack::BtChams::EnemyOnly);
