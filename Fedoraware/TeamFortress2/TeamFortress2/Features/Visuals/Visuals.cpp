@@ -514,78 +514,20 @@ void CVisuals::DrawTickbaseInfo(CBaseEntity* pLocal)
 							g_Draw.String(FONT_INDICATORS, g_ScreenSize.c, g_ScreenSize.h / 2 + offset + g_Draw.m_vecFonts[FONT_INDICATORS].nTall * 2, { 191, 70, 70, 255 }, ALIGN_CENTERHORIZONTAL,
 								L"", 0 - G::ShiftedTicks, Vars::Misc::CL_Move::DTTicks.Value);
 						}
-
 						else if (G::Recharging)
 						{
 							g_Draw.String(FONT_INDICATORS, g_ScreenSize.c, g_ScreenSize.h / 2 + offset + g_Draw.m_vecFonts[FONT_INDICATORS].nTall, { 191, 121, 50, 255 }, ALIGN_CENTERHORIZONTAL,
 								L"(Recharging) %i/%i", Vars::Misc::CL_Move::DTTicks.Value - G::ShiftedTicks, Vars::Misc::CL_Move::DTTicks.Value);
 						}
-
 						else if (G::WaitForShift)
 						{
 							g_Draw.String(FONT_INDICATORS, g_ScreenSize.c, g_ScreenSize.h / 2 + offset + g_Draw.m_vecFonts[FONT_INDICATORS].nTall, { 191, 121, 50, 255 }, ALIGN_CENTERHORIZONTAL,
 								L"(RapidFire) Wait %i/%i", G::WaitForShift, Vars::Misc::CL_Move::DTTicks.Value);
-
-							g_Draw.String(FONT_INDICATORS, g_ScreenSize.c, g_ScreenSize.h / 2 + offset + g_Draw.m_vecFonts[FONT_INDICATORS].nTall * 2, { 60, 160, 110, 255 }, ALIGN_CENTERHORIZONTAL,
-								L"");
 						}
-
-						else if (pLocal->GetClassNum() == CLASS_SNIPER && pWeapon->GetSlot() == SLOT_PRIMARY) // sniper rifle does not work well with rapidfire
+						else
 						{
 							g_Draw.String(FONT_INDICATORS, g_ScreenSize.c, g_ScreenSize.h / 2 + offset + g_Draw.m_vecFonts[FONT_INDICATORS].nTall, { 60, 160, 110, 255 }, ALIGN_CENTERHORIZONTAL,
 								L"(RapidFire) Ready");
-
-							g_Draw.String(FONT_INDICATORS, g_ScreenSize.c, g_ScreenSize.h / 2 + offset + g_Draw.m_vecFonts[FONT_INDICATORS].nTall * 2, { 60, 160, 110, 255 }, ALIGN_CENTERHORIZONTAL,
-								L"");
-							Vars::Misc::CL_Move::DTMode.Value = 3;
-							Vars::Backtrack::Enabled.Value = false;
-						}
-
-						else if (pLocal->GetClassNum() == CLASS_PYRO && pWeapon->GetSlot() == SLOT_PRIMARY) // flame thrower does not work well with rapidfire
-						{
-							g_Draw.String(FONT_INDICATORS, g_ScreenSize.c, g_ScreenSize.h / 2 + offset + g_Draw.m_vecFonts[FONT_INDICATORS].nTall, { 191, 70, 70, 255 }, ALIGN_CENTERHORIZONTAL,
-								L"(RapidFire) Weapon Not Supported");
-
-							g_Draw.String(FONT_INDICATORS, g_ScreenSize.c, g_ScreenSize.h / 2 + offset + g_Draw.m_vecFonts[FONT_INDICATORS].nTall * 2, { 60, 160, 110, 255 }, ALIGN_CENTERHORIZONTAL,
-								L"");
-							Vars::Misc::CL_Move::DTMode.Value = 3;
-							Vars::Backtrack::Enabled.Value = false;
-						}
-						else if (pLocal->GetClassNum() == CLASS_SOLDIER && pWeapon->GetSlot() == SLOT_PRIMARY) // rocket launcher does not work well with rapidfire
-						{
-							g_Draw.String(FONT_INDICATORS, g_ScreenSize.c, g_ScreenSize.h / 2 + offset + g_Draw.m_vecFonts[FONT_INDICATORS].nTall, { 60, 160, 110, 255 }, ALIGN_CENTERHORIZONTAL,
-								L"(RapidFire) Ready");
-
-							g_Draw.String(FONT_INDICATORS, g_ScreenSize.c, g_ScreenSize.h / 2 + offset + g_Draw.m_vecFonts[FONT_INDICATORS].nTall * 2, { 60, 160, 110, 255 }, ALIGN_CENTERHORIZONTAL,
-								L"");
-							Vars::Misc::CL_Move::DTMode.Value = 3;
-							Vars::Backtrack::Enabled.Value = false;
-						}
-						else if (pLocal->GetClassNum() == CLASS_DEMOMAN && pWeapon->GetSlot() == SLOT_SECONDARY) // sticky launcher does not work well with rapidfire
-						{
-							g_Draw.String(FONT_INDICATORS, g_ScreenSize.c, g_ScreenSize.h / 2 + offset + g_Draw.m_vecFonts[FONT_INDICATORS].nTall, { 191, 70, 70, 255 }, ALIGN_CENTERHORIZONTAL,
-								L"(RapidFire) Weapon Not Supported");
-
-							g_Draw.String(FONT_INDICATORS, g_ScreenSize.c, g_ScreenSize.h / 2 + offset + g_Draw.m_vecFonts[FONT_INDICATORS].nTall * 2, { 60, 160, 110, 255 }, ALIGN_CENTERHORIZONTAL,
-								L"");
-							Vars::Misc::CL_Move::DTMode.Value = 3;
-							Vars::Backtrack::Enabled.Value = false;
-						}
-						else if (pWeapon->GetSlot() == SLOT_MELEE) // melee does not work well with rapidfire
-						{
-							g_Draw.String(FONT_INDICATORS, g_ScreenSize.c, g_ScreenSize.h / 2 + offset + g_Draw.m_vecFonts[FONT_INDICATORS].nTall, { 191, 70, 70, 255 }, ALIGN_CENTERHORIZONTAL,
-								L"(RapidFire) Weapon Not Supported");
-
-							g_Draw.String(FONT_INDICATORS, g_ScreenSize.c, g_ScreenSize.h / 2 + offset + g_Draw.m_vecFonts[FONT_INDICATORS].nTall * 2, { 60, 160, 110, 255 }, ALIGN_CENTERHORIZONTAL,
-								L"");
-							Vars::Misc::CL_Move::DTMode.Value = 3;
-							Vars::Backtrack::Enabled.Value = true; // sweet sweet melee backtrack
-						}
-						else if (pLocal->GetClassNum() == CLASS_DEMOMAN && pWeapon->GetSlot() == SLOT_PRIMARY) // i forgor that the grenade launcher messes with aimbot
-						{
-							g_Draw.String(FONT_INDICATORS, g_ScreenSize.c, g_ScreenSize.h / 2 + offset + g_Draw.m_vecFonts[FONT_INDICATORS].nTall, { 60, 160, 110, 255 }, ALIGN_CENTERHORIZONTAL,
-								L"(RapidFire) Ready");
-
 						}
 					}
 				}
