@@ -218,7 +218,7 @@ public: //Everything else, lol
 
 	__inline bool DoSwingTrace(CGameTrace& Trace)
 	{
-		return GetVFunc<int(__thiscall*)(CGameTrace&)>(this, 453)(Trace);
+		return GetVFunc<int(__thiscall*)(CGameTrace&)>(this, 454)(Trace);
 	}
 
 	__inline int LookupAttachment(const char* pAttachmentName)
@@ -246,7 +246,7 @@ public: //Everything else, lol
 
 	__inline bool CanFireRandomCriticalShot(const float flCritChance)
 	{
-		return GetVFunc<bool(__thiscall*)(decltype(this), float)>(this, 423)(this, flCritChance);
+		return GetVFunc<bool(__thiscall*)(decltype(this), float)>(this, 424)(this, flCritChance);
 	}
 
 	__inline bool CanWeaponHeadShot()
@@ -381,13 +381,13 @@ public: //Everything else, lol
 	__inline bool CalcIsAttackCriticalHelperNoCrits(CBaseEntity* pWeapon)
 	{
 		typedef bool (*fn_t)(CBaseEntity*);
-		return GetVFunc<fn_t>(pWeapon, 463, 0)(pWeapon);
+		return GetVFunc<fn_t>(pWeapon, 464, 0)(pWeapon);
 	}
 
 	//__inline bool CanFireCriticalShot(CBaseEntity* pWeapon)		// this does not fucking work no matter what i do and i have no idea why :DDD
 	//{
 	//	typedef bool (*fn_t)(CBaseEntity*, bool, CBaseEntity*);
-	//	return GetVFunc<fn_t>(this, 491)(pWeapon, false, nullptr);
+	//	return GetVFunc<fn_t>(this, 492)(pWeapon, false, nullptr);
 	//}
 
 	__inline Vec3 GetSpreadAngles()
@@ -435,6 +435,6 @@ class CTFWeaponInvis : public CBaseCombatWeapon
 public:
 	__inline bool HasFeignDeath()
 	{
-		return static_cast<bool>(GetVFunc<bool(__thiscall*)(CTFWeaponInvis*)>(this, 522));
+		return static_cast<bool>(GetVFunc<bool(__thiscall*)(CTFWeaponInvis*)>(this, 523));
 	}
 };
