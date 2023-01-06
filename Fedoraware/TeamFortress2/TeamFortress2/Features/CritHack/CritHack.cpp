@@ -77,192 +77,14 @@ bool CCritHack::IsAttacking(const CUserCmd* pCmd, CBaseCombatWeapon* pWeapon)
 	return false;
 }
 
-bool CCritHack::NoRandomCrits()
+bool CCritHack::NoRandomCrits(CBaseCombatWeapon* pWeapon)
 {
-	switch (G::CurItemDefIndex)
+	float CritChance = Utils::ATTRIB_HOOK_FLOAT(1, "mult_crit_chance", pWeapon, 0, 1);
+	if (CritChance == 0)
 	{
-		// Scout
-		case Scout_s_TheFlyingGuillotine:
-		case Scout_s_TheFlyingGuillotineG:
-		case Scout_s_BonkAtomicPunch:
-		case Scout_s_MadMilk:
-		case Scout_s_MutatedMilk:
-		{
-			return true;
-			break;
-		}
-
-		// Soldier
-		case Soldier_m_TheCowMangler5000:
-		case Soldier_m_RocketJumper:
-		case Soldier_s_TheBuffBanner:
-		case Soldier_s_FestiveBuffBanner:
-		case Soldier_s_TheBattalionsBackup:
-		case Soldier_s_TheConcheror:
-		case Soldier_s_TheBASEJumper:
-		case Soldier_s_Gunboats:
-		case Soldier_s_TheMantreads:
-		case Soldier_t_TheMarketGardener:
-		{
-			return true;
-			break;
-		}
-
-		// Pyro
-		case Pyro_m_TheBackburner:
-		case Pyro_m_FestiveBackburner:
-		case Pyro_m_DragonsFury:
-		case Pyro_s_TheManmelter:
-		case Pyro_s_GasPasser:
-		case Pyro_s_ThermalThruster:
-		case Pyro_t_NeonAnnihilator:
-		case Pyro_t_NeonAnnihilatorG:
-		{
-			return true;
-			break;
-		}
-
-		// Demoman
-		case Demoman_m_AliBabasWeeBooties:
-		case Demoman_m_TheBootlegger:
-		case Demoman_s_StickyJumper:
-		case Demoman_s_TheCharginTarge:
-		case Demoman_s_TheSplendidScreen:
-		case Demoman_s_TheTideTurner:
-		case Demoman_t_TheEyelander:
-		case Demoman_t_FestiveEyelander:
-		case Demoman_t_HorselessHeadlessHorsemannsHeadtaker:
-		case Demoman_t_NessiesNineIron:
-		case Demoman_t_TheClaidheamhMor:
-		case Demoman_t_UllapoolCaber:
-		case Demoman_t_TheHalfZatoichi:
-		case Demoman_t_ThePersianPersuader:
-		{
-			return true;
-			break;
-		}
-
-		// Heavy
-		case Heavy_s_Sandvich:
-		case Heavy_s_TheDalokohsBar:
-		case Heavy_s_TheBuffaloSteakSandvich:
-		case Heavy_s_Fishcake:
-		case Heavy_s_RoboSandvich:
-		case Heavy_s_SecondBanana:
-		{
-			return true;
-			break;
-		}
-
-		// Engineer
-		case Engi_m_TheFrontierJustice:
-		case Engi_m_FestiveFrontierJustice:
-		case Engi_s_TheShortCircuit:
-		case Engi_s_TheWrangler:
-		case Engi_s_FestiveWrangler:
-		case Engi_s_TheGigarCounter:
-		case Engi_t_TheGunslinger:
-		case Engi_t_TheSouthernHospitality:
-		{
-			return true;
-			break;
-		}
-
-		// Medic
-		case Medic_s_MediGun:
-		case Medic_s_SilverBotkillerMediGunMkI:
-		case Medic_s_GoldBotkillerMediGunMkI:
-		case Medic_s_RustBotkillerMediGunMkI:
-		case Medic_s_BloodBotkillerMediGunMkI:
-		case Medic_s_CarbonadoBotkillerMediGunMkI:
-		case Medic_s_DiamondBotkillerMediGunMkI:
-		case Medic_s_SilverBotkillerMediGunMkII:
-		case Medic_s_GoldBotkillerMediGunMkII:
-		case Medic_s_FestiveMediGun:
-		case Medic_s_TheKritzkrieg:
-		case Medic_s_TheQuickFix:
-		case Medic_s_TheVaccinator:
-		{
-			return true;
-			break;
-		}
-
-		// Sniper
-		case Sniper_m_SniperRifle:
-		case Sniper_m_SniperRifleR:
-		case Sniper_m_BloodBotkillerSniperRifleMkI:
-		case Sniper_m_CarbonadoBotkillerSniperRifleMkI:
-		case Sniper_m_DiamondBotkillerSniperRifleMkI:
-		case Sniper_m_FestiveSniperRifle:
-		case Sniper_m_GoldBotkillerSniperRifleMkI:
-		case Sniper_m_GoldBotkillerSniperRifleMkII:
-		case Sniper_m_RustBotkillerSniperRifleMkI:
-		case Sniper_m_SilverBotkillerSniperRifleMkI:
-		case Sniper_m_SilverBotkillerSniperRifleMkII:
-		case Sniper_m_TheAWPerHand:
-		case Sniper_m_TheMachina:
-		case Sniper_m_ShootingStar:
-		case Sniper_m_TheBazaarBargain:
-		case Sniper_m_TheHitmansHeatmaker:
-		case Sniper_m_TheHuntsman:
-		case Sniper_m_TheFortifiedCompound:
-		case Sniper_m_TheClassic:
-		case Sniper_m_TheSydneySleeper:
-		case Sniper_s_Jarate:
-		case Sniper_s_FestiveJarate:
-		case Sniper_s_TheSelfAwareBeautyMark:
-		case Sniper_s_CozyCamper:
-		case Sniper_s_TheRazorback:
-		case Sniper_s_DarwinsDangerShield:
-		case Sniper_t_TheBushwacka:
-		{
-			return true;
-			break;
-		}
-
-		// Spy
-		case Spy_m_TheEnforcer:
-		case Spy_m_TheAmbassador:
-		case Spy_m_FestiveAmbassador:
-		case Spy_m_TheDiamondback:
-		case Spy_s_Sapper:
-		case Spy_s_FestiveSapper:
-		case Spy_s_SapperR:
-		case Spy_s_TheRedTapeRecorder:
-		case Spy_s_TheRedTapeRecorderG:
-		case Spy_s_TheApSapG:
-		case Spy_s_TheSnackAttack:
-		case Spy_d_DisguiseKitPDA:
-		case Spy_t_Knife:
-		case Spy_t_KnifeR:
-		case Spy_t_TheBlackRose:
-		case Spy_t_FestiveKnife:
-		case Spy_t_TheWangaPrick:
-		case Spy_t_TheSharpDresser:
-		case Spy_t_TheBigEarner:
-		case Spy_t_ConniversKunai:
-		case Spy_t_TheSpycicle:
-		case Spy_t_YourEternalReward:
-		case Spy_t_SilverBotkillerKnifeMkI:
-		case Spy_t_GoldBotkillerKnifeMkI:
-		case Spy_t_RustBotkillerKnifeMkI:
-		case Spy_t_BloodBotkillerKnifeMkI:
-		case Spy_t_CarbonadoBotkillerKnifeMkI:
-		case Spy_t_DiamondBotkillerKnifeMkI:
-		case Spy_t_SilverBotkillerKnifeMkII:
-		case Spy_t_GoldBotkillerKnifeMkII:
-		case Spy_w_InvisWatch:
-		case Spy_w_InvisWatchR:
-		case Spy_w_TheCloakandDagger:
-		case Spy_w_TheDeadRinger:
-		case Spy_w_EnthusiastsTimepiece:
-		case Spy_w_TheQuackenbirdt:
-		{
-			return true;
-			break;
-		}
-		default: break;
+		return true;
 	}
+	else 
 	return false;
 }
 
@@ -514,7 +336,7 @@ void CCritHack::Draw()
 		g_Draw.String(FONT_INDICATORS, x, currentY += 15, { 255, 255, 255, 255, }, ALIGN_CENTERHORIZONTAL, tfm::format("%x", reinterpret_cast<float*>(pWeapon + 0xA54)).c_str());
 	}
 	// Are we currently forcing crits?
-	if (ShouldCrit() && NoRandomCrits() == false)
+	if (ShouldCrit() && NoRandomCrits(pWeapon) == false)
 	{
 		if (CritTicks.size() > 0)
 		{ 
@@ -522,7 +344,7 @@ void CCritHack::Draw()
 		}
 	}
 	//Can this weapon do random crits?
-	if (NoRandomCrits() == true)
+	if (NoRandomCrits(pWeapon) == true)
 	{
 		g_Draw.String(FONT_INDICATORS, x, currentY += 15, { 255, 95, 95, 255 }, ALIGN_CENTERHORIZONTAL, L"No Random Crits");
 	}
@@ -534,7 +356,8 @@ void CCritHack::Draw()
 	static auto tf_weapon_criticals_bucket_cap = g_ConVars.FindVar("tf_weapon_criticals_bucket_cap");
 	const float bucketCap = tf_weapon_criticals_bucket_cap->GetFloat();
 	const std::wstring bucketstr = L"Bucket: " + std::to_wstring(static_cast<int>(bucket)) + L"/" + std::to_wstring(static_cast<int>(bucketCap));
-	if (NoRandomCrits() == false)
+	// crit bucket string (this sucks)
+	if (NoRandomCrits(pWeapon) == false)
 	{
 		g_Draw.String(FONT_INDICATORS, x, currentY += 15, { 181, 181, 181, 255 }, ALIGN_CENTERHORIZONTAL, bucketstr.c_str());
 	}
@@ -544,7 +367,7 @@ void CCritHack::Draw()
 	{
 		longestW = w;
 	}
-	if (Vars::Debug::DebugInfo.Value && NoRandomCrits() == false)
+	if (Vars::Debug::DebugInfo.Value)
 	{
 		const std::wstring seedText = L"m_nCritSeedRequests: " + std::to_wstring(seedRequests);
 		const std::wstring FoundCrits = L"Found Crit Ticks: " + std::to_wstring(CritTicks.size());
