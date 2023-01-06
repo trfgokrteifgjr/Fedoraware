@@ -86,6 +86,41 @@ bool CCritHack::NoRandomCrits(CBaseCombatWeapon* pWeapon)
 	}
 	else 
 	return false;
+	//list of weapons that cant random crit, but dont have the attribute for it
+	switch (pWeapon->GetWeaponID())
+	{
+		//scout
+		case TF_WEAPON_JAR_MILK:
+		//soldier
+		case TF_WEAPON_BUFF_ITEM:
+		//pyro
+		case TF_WEAPON_JAR_GAS:
+		case TF_WEAPON_FLAMETHROWER_ROCKET:
+		case TF_WEAPON_ROCKETPACK:
+		//demo
+		case TF_WEAPON_PARACHUTE: //also for soldier
+		//heavy
+		case TF_WEAPON_LUNCHBOX:
+		//engineer
+		case TF_WEAPON_PDA_ENGINEER_BUILD:
+		case TF_WEAPON_PDA_ENGINEER_DESTROY:
+		case TF_WEAPON_LASER_POINTER:
+		//medic
+		case TF_WEAPON_MEDIGUN:
+		//sniper
+		case TF_WEAPON_SNIPERRIFLE:
+		case TF_WEAPON_SNIPERRIFLE_CLASSIC:
+		case TF_WEAPON_SNIPERRIFLE_DECAP:
+		case TF_WEAPON_COMPOUND_BOW:
+		case TF_WEAPON_JAR:
+		//spy
+		case TF_WEAPON_KNIFE:
+		case TF_WEAPON_PDA_SPY_BUILD:
+		case TF_WEAPON_PDA_SPY:
+			return true;
+			break;
+		default: return false; break;
+	}
 }
 
 bool CCritHack::ShouldCrit()
