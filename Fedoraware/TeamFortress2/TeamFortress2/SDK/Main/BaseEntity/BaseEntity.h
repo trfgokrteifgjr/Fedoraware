@@ -69,7 +69,7 @@ public:
 class CBaseEntity
 {
 public: //Netvars & conditions
-	M_DYNVARGET(NextNoiseMakerTime, float, this, "DT_TFPlayer", "m_Shared", "m_flNextNoiseMakerTime")
+		M_DYNVARGET(NextNoiseMakerTime, float, this, "DT_TFPlayer", "m_Shared", "m_flNextNoiseMakerTime")
 		M_DYNVARGET(FeignDeathReady, bool, this, "DT_TFPlayer", "m_Shared", "m_bFeignDeathReady")
 		M_DYNVARGET(StepSize, float, this, "DT_BasePlayer", "localdata", "m_flStepSize")
 		M_DYNVARGET(ConveyorSpeed, float, this, "DT_FuncConveyor", "m_flConveyorSpeed")
@@ -83,7 +83,7 @@ public: //Netvars & conditions
 		M_DYNVARGET(TickBase, int, this, "DT_BasePlayer", "localdata", "m_nTickBase")
 		M_DYNVARGET(SimulationTime, float, this, "DT_BaseEntity", "m_flSimulationTime")
 		M_DYNVARGET(OldSimulationTime, float, (this + 0x4), "DT_BaseEntity", "m_flSimulationTime");
-	M_DYNVARGET(hOwner, int, this, "DT_BaseEntity", "m_hOwnerEntity")
+		M_DYNVARGET(hOwner, int, this, "DT_BaseEntity", "m_hOwnerEntity")
 		M_DYNVARGET(Health, int, this, "DT_BasePlayer", "m_iHealth")
 		M_DYNVARGET(TeamNum, int, this, "DT_BaseEntity", "m_iTeamNum")
 		M_DYNVARGET(Flags, int, this, "DT_BasePlayer", "m_fFlags")

@@ -110,7 +110,7 @@ public: //Everything else, lol
 
 		static auto C_EconItemView_GetStaticData = reinterpret_cast<void* (__thiscall*)(void*)>(
 			g_Pattern.Find(L"client.dll", L"0F B7 41 24 50 E8 ? ? ? ? 8B C8 E8 ? ? ? ? 6A 00 68 ? ? ? ? 68 ? ? ? ? 6A 00 50 E8 ? ? ? ? 83 C4 14 C3")
-			);
+			); 
 
 		void* pItem = m_Item();
 
