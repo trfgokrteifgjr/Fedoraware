@@ -142,12 +142,12 @@ bool CMovementSimulation::Initialize(CBaseEntity* pPlayer)
 		//for some reason if xy vel is zero it doesn't predict
 		if (fabsf(pPlayer->m_vecVelocity().x) < 0.01f)
 		{
-			pPlayer->m_vecVelocity().x = 0.015f;
+			pPlayer->m_vecVelocity().x = 0.011f;
 		}
 
 		if (fabsf(pPlayer->m_vecVelocity().y) < 0.01f)
 		{
-			pPlayer->m_vecVelocity().y = 0.015f;
+			pPlayer->m_vecVelocity().y = 0.011f;
 		}
 	}
 
