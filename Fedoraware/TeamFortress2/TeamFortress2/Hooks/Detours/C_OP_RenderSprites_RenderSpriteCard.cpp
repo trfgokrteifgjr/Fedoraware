@@ -30,7 +30,7 @@ struct SpriteRenderInfo_t
     void* m_pParticles{};
 };
 
-//rainbow speed!!! separated from other rainbow shit so that it doesnt mess with everything
+//rainbow speed!!! separated from other rainbow shit so that it doesnt mess with everything (directly pasted from utils)
 __inline Color_t Rainbow(float offset = 0.f)
 {
     return
