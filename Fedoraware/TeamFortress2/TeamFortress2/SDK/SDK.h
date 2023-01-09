@@ -759,7 +759,7 @@ namespace Utils
 		pCmd->upmove = result.z * scale;
 	}
 
-	__inline void StopMovement(CUserCmd* pCmd, bool safe = true) {
+/*	__inline void StopMovement(CUserCmd* pCmd, bool safe = true) {
 		if (safe && G::IsAttacking) { return; }
 
 		if (CBaseEntity* pLocal = g_EntityCache.GetLocal()) {
@@ -768,6 +768,22 @@ namespace Utils
 			pCmd->viewangles.y = direction;
 			pCmd->viewangles.z = 0;
 			pCmd->sidemove = 0; pCmd->forwardmove = 0;
+			G::ShouldStop = false;
+		}
+	}*/
+
+	__inline void StopMovement(CUserCmd* pCmd) 
+	{
+		if (G::ShouldStop)
+		{
+			CBaseEntity* pLocal = g_EntityCache.GetLocal();
+			if (G::ShiftedTicks % 6)
+			{
+				pCmd->viewangles.x = 90.f;
+				pCmd->viewangles.y = Math::VelocityToAngles(pLocal->m_vecVelocity()).y;
+				pCmd->forwardmove = 0.0f;
+				pCmd->sidemove = 0.0f;
+			}
 			G::ShouldStop = false;
 		}
 	}
