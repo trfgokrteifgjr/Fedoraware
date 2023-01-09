@@ -51,14 +51,23 @@ bool CCheaterDetection::ShouldScanEntity(CBaseEntity* pEntity)
 	PlayerInfo_t pInfo{};
 	if (!I::EngineClient->GetPlayerInfo(iIndex, &pInfo)) { return false; }
 
-	// dont scan ignored players, friends, or players already marked as cheaters
-	switch (G::PlayerPriority[pInfo.friendsID].Mode)
+	// dont scan friends, or players already marked as cheaters
+	switch (G::PlayerPriority[pInfo.friendsID].Mode) 
 	{
-		case 0: case 1: case 4:
-		{ return false; }
+		case 0:
+		case 4:
+		return false;
+	}
+	if(g_EntityCache.IsFriend(pEntity->GetIndex())) //first check only gets based off of playerlist, so do another check for steam friends
+	{
+		return false;
 	}
 
-	if (!mData[pEntity].flJoinTime) { mData[pEntity].flJoinTime = I::GlobalVars->curtime; return false; }
+	if (!mData[pEntity].flJoinTime) 
+	{ 
+		mData[pEntity].flJoinTime = I::GlobalVars->curtime; 
+		return false; 
+	}
 
 	return true;
 }
