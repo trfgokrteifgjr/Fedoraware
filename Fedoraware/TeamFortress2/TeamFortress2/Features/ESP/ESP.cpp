@@ -606,7 +606,8 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 					}
 					if (nHealth > nMaxHealth) {
 						g_Draw.String(FONT, x - (17 + nTextOffset), (y + h) - (ratio * h) - 2, Colors::Overheal, ALIGN_CENTERHORIZONTAL, "+%d", nHealth - nMaxHealth);
-					} else {
+					} 
+					else {
 						g_Draw.String(FONT, x - (17 + nTextOffset), (y + h) - (ratio * h) - 2, Colors::White, ALIGN_CENTERHORIZONTAL, "%d", nHealth); 
 					}
 				}
