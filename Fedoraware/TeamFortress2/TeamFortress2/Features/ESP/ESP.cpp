@@ -867,7 +867,7 @@ void CESP::DrawBuildings(CBaseEntity* pLocal) const
 					if (iShells == 0)
 						condStrings.emplace_back(L"No Ammo");
 
-					if (iRockets == 0)
+					if (!bIsMini && iRockets == 0)
 						condStrings.emplace_back(L"No Rockets");
 				}
 
