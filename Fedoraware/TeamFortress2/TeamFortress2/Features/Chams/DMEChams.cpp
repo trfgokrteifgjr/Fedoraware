@@ -376,13 +376,42 @@ Chams_t GetPlayerChams(CBaseEntity* pEntity)
 		{
 			return Vars::Chams::Players::Friend;
 		}
-		if (pEntity->GetTeamNum() != pLocal->GetTeamNum())
+		//Team colored player chams
+		if (Vars::Chams::Players::TeamColored.Value)
 		{
-			return Vars::Chams::Players::Enemy;
+			if (Vars::Chams::Players::EnemyOnly.Value)
+			{
+				if (pEntity->GetTeamNum() != pLocal->GetTeamNum() && pEntity->GetTeamNum() == TEAM_RED)
+				{
+					return Vars::Chams::Players::RedTeam;
+				}
+				if (pEntity->GetTeamNum() != pLocal->GetTeamNum() && pEntity->GetTeamNum() == TEAM_BLU)
+				{
+					return Vars::Chams::Players::BluTeam;
+				}
+			}
+			else
+			{
+				if (pEntity->GetTeamNum() == TEAM_RED)
+				{
+					return Vars::Chams::Players::RedTeam;
+				}
+				if (pEntity->GetTeamNum() == TEAM_BLU)
+				{
+					return Vars::Chams::Players::BluTeam;
+				}
+			}			
 		}
-		if (pEntity->GetTeamNum() == pLocal->GetTeamNum())
+		else
 		{
-			return Vars::Chams::Players::Team;
+			if (pEntity->GetTeamNum() != pLocal->GetTeamNum())
+			{
+				return Vars::Chams::Players::Enemy;
+			}
+			if (pEntity->GetTeamNum() == pLocal->GetTeamNum())
+			{
+				return Vars::Chams::Players::Team;
+			}
 		}
 	}
 	return Chams_t();
@@ -482,6 +511,45 @@ Chams_t getChamsType(int nIndex, CBaseEntity* pEntity = nullptr)
 					return (teamNum = pLocal->GetTeamNum()) ? Vars::Chams::Buildings::Team : Vars::Chams::Buildings::Enemy;
 				}
 			}
+			//Team colored building chams
+			CBaseEntity* pLocal = g_EntityCache.GetLocal();
+			if (Vars::Chams::Buildings::TeamColored.Value)
+			{
+				if (Vars::Chams::Buildings::EnemyOnly.Value)//This is the exact same code as player chams
+				{
+					if (pEntity->GetTeamNum() != pLocal->GetTeamNum() && pEntity->GetTeamNum() == TEAM_RED)
+					{
+						return Vars::Chams::Buildings::RedTeam;
+					}
+					if (pEntity->GetTeamNum() != pLocal->GetTeamNum() && pEntity->GetTeamNum() == TEAM_BLU)
+					{
+						return Vars::Chams::Buildings::BluTeam;
+					}
+				}
+				else
+				{
+					if (pEntity->GetTeamNum() == TEAM_RED)
+					{
+						return Vars::Chams::Buildings::RedTeam;
+					}
+					if (pEntity->GetTeamNum() == TEAM_BLU)
+					{
+						return Vars::Chams::Buildings::BluTeam;
+					}
+				}
+			}
+			else
+			{
+				if (pEntity->GetTeamNum() != pLocal->GetTeamNum())
+				{
+					return Vars::Chams::Buildings::Enemy;
+				}
+				if (pEntity->GetTeamNum() == pLocal->GetTeamNum())
+				{
+					return Vars::Chams::Buildings::Team;
+				}
+			}
+
 			return Chams_t();
 		}
 		case 9:
@@ -489,7 +557,49 @@ Chams_t getChamsType(int nIndex, CBaseEntity* pEntity = nullptr)
 			if (!pEntity) { return Chams_t(); }
 			if (CBaseEntity* pOwner = I::ClientEntityList->GetClientEntityFromHandle(reinterpret_cast<int>(pEntity->GetThrower())))
 			{
-				return GetPlayerChams(pOwner);
+				CBaseEntity* pLocal = g_EntityCache.GetLocal();
+				//Team colored projectile chams
+				if (Vars::Chams::Buildings::TeamColored.Value)
+				{
+					if (Vars::Chams::Buildings::EnemyOnly.Value)
+					{
+						if (pOwner->GetTeamNum() != pLocal->GetTeamNum() && pOwner->GetTeamNum() == TEAM_RED)
+						{
+							return Vars::Chams::World::Projectiles::RedTeam;
+						}
+						if (pOwner->GetTeamNum() != pLocal->GetTeamNum() && pOwner->GetTeamNum() == TEAM_BLU)
+						{
+							return Vars::Chams::World::Projectiles::BluTeam;
+						}
+					}
+					else
+					{
+						if (pOwner->GetTeamNum() == TEAM_RED)
+						{
+							return Vars::Chams::World::Projectiles::RedTeam;
+						}
+						if (pOwner->GetTeamNum() == TEAM_BLU)
+						{
+							return Vars::Chams::World::Projectiles::BluTeam;
+						}
+					}
+				}
+				else
+				{
+					//Make projectile chams based off of the thrower's team
+					if (pOwner->GetTeamNum() != pLocal->GetTeamNum())
+					{
+						return Vars::Chams::World::Projectiles::Enemy;
+					}
+					if (pOwner->GetTeamNum() == pLocal->GetTeamNum())
+					{
+						return Vars::Chams::World::Projectiles::Team;
+					}
+				}
+				if (pEntity->GetIndex() == G::CurrentTargetIdx && Vars::Chams::World::Projectiles::Target.chamsActive)
+				{
+					return Vars::Chams::World::Projectiles::Target;
+				}
 			}
 			return Chams_t();
 		}
@@ -535,10 +645,10 @@ void CDMEChams::RenderFakeAng(const DrawModelState_t& pState, const ModelRenderI
 		{
 			if (IMaterialVar* $envmaptint = chamsMaterial->FindVar("$envmaptint", nullptr, false))
 			{
-				$envmaptint->SetVecValue(
-					Color::TOFLOAT(chams.colour.r) * 4,
-					Color::TOFLOAT(chams.colour.g) * 4,
-					Color::TOFLOAT(chams.colour.b) * 4);
+					$envmaptint->SetVecValue(
+						Color::TOFLOAT(chams.colour.r) * 4,
+						Color::TOFLOAT(chams.colour.g) * 4,
+						Color::TOFLOAT(chams.colour.b) * 4);
 			}
 			if (IMaterialVar* $selfillumtint = chamsMaterial->FindVar("$selfillumtint", nullptr, false))
 			{
@@ -548,13 +658,7 @@ void CDMEChams::RenderFakeAng(const DrawModelState_t& pState, const ModelRenderI
 					Color::TOFLOAT(chams.fresnelBase.b) * 4);
 			}
 		}
-		else
-		{
-			I::RenderView->SetColorModulation(
-				Color::TOFLOAT(rainbow ? Utils::Rainbow().r : chams.colour.r),
-				Color::TOFLOAT(rainbow ? Utils::Rainbow().g : chams.colour.g),
-				Color::TOFLOAT(rainbow ? Utils::Rainbow().b : chams.colour.b));
-		}
+	
 
 		I::RenderView->SetBlend(chams.colour.a);
 
@@ -562,6 +666,53 @@ void CDMEChams::RenderFakeAng(const DrawModelState_t& pState, const ModelRenderI
 		{
 			dmeHook->Original<void(__thiscall*)(CModelRender*, const DrawModelState_t&, const ModelRenderInfo_t&, matrix3x4*)>()(I::ModelRender, pState, pInfo, reinterpret_cast<matrix3x4*>(&F::FakeAng.BoneMatrix));
 		}
+
+	/*	if (chams.drawMaterial == 9) // edit certain custom material shit thru the menu with this
+		{
+			IMaterial* pMaterial = v_MatList.at(chams.drawMaterial);
+
+			if (chamsMaterial == v_MatList.at(chams.drawMaterial))
+			{
+				if (IMaterialVar* $envmaptint = chamsMaterial->FindVar("$envmaptint", nullptr, false))
+				{
+					if (Vars::Chams::Players::TeamColored.Value)
+					{
+						if (pEntity != nullptr && pEntity->GetTeamNum() == TEAM_RED)
+						{
+							$envmaptint->SetVecValue(
+								Color::TOFLOAT(chams.RedColour.r) * 4,
+								Color::TOFLOAT(chams.RedColour.g) * 4,
+								Color::TOFLOAT(chams.RedColour.b) * 4);
+						}
+						if (pEntity != nullptr && pEntity->GetTeamNum() == TEAM_BLU)
+						{
+							$envmaptint->SetVecValue(
+								Color::TOFLOAT(chams.BluColour.r) * 4,
+								Color::TOFLOAT(chams.BluColour.g) * 4,
+								Color::TOFLOAT(chams.BluColour.b) * 4);
+						}
+					}
+					else
+					{
+						$envmaptint->SetVecValue(
+							Color::TOFLOAT(chams.colour.r) * 4,
+							Color::TOFLOAT(chams.colour.g) * 4,
+							Color::TOFLOAT(chams.colour.b) * 4);
+					}
+				}
+				if (IMaterialVar* $phongtint = pMaterial->FindVar("$phongtint", nullptr, false))
+				{
+					$phongtint->SetVecValue(
+						Color::TOFLOAT(rainbowOverlay ? Utils::Rainbow().r : chams.overlayColour.r),
+						Color::TOFLOAT(rainbowOverlay ? Utils::Rainbow().g : chams.overlayColour.g),
+						Color::TOFLOAT(rainbowOverlay ? Utils::Rainbow().b : chams.overlayColour.b));
+				}
+				if (IMaterialVar* $phongfresnelranges = pMaterial->FindVar("$phongfresnelranges", nullptr, false))
+				{
+					$phongfresnelranges->SetVecValue(0, 0.5 / chams.overlayIntensity, 10 / chams.overlayIntensity);
+				}
+			}
+		}*/
 
 		if (chams.overlayType)
 		{
@@ -702,10 +853,30 @@ bool CDMEChams::Render(const DrawModelState_t& pState, const ModelRenderInfo_t& 
 			{
 				if (IMaterialVar* $envmaptint = chamsMaterial->FindVar("$envmaptint", nullptr, false))
 				{
-					$envmaptint->SetVecValue(
-						Color::TOFLOAT(chams.colour.r) * 4,
-						Color::TOFLOAT(chams.colour.g) * 4,
-						Color::TOFLOAT(chams.colour.b) * 4);
+					if (Vars::Chams::Players::TeamColored.Value)
+					{
+						if (pEntity != nullptr && pEntity->GetTeamNum() == TEAM_RED)
+						{
+							$envmaptint->SetVecValue(
+								Color::TOFLOAT(chams.RedColour.r) * 4,
+								Color::TOFLOAT(chams.RedColour.g) * 4,
+								Color::TOFLOAT(chams.RedColour.b) * 4);
+						}
+						if (pEntity != nullptr && pEntity->GetTeamNum() == TEAM_BLU)
+						{
+							$envmaptint->SetVecValue(
+								Color::TOFLOAT(chams.BluColour.r) * 4,
+								Color::TOFLOAT(chams.BluColour.g) * 4,
+								Color::TOFLOAT(chams.BluColour.b) * 4);
+						}
+					}
+					else
+					{
+						$envmaptint->SetVecValue(
+							Color::TOFLOAT(chams.colour.r) * 4,
+							Color::TOFLOAT(chams.colour.g) * 4,
+							Color::TOFLOAT(chams.colour.b) * 4);
+					}
 				}
 				if (IMaterialVar* $selfillumtint = chamsMaterial->FindVar("$selfillumtint", nullptr, false))
 				{
@@ -717,10 +888,30 @@ bool CDMEChams::Render(const DrawModelState_t& pState, const ModelRenderInfo_t& 
 			}
 			else
 			{
-				I::RenderView->SetColorModulation(
-					Color::TOFLOAT(rainbow ? Utils::Rainbow().r : chams.colour.r),
-					Color::TOFLOAT(rainbow ? Utils::Rainbow().g : chams.colour.g),
-					Color::TOFLOAT(rainbow ? Utils::Rainbow().b : chams.colour.b));
+				if (Vars::Chams::Players::TeamColored.Value)
+				{
+					if (pEntity != nullptr && pEntity->GetTeamNum() == TEAM_RED)
+					{
+						I::RenderView->SetColorModulation(
+							Color::TOFLOAT(rainbow ? Utils::Rainbow().r : chams.RedColour.r),
+							Color::TOFLOAT(rainbow ? Utils::Rainbow().g : chams.RedColour.g),
+							Color::TOFLOAT(rainbow ? Utils::Rainbow().b : chams.RedColour.b));
+					}
+					if (pEntity != nullptr && pEntity->GetTeamNum() == TEAM_BLU)
+					{
+						I::RenderView->SetColorModulation(
+							Color::TOFLOAT(rainbow ? Utils::Rainbow().r : chams.BluColour.r),
+							Color::TOFLOAT(rainbow ? Utils::Rainbow().g : chams.BluColour.g),
+							Color::TOFLOAT(rainbow ? Utils::Rainbow().b : chams.BluColour.b));
+					}
+				}
+				else
+				{
+					I::RenderView->SetColorModulation(
+						Color::TOFLOAT(rainbow ? Utils::Rainbow().r : chams.colour.r),
+						Color::TOFLOAT(rainbow ? Utils::Rainbow().g : chams.colour.g),
+						Color::TOFLOAT(rainbow ? Utils::Rainbow().b : chams.colour.b));
+				}
 			}
 
 			float alpha = Color::TOFLOAT(chams.colour.a);

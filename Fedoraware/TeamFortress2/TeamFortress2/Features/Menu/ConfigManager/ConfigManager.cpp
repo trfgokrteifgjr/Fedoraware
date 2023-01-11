@@ -1114,10 +1114,16 @@ bool CConfigManager::SaveVisual(const std::string& configName)
 		SAVE_VAR(Vars::Chams::Players::Wearables);
 		SAVE_VAR(Vars::Chams::Players::Weapons);
 		SAVE_VAR(Vars::Chams::Players::FadeoutTeammates);
+		SAVE_VAR(Vars::Chams::Players::TeamColored);
+		SAVE_VAR(Vars::Chams::Players::EnemyOnly);
 		SAVE_VAR(Vars::Chams::Buildings::Active);
 		SAVE_VAR(Vars::Chams::Buildings::Material);
 		SAVE_VAR(Vars::Chams::Buildings::IgnoreZ);
+		SAVE_VAR(Vars::Chams::Buildings::TeamColored);
+		SAVE_VAR(Vars::Chams::Buildings::EnemyOnly);
 		SAVE_VAR(Vars::Chams::World::Active);
+		SAVE_VAR(Vars::Chams::World::Projectiles::TeamColored);
+		SAVE_VAR(Vars::Chams::World::Projectiles::EnemyOnly);
 		SAVE_VAR(Vars::Chams::DME::Active);
 		SAVE_VAR(Vars::Chams::DME::HandsGlowOverlay);
 		SAVE_VAR(Vars::Chams::DME::WeaponGlowOverlay);
@@ -1354,7 +1360,7 @@ bool CConfigManager::SaveVisual(const std::string& configName)
 		SAVE_OTHER(Vars::Chams::Buildings::Target);
 		SAVE_OTHER(Vars::Chams::World::Health);
 		SAVE_OTHER(Vars::Chams::World::Ammo);
-		SAVE_OTHER(Vars::Chams::World::Projectiles);
+		SAVE_OTHER(Vars::Chams::World::Projectiles::Projectiles);
 		SAVE_STRING(Vars::Fonts::FONT_ESP::szName);
 		SAVE_VAR(Vars::Fonts::FONT_ESP::nTall);
 		SAVE_VAR(Vars::Fonts::FONT_ESP::nWeight);
@@ -1492,10 +1498,16 @@ bool CConfigManager::LoadVisual(const std::string& configName)
 		LOAD_VAR(Vars::Chams::Players::Wearables);
 		LOAD_VAR(Vars::Chams::Players::Weapons);
 		LOAD_VAR(Vars::Chams::Players::FadeoutTeammates);
+		LOAD_VAR(Vars::Chams::Players::TeamColored);
+		LOAD_VAR(Vars::Chams::Players::EnemyOnly);
 		LOAD_VAR(Vars::Chams::Buildings::Active);
 		LOAD_VAR(Vars::Chams::Buildings::Material);
 		LOAD_VAR(Vars::Chams::Buildings::IgnoreZ);
+		LOAD_VAR(Vars::Chams::Buildings::TeamColored);
+		LOAD_VAR(Vars::Chams::Buildings::EnemyOnly);
 		LOAD_VAR(Vars::Chams::World::Active);
+		LOAD_VAR(Vars::Chams::World::Projectiles::TeamColored);
+		LOAD_VAR(Vars::Chams::World::Projectiles::EnemyOnly);
 		LOAD_VAR(Vars::Chams::DME::Active);
 		LOAD_VAR(Vars::Chams::DME::HandsGlowOverlay);
 		LOAD_VAR(Vars::Chams::DME::WeaponGlowOverlay);
@@ -1734,6 +1746,8 @@ bool CConfigManager::LoadVisual(const std::string& configName)
 		LOAD_OTHER(Vars::Chams::DME::Weapon);
 
 		LOAD_OTHER(Vars::Chams::Buildings::Local);
+		LOAD_OTHER(Vars::Chams::Buildings::BluTeam);
+		LOAD_OTHER(Vars::Chams::Buildings::RedTeam);
 		LOAD_OTHER(Vars::Chams::Buildings::Enemy);
 		LOAD_OTHER(Vars::Chams::Buildings::Team);
 		LOAD_OTHER(Vars::Chams::Buildings::Friend);
@@ -1741,7 +1755,7 @@ bool CConfigManager::LoadVisual(const std::string& configName)
 
 		LOAD_OTHER(Vars::Chams::World::Health);
 		LOAD_OTHER(Vars::Chams::World::Ammo);
-		LOAD_OTHER(Vars::Chams::World::Projectiles);
+		LOAD_OTHER(Vars::Chams::World::Projectiles::Projectiles);
 		LOAD_OTHER(Vars::Skybox::SkyboxNum);
 		LOAD_STRING(Vars::Skybox::SkyboxName);
 		LOAD_STRING(Vars::Fonts::FONT_ESP::szName);

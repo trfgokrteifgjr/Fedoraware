@@ -317,11 +317,15 @@ namespace Vars
 			inline CVar<bool> Wearables{ false };
 			inline CVar<bool> Weapons{ false };
 			inline CVar<bool> FadeoutTeammates{ false };
+			inline CVar<bool> TeamColored{ true }; //just set this to true because relative colors is disabled by default
+			inline CVar<bool> EnemyOnly{ true };
 
 			// {ignorez, material, overlay type (0 = off), active}
 			inline Chams_t Local{};
 			inline Chams_t FakeAng{};
 			inline Chams_t Friend{};
+			inline Chams_t BluTeam{};
+			inline Chams_t RedTeam{};
 			inline Chams_t Enemy{};
 			inline Chams_t Team{};
 			inline Chams_t Target{};
@@ -332,6 +336,8 @@ namespace Vars
 		{
 			inline Chams_t Local{};
 			inline Chams_t Friend{};
+			inline Chams_t BluTeam{};
+			inline Chams_t RedTeam{};
 			inline Chams_t Enemy{};
 			inline Chams_t Team{};
 			inline Chams_t Target{};
@@ -339,6 +345,8 @@ namespace Vars
 			inline CVar<bool> Active{ false };
 			inline CVar<int> Material{ 3 }; //0 - None, 1 - Shaded, 2 - Shiny, 3 - Flat
 			inline CVar<bool> IgnoreZ{ false };
+			inline CVar<bool> TeamColored{ true };
+			inline CVar<bool> EnemyOnly{ true };
 		}
 
 		namespace World
@@ -347,7 +355,19 @@ namespace Vars
 			inline CVar<int> Projectilez{ 2 };
 			inline Chams_t Health{};
 			inline Chams_t Ammo{};
-			inline Chams_t Projectiles{};
+
+			namespace Projectiles
+			{
+				inline Chams_t BluTeam{};
+				inline Chams_t RedTeam{};
+				inline Chams_t Enemy{};
+				inline Chams_t Team{};
+				inline Chams_t Target{};
+				inline Chams_t Projectiles{};
+				inline CVar<bool> TeamColored{ true };
+				inline CVar<bool> EnemyOnly{ true };
+			}
+
 		}
 
 		namespace DME
