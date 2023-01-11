@@ -1077,35 +1077,38 @@ void CVisuals::RestoreWorldModulation() // keep this because its mentioned in @D
 
 // all world mod stuff above
 
-void CVisuals::OverrideWorldTextures()
+void CVisuals::OverrideWorldTextures() //This is 100% pasted from spook953
 {
-	static KeyValues* kv = nullptr;
-	if (!kv)
-	{
+	static KeyValues *kv = nullptr;
+
+	if (!kv) {
 		kv = new KeyValues("LightmappedGeneric");
-		kv->SetString("$basetexture", "dev/dev_measuregeneric01b");
+		kv->SetString("$basetexture", "vgui/white_additive");
+		kv->SetString("$color2", "[0.12 0.12 0.15]");
 	}
 
 	if (Vars::Visuals::OverrideWorldTextures.Value)
 	{
-		for (const auto& data : MaterialHandleDatas)
+		for (auto h = I::MaterialSystem->First(); h != I::MaterialSystem->Invalid(); h = I::MaterialSystem->Next(h))
 		{
-			if (data.Material == nullptr)
-			{
-				continue;
-			}
+			IMaterial *pMaterial = I::MaterialSystem->Get(h);
 
-			if (data.Material->IsTranslucent() || data.Material->IsSpriteCard() || data.GroupType != MaterialHandleData::EMatGroupType::GROUP_WORLD)
-			{
+			if (pMaterial->IsErrorMaterial() || !pMaterial->IsPrecached()
+				|| pMaterial->IsTranslucent() || pMaterial->IsSpriteCard()
+				|| std::string_view(pMaterial->GetTextureGroupName()).find("World") == std::string_view::npos)
 				continue;
-			}
 
-			if (!data.ShouldOverrideTextures)
-			{
+			std::string_view sName = std::string_view(pMaterial->GetName());
+
+			if (sName.find("water") != std::string_view::npos || sName.find("glass") != std::string_view::npos
+				|| sName.find("door") != std::string_view::npos || sName.find("tools") != std::string_view::npos
+				|| sName.find("player") != std::string_view::npos || sName.find("chicken") != std::string_view::npos
+				|| sName.find("wall28") != std::string_view::npos || sName.find("wall26") != std::string_view::npos
+				|| sName.find("decal") != std::string_view::npos || sName.find("overlay") != std::string_view::npos
+				|| sName.find("hay") != std::string_view::npos)
 				continue;
-			}
 
-			data.Material->SetShaderAndParams(kv);
+			pMaterial->SetShaderAndParams(kv);
 		}
 	}
 }
