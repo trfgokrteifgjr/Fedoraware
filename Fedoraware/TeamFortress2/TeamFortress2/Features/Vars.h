@@ -402,6 +402,7 @@ namespace Vars
 			inline CVar<bool> Active{ false };
 			inline CVar<int> Type{ 0 };	//	blur, stencil, fps stencil, wireframe
 			inline CVar<int> Scale{ 5 };
+			inline CVar<bool> PulseGlow{ false }; //fuck cave johnson (the man who asked for this)
 		}
 
 		namespace Players

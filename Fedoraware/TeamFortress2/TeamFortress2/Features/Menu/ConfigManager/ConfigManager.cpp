@@ -1140,6 +1140,7 @@ bool CConfigManager::SaveVisual(const std::string& configName)
 		SAVE_VAR(Vars::Glow::Main::Active);
 		SAVE_VAR(Vars::Glow::Main::Scale);
 		SAVE_VAR(Vars::Glow::Main::Type);
+		SAVE_VAR(Vars::Glow::Main::PulseGlow);
 		SAVE_VAR(Vars::Glow::Players::Active);
 		SAVE_VAR(Vars::Glow::Players::ShowLocal);
 		SAVE_VAR(Vars::Glow::Players::LocalRainbow);
@@ -1524,6 +1525,7 @@ bool CConfigManager::LoadVisual(const std::string& configName)
 		LOAD_VAR(Vars::Glow::Main::Active);
 		LOAD_VAR(Vars::Glow::Main::Scale);
 		LOAD_VAR(Vars::Glow::Main::Type);
+		LOAD_VAR(Vars::Glow::Main::PulseGlow);
 		LOAD_VAR(Vars::Glow::Players::Active);
 		LOAD_VAR(Vars::Glow::Players::ShowLocal);
 		LOAD_VAR(Vars::Glow::Players::LocalRainbow);
