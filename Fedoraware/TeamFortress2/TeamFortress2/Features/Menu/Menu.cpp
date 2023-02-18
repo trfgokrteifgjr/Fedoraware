@@ -1209,15 +1209,27 @@ void CMenu::MenuVisuals()
 						I::ViewRender->SetScreenOverlayMaterial(nullptr);
 					}
 					WToggle("Menu Celebration", &Vars::Visuals::MenuCelebration.Value);
-					WToggle("Particle Colors", &Vars::Visuals::ParticleColors.Value);
-					ColorPickerL("Particle Color", Colors::ParticleColor);
-					if (Vars::Visuals::ParticleColors.Value)
+					WCombo("Particle Colors", &Vars::Visuals::Particles::ParticleColors.Value, {"Disabled", "Color Picker", "Rainbow"});
+					if(Vars::Visuals::Particles::ParticleColors.Value == 1) 
 					{
-						WToggle("Rainbow Particles", &Vars::Visuals::RGBParticles.Value);
+						ColorPickerL("Particle Color", Colors::ParticleColor);
+ 					}
+					if (Vars::Visuals::Particles::ParticleColors.Value == 2)
+					{
+						WSlider("Rainbow Speed", &Vars::Visuals::Particles::RainbowSpeed.Value, 0, 5, "%.2f");
 					}
-					if (Vars::Visuals::RGBParticles.Value)
+					WToggle("Halloween Spell Footsteps", &Vars::Visuals::Particles::Feet::Enabled.Value);
+					if(Vars::Visuals::Particles::Feet::Enabled.Value)
 					{
-						WSlider("Rainbow Speed", &Vars::Visuals::RainbowSpeed.Value, 0.1, 5, "%.2f");
+						if(!Vars::Visuals::Particles::ParticleColors.Value)
+						{
+							WCombo("Color Mode", &Vars::Visuals::Particles::Feet::ColorType.Value, {"Color Picker", "HHH", "Team Colored", "Rainbow"});
+							if(Vars::Visuals::Particles::Feet::ColorType.Value == 0)
+							{
+								ColorPickerL("Footstep Color", Colors::FeetColor);
+							}
+						}
+						else { HelpMarker("Turn off particle colors to be able to change the color of this."); }
 					}
 					WToggle("Clean Screenshots", &Vars::Visuals::CleanScreenshots.Value);
 					WToggle("Crosshair aim position", &Vars::Visuals::CrosshairAimPos.Value);

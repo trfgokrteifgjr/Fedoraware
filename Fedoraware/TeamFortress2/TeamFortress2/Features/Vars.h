@@ -554,9 +554,7 @@ namespace Vars
 		inline CVar<bool> OverrideWorldTextures{ false };
 		inline CVar<bool> SkyboxChanger{ false };
 		inline CVar<bool> SkyModulation{ false };
-		inline CVar<bool> ParticleColors{ false };
-		inline CVar<bool> RGBParticles{ false };
-		inline CVar<float> RainbowSpeed{ 1.f };
+		
 		inline CVar<bool> BulletTracer{ false };
 		inline CVar<bool> AimbotViewmodel{ false };
 		inline CVar<bool> ViewmodelSway{ false };
@@ -570,6 +568,18 @@ namespace Vars
 		inline CVar<int> ParticleTracer{ 2 };
 		inline std::string ParticleName = "merasmus_zap_beam01"; // dont save this as a var its pointless
 		inline CVar<bool> DoPostProcessing{ false };
+
+		namespace Particles
+		{
+			inline CVar<int> ParticleColors{ 0 };
+			inline CVar<float> RainbowSpeed{ 1.5f };
+			namespace Feet
+			{
+				inline CVar<bool> Enabled{ false };
+				inline CVar<int> ColorType{ 0 }; //0 - color picker, 1 - HHH, 2 - team, 3 - rainbow
+				inline CVar<bool> DashOnly{ false };
+			}
+		}
 
 		namespace Beans
 		{
