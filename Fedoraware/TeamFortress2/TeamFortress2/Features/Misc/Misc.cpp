@@ -694,7 +694,7 @@ void CMisc::AutoStrafe(CUserCmd* pCmd, CBaseEntity* pLocal)
 			};
 
 			const float pDelta = perfectDelta(speed, pLocal);
-			if (!isJumping || wasJumping)
+			if (!isJumping || wasJumping) //credits to fourteen
 			{
 				static auto old_yaw = 0.0f;
 

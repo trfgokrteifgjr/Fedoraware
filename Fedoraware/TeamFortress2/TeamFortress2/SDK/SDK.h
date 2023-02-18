@@ -772,7 +772,7 @@ namespace Utils
 		}
 	}*/
 
-	__inline void StopMovement(CUserCmd* pCmd, bool safe = true) {
+	__inline void StopMovement(CUserCmd* pCmd, bool safe = true) { //credits to fourteen
 		if (safe && G::IsAttacking) { return; }
 
 		if (CBaseEntity* pLocal = g_EntityCache.GetLocal()) {
