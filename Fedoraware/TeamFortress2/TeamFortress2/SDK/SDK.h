@@ -772,18 +772,26 @@ namespace Utils
 		}
 	}*/
 
-	__inline void StopMovement(CUserCmd* pCmd) 
-	{
-		if (G::ShouldStop)
-		{
-			CBaseEntity* pLocal = g_EntityCache.GetLocal();
-			if (G::ShiftedTicks % 6)
-			{
-				pCmd->viewangles.x = 90.f;
-				pCmd->viewangles.y = Math::VelocityToAngles(pLocal->m_vecVelocity()).y;
-				pCmd->forwardmove = 0.0f;
-				pCmd->sidemove = 0.0f;
-			}
+	__inline void StopMovement(CUserCmd* pCmd, bool safe = true) {
+		if (safe && G::IsAttacking) { return; }
+
+		if (CBaseEntity* pLocal = g_EntityCache.GetLocal()) {
+			const float Speed = pLocal->GetVecVelocity().Length2D();
+			QAngle direction;
+			Vector forward;
+
+			pCmd->viewangles.x = 90;
+			pCmd->viewangles.y = Math::VelocityToAngles(pLocal->m_vecVelocity()).y;
+
+			Math::VectorAngles(pLocal->GetVecVelocity(), direction);
+			direction.y = pCmd->viewangles.y - direction.y;
+			Math::AngleVectors(direction, &forward);
+			Math::AngleVectors(direction, &forward);
+
+			Vector negated_direction = forward * Speed;
+			pCmd->forwardmove = negated_direction.x;
+			pCmd->sidemove = negated_direction.y;
+
 			G::ShouldStop = false;
 		}
 	}

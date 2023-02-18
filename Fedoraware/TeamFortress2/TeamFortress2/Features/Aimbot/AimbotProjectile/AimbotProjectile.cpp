@@ -23,187 +23,72 @@ Vec3 CAimbotProjectile::Predictor_t::Extrapolate(float time)
 /* Returns the projectile info of a given weapon */
 bool CAimbotProjectile::GetProjectileInfo(CBaseCombatWeapon* pWeapon, ProjectileInfo_t& out)
 {
-	switch (G::CurItemDefIndex)
+
+	switch (pWeapon->GetWeaponID())
 	{
-		case Soldier_m_RocketLauncher:
-		case Soldier_m_RocketLauncherR:
-		case Soldier_m_TheBlackBox:
-		case Soldier_m_TheCowMangler5000:
-		case Soldier_m_TheOriginal:
-		case Soldier_m_FestiveRocketLauncher:
-		case Soldier_m_TheBeggarsBazooka:
-		case Soldier_m_SilverBotkillerRocketLauncherMkI:
-		case Soldier_m_GoldBotkillerRocketLauncherMkI:
-		case Soldier_m_RustBotkillerRocketLauncherMkI:
-		case Soldier_m_BloodBotkillerRocketLauncherMkI:
-		case Soldier_m_CarbonadoBotkillerRocketLauncherMkI:
-		case Soldier_m_DiamondBotkillerRocketLauncherMkI:
-		case Soldier_m_SilverBotkillerRocketLauncherMkII:
-		case Soldier_m_GoldBotkillerRocketLauncherMkII:
-		case Soldier_m_FestiveBlackBox:
-		case Soldier_m_TheAirStrike:
-		case Soldier_m_WoodlandWarrior:
-		case Soldier_m_SandCannon:
-		case Soldier_m_AmericanPastoral:
-		case Soldier_m_SmalltownBringdown:
-		case Soldier_m_ShellShocker:
-		case Soldier_m_AquaMarine:
-		case Soldier_m_Autumn:
-		case Soldier_m_BlueMew:
-		case Soldier_m_BrainCandy:
-		case Soldier_m_CoffinNail:
-		case Soldier_m_HighRollers:
-		case Soldier_m_Warhawk:
+		case TF_WEAPON_ROCKETLAUNCHER:
+		case TF_WEAPON_ROCKETLAUNCHER_DIRECTHIT:
+		case TF_WEAPON_PARTICLE_CANNON:
 		{
-			out = { 1100.0f, 0.0f };
+			float speedRocket = Utils::ATTRIB_HOOK_FLOAT(1100, "mult_projectile_speed", pWeapon, 0, 1);
+			out = { speedRocket, 0.0f };
 			IsBoosted = true;
 			break;
 		}
-
-		case Soldier_m_TheDirectHit:
+		case TF_WEAPON_GRENADELAUNCHER:
+		case TF_WEAPON_CANNON:
 		{
-			out = { 1980.0f, 0.0f };
+			float speedPipe = Utils::ATTRIB_HOOK_FLOAT(1200, "mult_projectile_speed", pWeapon, 0, 1);
+			out = { speedPipe, 0.5f };
 			IsBoosted = true;
 			break;
 		}
-
-		case Soldier_m_TheLibertyLauncher:
-		{
-			out = { 1540.0f, 0.0f };
-			IsBoosted = true;
-			break;
-		}
-
-		case Demoman_m_GrenadeLauncher:
-		case Demoman_m_GrenadeLauncherR:
-		case Demoman_m_FestiveGrenadeLauncher:
-		case Demoman_m_Autumn:
-		case Demoman_m_MacabreWeb:
-		case Demoman_m_Rainbow:
-		case Demoman_m_SweetDreams:
-		case Demoman_m_CoffinNail:
-		case Demoman_m_TopShelf:
-		case Demoman_m_Warhawk:
-		case Demoman_m_ButcherBird:
-		{
-			out = { 1200.f, 0.5f };
-			IsBoosted = true;
-			m_flPredictionTime = 2.2f; //https://wiki.teamfortress.com/wiki/Grenade_Launcher
-			break;			
-		}
-
-		case Demoman_m_TheIronBomber:
-		{
-			out = { 1200.f, 0.5f };
-			IsBoosted = true;
-			m_flPredictionTime = 1.5f; // 1.6 causes the cheat to miss
-			break;
-
-		}
-
-		case Soldier_s_TheRighteousBison:
-		case Engi_m_ThePomson6000:
+		case TF_WEAPON_RAYGUN:
 		{
 			out = { 1200.0f, 0.0f };
 			break;
 		}
-
-		case Demoman_m_TheLooseCannon:
-		{
-			out = { 1440.f, 0.5f };
-			IsBoosted = true;
-			m_flPredictionTime = 2.2f;
-			break;
-		}
-
-		case Demoman_m_TheLochnLoad:
-		{
-			out = { 1500.f, 0.5f };
-			IsBoosted = true;
-			m_flPredictionTime = 2.2f;
-			break;
-		}
-
-		case Engi_m_TheRescueRanger:
-		case Medic_m_FestiveCrusadersCrossbow:
-		case Medic_m_CrusadersCrossbow:
+		case TF_WEAPON_SHOTGUN_BUILDING_RESCUE:
+		case TF_WEAPON_CROSSBOW:
 		{
 			out = { 2400.0f, 0.2f };
 			break;
 		}
 
-		case Pyro_m_DragonsFury:
-		{
-			out = { 3000.0f, 0.0f, 0.1753f };
-			IsFlameThrower = true;
-			break;
-		}
-
-		case Pyro_m_FlameThrower:
-		case Pyro_m_FlameThrowerR:
-		case Pyro_m_TheBackburner:
-		case Pyro_m_TheDegreaser:
-		case Pyro_m_ThePhlogistinator:
-		case Pyro_m_FestiveFlameThrower:
-		case Pyro_m_TheRainblower:
-		case Pyro_m_SilverBotkillerFlameThrowerMkI:
-		case Pyro_m_GoldBotkillerFlameThrowerMkI:
-		case Pyro_m_RustBotkillerFlameThrowerMkI:
-		case Pyro_m_BloodBotkillerFlameThrowerMkI:
-		case Pyro_m_CarbonadoBotkillerFlameThrowerMkI:
-		case Pyro_m_DiamondBotkillerFlameThrowerMkI:
-		case Pyro_m_SilverBotkillerFlameThrowerMkII:
-		case Pyro_m_GoldBotkillerFlameThrowerMkII:
-		case Pyro_m_FestiveBackburner:
-		case Pyro_m_ForestFire:
-		case Pyro_m_BarnBurner:
-		case Pyro_m_BovineBlazemaker:
-		case Pyro_m_EarthSkyandFire:
-		case Pyro_m_FlashFryer:
-		case Pyro_m_TurbineTorcher:
-		case Pyro_m_Autumn:
-		case Pyro_m_PumpkinPatch:
-		case Pyro_m_Nutcracker:
-		case Pyro_m_Balloonicorn:
-		case Pyro_m_Rainbow:
-		case Pyro_m_CoffinNail:
-		case Pyro_m_Warhawk:
-		case Pyro_m_NostromoNapalmer:
+		case TF_WEAPON_FLAMETHROWER:
 		{
 			out = { 1000.0f, 0.0f, 0.33f };
 			IsFlameThrower = true;
 			break;
 		}
 
-		case Pyro_s_TheDetonator:
-		case Pyro_s_TheFlareGun:
-		case Pyro_s_FestiveFlareGun:
-		case Pyro_s_TheScorchShot:
+		case TF_WEAPON_FLAME_BALL: //dragon's fury
+		{
+			out = { 3000.0f, 0.0f, 0.1753f };
+			IsFlameThrower = true;
+			break;
+		}
+
+		case TF_WEAPON_FLAREGUN:
 		{
 			out = { 2000.0f, 0.3f };
 			break;
 		}
 
-		case Pyro_s_TheManmelter:
-		case Scout_s_TheFlyingGuillotine:
-		case Scout_s_TheFlyingGuillotineG:
+		case TF_WEAPON_RAYGUN_REVENGE:
+		case TF_WEAPON_CLEAVER:
 		{
 			out = { 3000.0f, 0.2f };
 			break;
 		}
 
-		case Medic_m_SyringeGun:
-		case Medic_m_SyringeGunR:
-		case Medic_m_TheBlutsauger:
-		case Medic_m_TheOverdose:
+		case TF_WEAPON_SYRINGEGUN_MEDIC:
 		{
 			out = { 1000.0f, 0.2f };
 			break;
 		}
 
-		case Sniper_m_TheHuntsman:
-		case Sniper_m_FestiveHuntsman:
-		case Sniper_m_TheFortifiedCompound:
+		case TF_WEAPON_COMPOUND_BOW:
 		{
 			const float charge = (I::GlobalVars->curtime - pWeapon->GetChargeBeginTime());
 			out = {
@@ -212,26 +97,14 @@ bool CAimbotProjectile::GetProjectileInfo(CBaseCombatWeapon* pWeapon, Projectile
 			};
 			break;
 		}
-		case Demoman_s_StickybombLauncher:
-		case Demoman_s_StickybombLauncherR:
-		case Demoman_s_FestiveStickybombLauncher:
-		case Demoman_s_TheScottishResistance:
+		
+		case TF_WEAPON_PIPEBOMBLAUNCHER:
 		{
-			//Probably wrong
 			const float charge = (I::GlobalVars->curtime - pWeapon->GetChargeBeginTime());
+			float QuickiebombCheck = G::CurItemDefIndex == Demoman_s_TheQuickiebombLauncher ? 1.2f : 4.0f;
 			out = {
-				Math::RemapValClamped(charge, 0.0f, 4.f, 900, 2400),
-				Math::RemapValClamped(charge, 0.0f, 4.f, 0.483f, 0.085f)
-			};
-			break;
-		}
-		case Demoman_s_TheQuickiebombLauncher:
-		{
-			//Probably wrong
-			const float charge = (I::GlobalVars->curtime - pWeapon->GetChargeBeginTime());
-			out = {
-				Math::RemapValClamped(charge, 0.0f, 1.2f, 900, 2400),
-				Math::RemapValClamped(charge, 0.0f, 1.2f, 0.483f, 0.085f)
+				Math::RemapValClamped(charge, 0.0f, QuickiebombCheck, 900, 2400),
+				Math::RemapValClamped(charge, 0.0f, QuickiebombCheck, 0.483f, 0.085f)
 			};
 			break;
 		}

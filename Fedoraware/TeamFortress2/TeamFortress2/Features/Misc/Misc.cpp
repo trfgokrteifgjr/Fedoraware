@@ -694,17 +694,106 @@ void CMisc::AutoStrafe(CUserCmd* pCmd, CBaseEntity* pLocal)
 			};
 
 			const float pDelta = perfectDelta(speed, pLocal);
-			if ((!isJumping || wasJumping) && pDelta)
+			if (!isJumping || wasJumping)
 			{
-				const float yaw = DEG2RAD(pCmd->viewangles.y);
-				const float velDir = atan2f(vel.y, vel.x) - yaw;
-				const float wishAng = atan2f(-pCmd->sidemove, pCmd->forwardmove);
-				const float delta = Math::AngleDiffRad(velDir, wishAng);
+				static auto old_yaw = 0.0f;
 
-				const float moveDir = delta < 0.0f ? velDir + pDelta : velDir - pDelta;
+				auto get_velocity_degree = [](float velocity)
+				{
+					auto tmp = RAD2DEG(atan(30.0f / velocity));
 
-				pCmd->forwardmove = cosf(moveDir) * cl_sidespeed->GetFloat();
-				pCmd->sidemove = -sinf(moveDir) * cl_sidespeed->GetFloat();
+					#define CheckIfNonValidNumber(x) (fpclassify(x) == FP_INFINITE || fpclassify(x) == FP_NAN || fpclassify(x) == FP_SUBNORMAL)
+					if (CheckIfNonValidNumber(tmp) || tmp > 90.0f)
+						return 90.0f;
+
+					else if (tmp < 0.0f)
+						return 0.0f;
+					else
+						return tmp;
+				};
+
+				if (pLocal->GetMoveType() != MOVETYPE_WALK)
+					return;
+
+				auto velocity = pLocal->m_vecVelocity();
+				velocity.z = 0.0f;
+
+				auto forwardmove = pCmd->forwardmove;
+				auto sidemove = pCmd->sidemove;
+
+				if (velocity.Length2D() < 5.0f && !forwardmove && !sidemove)
+					return;
+
+				static auto flip = false;
+				flip = !flip;
+
+				auto turn_direction_modifier = flip ? 1.0f : -1.0f;
+				auto viewangles = pCmd->viewangles;
+
+				if (forwardmove || sidemove)
+				{
+					pCmd->forwardmove = 0.0f;
+					pCmd->sidemove = 0.0f;
+
+					auto turn_angle = atan2(-sidemove, forwardmove);
+					viewangles.y += turn_angle * M_RADPI;
+				}
+				else if (forwardmove) //-V550
+					pCmd->forwardmove = 0.0f;
+
+				auto strafe_angle = RAD2DEG(atan(15.0f / velocity.Length2D()));
+
+				if (strafe_angle > 90.0f)
+					strafe_angle = 90.0f;
+				else if (strafe_angle < 0.0f)
+					strafe_angle = 0.0f;
+
+				auto temp = Vector(0.0f, viewangles.y - old_yaw, 0.0f);
+				temp.y = Math::NormalizeYaw(temp.y);
+
+				auto yaw_delta = temp.y;
+				old_yaw = viewangles.y;
+
+				auto abs_yaw_delta = fabs(yaw_delta);
+
+				Vector velocity_angles;
+				Math::VectorAngles(velocity, velocity_angles);
+
+				temp = Vector(0.0f, viewangles.y - velocity_angles.y, 0.0f);
+				temp.y = Math::NormalizeYaw(temp.y);
+
+				auto velocityangle_yawdelta = temp.y;
+				auto velocity_degree = get_velocity_degree(velocity.Length2D()) * 0.3f;
+
+				if (velocityangle_yawdelta <= velocity_degree || velocity.Length2D() <= 15.0f)
+				{
+					if (-velocity_degree <= velocityangle_yawdelta || velocity.Length2D() <= 15.0f)
+					{
+						viewangles.y += strafe_angle * turn_direction_modifier;
+						pCmd->sidemove = cl_sidespeed->GetFloat() * turn_direction_modifier;
+					}
+					else
+					{
+						viewangles.y = velocity_angles.y - velocity_degree;
+						pCmd->sidemove = cl_sidespeed->GetFloat();
+					}
+				}
+				else
+				{
+					viewangles.y = velocity_angles.y + velocity_degree;
+					pCmd->sidemove = -cl_sidespeed->GetFloat();
+				}
+
+				Vector angles_move;
+				auto move = Vector(pCmd->forwardmove, pCmd->sidemove, 0.0f);
+				auto speed = move.Length();
+				Math::VectorAngles(move, angles_move);
+
+				auto normalized_y = fmod(pCmd->viewangles.y + 180.0f, 360.0f) - 180.0f;
+				auto yaw = DEG2RAD(normalized_y - viewangles.y + angles_move.y);
+
+				pCmd->forwardmove = cos(yaw) * speed;
+				pCmd->sidemove = sin(yaw) * speed;
 			}
 			wasJumping = isJumping;
 			break;
