@@ -635,7 +635,12 @@ namespace Vars
 			inline CVar<bool> BecomeAsh{ false };
 			inline CVar<bool> Dissolve{ false };
 			inline CVar<int> RagdollType{ 0 };
+
+			inline CVar<bool> SeparateVectors{ false };
 			inline CVar<float> RagdollForce{ 1.f };
+			inline CVar<float> RagdollForceForwards{ 1.f };
+			inline CVar<float> RagdollForceSides{ 1.f };
+			inline CVar<float> RagdollForceUp{ 1.f };
 		}
 
 		namespace Skins

@@ -1209,22 +1209,22 @@ void CMenu::MenuVisuals()
 						I::ViewRender->SetScreenOverlayMaterial(nullptr);
 					}
 					WToggle("Menu Celebration", &Vars::Visuals::MenuCelebration.Value);
-					WCombo("Particle Colors", &Vars::Visuals::Particles::ParticleColors.Value, {"Disabled", "Color Picker", "Rainbow"});
-					if(Vars::Visuals::Particles::ParticleColors.Value == 1) 
+					WCombo("Particle Colors", &Vars::Visuals::Particles::ParticleColors.Value, { "Disabled", "Color Picker", "Rainbow" });
+					if (Vars::Visuals::Particles::ParticleColors.Value == 1)
 					{
 						ColorPickerL("Particle Color", Colors::ParticleColor);
- 					}
+					}
 					if (Vars::Visuals::Particles::ParticleColors.Value == 2)
 					{
 						WSlider("Rainbow Speed", &Vars::Visuals::Particles::RainbowSpeed.Value, 0, 5, "%.2f");
 					}
 					WToggle("Halloween Spell Footsteps", &Vars::Visuals::Particles::Feet::Enabled.Value);
-					if(Vars::Visuals::Particles::Feet::Enabled.Value)
+					if (Vars::Visuals::Particles::Feet::Enabled.Value)
 					{
-						if(!Vars::Visuals::Particles::ParticleColors.Value)
+						if (!Vars::Visuals::Particles::ParticleColors.Value)
 						{
-							WCombo("Color Mode", &Vars::Visuals::Particles::Feet::ColorType.Value, {"Color Picker", "HHH", "Team Colored", "Rainbow"});
-							if(Vars::Visuals::Particles::Feet::ColorType.Value == 0)
+							WCombo("Color Mode", &Vars::Visuals::Particles::Feet::ColorType.Value, { "Color Picker", "HHH", "Team Colored", "Rainbow" });
+							if (Vars::Visuals::Particles::Feet::ColorType.Value == 0)
 							{
 								ColorPickerL("Footstep Color", Colors::FeetColor);
 							}
@@ -1322,7 +1322,7 @@ void CMenu::MenuVisuals()
 					WToggle("Anti viewmodel flip", &Vars::Misc::AntiViewmodelFlip.Value); HelpMarker("This is scuffed");
 
 					SectionTitle("DT Indicator");
-					WCombo("DT indicator style", &Vars::Misc::CL_Move::DTBarStyle.Value, { "Off", "Default", "Nitro", "Rijin", "SEOwned", "Numeric", "DeadFlag"}); HelpMarker("What style the bar should draw in.");
+					WCombo("DT indicator style", &Vars::Misc::CL_Move::DTBarStyle.Value, { "Off", "Default", "Nitro", "Rijin", "SEOwned", "Numeric", "DeadFlag" }); HelpMarker("What style the bar should draw in.");
 					Text("Charging Gradient");
 					ColorPickerL("DT charging right", Colors::DTBarIndicatorsCharging.endColour);
 					ColorPickerL("DT charging left", Colors::DTBarIndicatorsCharging.startColour, 1);
@@ -1353,23 +1353,23 @@ void CMenu::MenuVisuals()
 					{
 						switch (unuPrimary)
 						{
-							case 0:
-								Vars::Visuals::Skins::Particle.Value = 0;
-								break;
-							case 1:
-								Vars::Visuals::Skins::Particle.Value = 701;
-								break;
-							case 2:
-								Vars::Visuals::Skins::Particle.Value = 702;
-								break;
-							case 3:
-								Vars::Visuals::Skins::Particle.Value = 703;
-								break;
-							case 4:
-								Vars::Visuals::Skins::Particle.Value = 704;
-								break;
-							default:
-								break;
+						case 0:
+							Vars::Visuals::Skins::Particle.Value = 0;
+							break;
+						case 1:
+							Vars::Visuals::Skins::Particle.Value = 701;
+							break;
+						case 2:
+							Vars::Visuals::Skins::Particle.Value = 702;
+							break;
+						case 3:
+							Vars::Visuals::Skins::Particle.Value = 703;
+							break;
+						case 4:
+							Vars::Visuals::Skins::Particle.Value = 704;
+							break;
+						default:
+							break;
 						}
 					}
 					HelpMarker("The first unusual effect to be applied to the weapon");
@@ -1378,23 +1378,23 @@ void CMenu::MenuVisuals()
 					{
 						switch (unuSecondary)
 						{
-							case 0:
-								Vars::Visuals::Skins::Effect.Value = 0;
-								break;
-							case 1:
-								Vars::Visuals::Skins::Effect.Value = 701;
-								break;
-							case 2:
-								Vars::Visuals::Skins::Effect.Value = 702;
-								break;
-							case 3:
-								Vars::Visuals::Skins::Effect.Value = 703;
-								break;
-							case 4:
-								Vars::Visuals::Skins::Effect.Value = 704;
-								break;
-							default:
-								break;
+						case 0:
+							Vars::Visuals::Skins::Effect.Value = 0;
+							break;
+						case 1:
+							Vars::Visuals::Skins::Effect.Value = 701;
+							break;
+						case 2:
+							Vars::Visuals::Skins::Effect.Value = 702;
+							break;
+						case 3:
+							Vars::Visuals::Skins::Effect.Value = 703;
+							break;
+						case 4:
+							Vars::Visuals::Skins::Effect.Value = 704;
+							break;
+						default:
+							break;
 						}
 					}
 					HelpMarker("The second unusual effect to be applied to the weapon");
@@ -1434,8 +1434,17 @@ void CMenu::MenuVisuals()
 					HelpMarker("Ragdoll particle effects");
 					WCombo("Ragdoll model", &Vars::Visuals::RagdollEffects::RagdollType.Value, { "None", "Gold", "Ice" }); HelpMarker("Which ragdoll model should be used");
 					HelpMarker("Will make their ragdoll ice");
-					WSlider("Ragdoll Force", &Vars::Visuals::RagdollEffects::RagdollForce.Value, 0.1f, 10.f, "%.2f"); HelpMarker("Multipler for the force applied to a ragdoll");
-
+					WToggle("Use Separate Vector Forces", &Vars::Visuals::RagdollEffects::SeparateVectors.Value);
+					if (Vars::Visuals::RagdollEffects::SeparateVectors.Value)
+					{
+						WSlider("Ragdoll Force Forwards", &Vars::Visuals::RagdollEffects::RagdollForceForwards.Value, 0.1f, 10.f, "%.2f"); HelpMarker("Multipler for the force applied to a ragdoll's forward vector, where positive is backwards and negative is forwards.");
+						WSlider("Ragdoll Force Sideways", &Vars::Visuals::RagdollEffects::RagdollForceSides.Value, 0.1f, 10.f, "%.2f"); HelpMarker("Multipler for the force applied to a ragdoll's side vector, where negative is right and positive is left.");
+						WSlider("Ragdoll Force Up", &Vars::Visuals::RagdollEffects::RagdollForceUp.Value, 0.1f, 10.f, "%.2f"); HelpMarker("Multipler for the force applied to a ragdoll's up vector, where negative is up and positive is down.");
+					}
+					else
+					{
+						WSlider("Ragdoll Force", &Vars::Visuals::RagdollEffects::RagdollForce.Value, 0.1f, 10.f, "%.2f"); HelpMarker("Multipler for the force applied to a ragdoll.");
+					}
 					SectionTitle("Freecam");
 					InputKeybind("Freecam Key", Vars::Visuals::FreecamKey);  HelpMarker("Allows you to freely move your camera when holding the key");
 					WSlider("Freecam Speed", &Vars::Visuals::FreecamSpeed.Value, 1.f, 20.f, "%.f", ImGuiSliderFlags_AlwaysClamp); HelpMarker("Movement speed of freecam");

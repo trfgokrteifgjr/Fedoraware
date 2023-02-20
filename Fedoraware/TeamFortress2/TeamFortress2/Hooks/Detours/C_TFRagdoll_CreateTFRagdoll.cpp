@@ -36,7 +36,17 @@ MAKE_HOOK(C_TFRagdoll_CreateTFRagdoll, g_Pattern.Find(L"client.dll", L"55 8B EC 
 
 		ClearEffects(pRagdoll);
 
-		pRagdoll->m_vecForce() *= Vars::Visuals::RagdollEffects::RagdollForce.Value;
+		if (Vars::Visuals::RagdollEffects::SeparateVectors.Value)
+		{
+			pRagdoll->m_vecForce().x *= Vars::Visuals::RagdollEffects::RagdollForceForwards.Value;
+			pRagdoll->m_vecForce().y *= Vars::Visuals::RagdollEffects::RagdollForceSides.Value;
+			pRagdoll->m_vecForce().z *= Vars::Visuals::RagdollEffects::RagdollForceUp.Value;
+		}
+		else
+		{
+			pRagdoll->m_vecForce() *= Vars::Visuals::RagdollEffects::RagdollForce.Value;
+		}
+
 		pRagdoll->m_bBurning() = Vars::Visuals::RagdollEffects::Burning.Value;
 		pRagdoll->m_bElectrocuted() = Vars::Visuals::RagdollEffects::Electrocuted.Value;
 		pRagdoll->m_bBecomeAsh() = Vars::Visuals::RagdollEffects::BecomeAsh.Value;

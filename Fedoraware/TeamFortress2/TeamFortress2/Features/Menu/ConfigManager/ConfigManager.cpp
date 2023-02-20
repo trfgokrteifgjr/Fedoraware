@@ -1288,6 +1288,11 @@ bool CConfigManager::SaveVisual(const std::string& configName)
 		SAVE_VAR(Vars::Visuals::RagdollEffects::BecomeAsh);
 		SAVE_VAR(Vars::Visuals::RagdollEffects::Dissolve);
 		SAVE_VAR(Vars::Visuals::RagdollEffects::RagdollType);
+		SAVE_VAR(Vars::Visuals::RagdollEffects::SeparateVectors);
+		SAVE_VAR(Vars::Visuals::RagdollEffects::RagdollForce);
+		SAVE_VAR(Vars::Visuals::RagdollEffects::RagdollForceForwards);
+		SAVE_VAR(Vars::Visuals::RagdollEffects::RagdollForceSides);
+		SAVE_VAR(Vars::Visuals::RagdollEffects::RagdollForceUp);
 		SAVE_VAR(Vars::Visuals::Fog::CustomFog);
 		SAVE_VAR(Vars::Visuals::Fog::FogDensity);
 		SAVE_VAR(Vars::Visuals::Fog::FogDensitySkybox);
@@ -1681,6 +1686,11 @@ bool CConfigManager::LoadVisual(const std::string& configName)
 		LOAD_VAR(Vars::Visuals::RagdollEffects::BecomeAsh);
 		LOAD_VAR(Vars::Visuals::RagdollEffects::Dissolve);
 		LOAD_VAR(Vars::Visuals::RagdollEffects::RagdollType);
+		LOAD_VAR(Vars::Visuals::RagdollEffects::SeparateVectors);
+		LOAD_VAR(Vars::Visuals::RagdollEffects::RagdollForce);
+		LOAD_VAR(Vars::Visuals::RagdollEffects::RagdollForceForwards);
+		LOAD_VAR(Vars::Visuals::RagdollEffects::RagdollForceSides);
+		LOAD_VAR(Vars::Visuals::RagdollEffects::RagdollForceUp);
 		LOAD_VAR(Vars::Visuals::Fog::CustomFog);
 		LOAD_VAR(Vars::Visuals::Fog::FogDensity);
 		LOAD_VAR(Vars::Visuals::Fog::FogDensitySkybox);
