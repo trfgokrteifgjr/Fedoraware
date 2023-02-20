@@ -15,14 +15,14 @@ MAKE_HOOK(C_TFRagdoll_CreateTFRagdoll, g_Pattern.Find(L"client.dll", L"55 8B EC 
 {
 	if (Vars::Visuals::RemoveRagdolls.Value) { return; }
 
-	if (const auto& pRagdoll = static_cast<C_TFRagdoll*>(ecx))
+	ConVar* tf_playergib = g_ConVars.FindVar("tf_playergib");
+	if (Vars::Visuals::RagdollEffects::NoGib.Value)
 	{
-		ConVar* tf_playergib = g_ConVars.FindVar("tf_playergib");
-		if (Vars::Visuals::RagdollEffects::NoGib.Value)
-		{
-			tf_playergib->SetValue(0);
-		}
-	
+		tf_playergib->SetValue(0); //idk why i have this in here
+	}
+
+	if (const auto& pRagdoll = static_cast<C_TFRagdoll*>(ecx))
+	{	
 		if (Vars::Visuals::RagdollEffects::EnemyOnly.Value)
 		{
 			if (const auto& pLocal = g_EntityCache.GetLocal())
