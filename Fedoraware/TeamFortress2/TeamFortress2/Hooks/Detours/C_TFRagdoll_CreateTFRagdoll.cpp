@@ -1,15 +1,13 @@
 #include "../Hooks.h"
 
-#define Offset(type, ent, offset) *reinterpret_cast<type>(ent + offset)
-
-void ClearEffects(CBaseEntity* pEntity)
+void ClearEffects(C_TFRagdoll* pRagdoll)
 {
-	Offset(bool*, pEntity, 0xC91) = false; // Gib
-	Offset(bool*, pEntity, 0xC92) = false; // Burning
-	Offset(bool*, pEntity, 0xC93) = false; // Electrocuted
-	Offset(bool*, pEntity, 0xC99) = false; // Become ash
-	Offset(bool*, pEntity, 0xCA0) = false; // Gold
-	Offset(bool*, pEntity, 0xCA1) = false; // Ice
+	pRagdoll->m_bBurning() = false;
+	pRagdoll->m_bElectrocuted() = false;
+	pRagdoll->m_bBecomeAsh() = false;
+	pRagdoll->m_bDissolving() = false;
+	pRagdoll->m_bGoldRagdoll() = false;
+	pRagdoll->m_bIceRagdoll() = false;
 }
 
 MAKE_HOOK(C_TFRagdoll_CreateTFRagdoll, g_Pattern.Find(L"client.dll", L"55 8B EC B8 ? ? ? ? E8 ? ? ? ? 53 56 57 8B F9 8B 8F ? ? ? ? 85 C9 0F 85"), void, __fastcall,
@@ -17,28 +15,34 @@ MAKE_HOOK(C_TFRagdoll_CreateTFRagdoll, g_Pattern.Find(L"client.dll", L"55 8B EC 
 {
 	if (Vars::Visuals::RemoveRagdolls.Value) { return; }
 
-	if (const auto& pEntity = static_cast<CBaseEntity*>(ecx))
+	if (const auto& pRagdoll = static_cast<C_TFRagdoll*>(ecx))
 	{
+		ConVar* tf_playergib = g_ConVars.FindVar("tf_playergib");
+		if (Vars::Visuals::RagdollEffects::NoGib.Value)
+		{
+			tf_playergib->SetValue(0);
+		}
+	
 		if (Vars::Visuals::RagdollEffects::EnemyOnly.Value)
 		{
 			if (const auto& pLocal = g_EntityCache.GetLocal())
 			{
-				if (Offset(int*, pEntity, 0xCBC) == pLocal->GetTeamNum())
+				if (pRagdoll->m_iTeam() == pLocal->GetTeamNum())
 				{
-					//Team offset
 					return;
 				}
 			}
 		}
 
-		ClearEffects(pEntity);
+		ClearEffects(pRagdoll);
 
-		Offset(bool*, pEntity, 0xC92) = Vars::Visuals::RagdollEffects::Burning.Value;
-		Offset(bool*, pEntity, 0xC93) = Vars::Visuals::RagdollEffects::Electrocuted.Value;
-		Offset(bool*, pEntity, 0xC99) = Vars::Visuals::RagdollEffects::BecomeAsh.Value;
-		Offset(bool*, pEntity, 0xC95) = Vars::Visuals::RagdollEffects::Dissolve.Value;
-		Offset(bool*, pEntity, 0xCA0) = Vars::Visuals::RagdollEffects::RagdollType.Value == 1;
-		Offset(bool*, pEntity, 0xCA1) = Vars::Visuals::RagdollEffects::RagdollType.Value == 2;
+		pRagdoll->m_vecForce() *= Vars::Visuals::RagdollEffects::RagdollForce.Value;
+		pRagdoll->m_bBurning() = Vars::Visuals::RagdollEffects::Burning.Value;
+		pRagdoll->m_bElectrocuted() = Vars::Visuals::RagdollEffects::Electrocuted.Value;
+		pRagdoll->m_bBecomeAsh() = Vars::Visuals::RagdollEffects::BecomeAsh.Value;
+		pRagdoll->m_bDissolving() = Vars::Visuals::RagdollEffects::Dissolve.Value;
+		pRagdoll->m_bGoldRagdoll() = Vars::Visuals::RagdollEffects::RagdollType.Value == 1;
+		pRagdoll->m_bIceRagdoll() = Vars::Visuals::RagdollEffects::RagdollType.Value == 2;
 	}
 
 	Hook.Original<FN>()(ecx, edx);

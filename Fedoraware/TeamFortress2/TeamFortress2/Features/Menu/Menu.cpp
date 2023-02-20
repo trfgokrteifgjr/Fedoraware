@@ -1427,12 +1427,14 @@ void CMenu::MenuVisuals()
 						F::AttributeChanger.LoadConfig();
 					}
 
-					SectionTitle("Ragdoll effects");
+					SectionTitle("Ragdolls");
+					WToggle("No Gibs", &Vars::Visuals::RagdollEffects::NoGib.Value);
 					WToggle("Enemy only###RagdollEnemyOnly", &Vars::Visuals::RagdollEffects::EnemyOnly.Value); HelpMarker("Only runs it on enemies");
 					MultiCombo({ "Burning", "Electrocuted", "Become ash", "Dissolve" }, { &Vars::Visuals::RagdollEffects::Burning.Value, &Vars::Visuals::RagdollEffects::Electrocuted.Value, &Vars::Visuals::RagdollEffects::BecomeAsh.Value, &Vars::Visuals::RagdollEffects::Dissolve.Value }, "Effects###RagdollEffects");
 					HelpMarker("Ragdoll particle effects");
 					WCombo("Ragdoll model", &Vars::Visuals::RagdollEffects::RagdollType.Value, { "None", "Gold", "Ice" }); HelpMarker("Which ragdoll model should be used");
 					HelpMarker("Will make their ragdoll ice");
+					WSlider("Ragdoll Force", &Vars::Visuals::RagdollEffects::RagdollForce.Value, 0.1f, 10.f, "%.2f"); HelpMarker("Multipler for the force applied to a ragdoll");
 
 					SectionTitle("Freecam");
 					InputKeybind("Freecam Key", Vars::Visuals::FreecamKey);  HelpMarker("Allows you to freely move your camera when holding the key");

@@ -88,6 +88,15 @@ struct ShaderStencilState_t
 	void SetStencilState(IMatRenderContext *pRenderContext);
 };
 
+enum MM_PlayerConnectionState_t
+{
+	MM_DISCONNECTED = 0,
+	MM_CONNECTED,
+	MM_CONNECTING, // the server knows that this player is coming
+	MM_LOADING, // loading into the server
+	MM_WAITING_FOR_PLAYER
+};
+
 // sto and sto 2, tyo tyo1 tyo2
 enum DataCenter_t
 {
@@ -1022,3 +1031,54 @@ namespace Particles {
 
 	}
 }
+
+class C_TFRagdoll
+{
+public:
+	NETVAR(m_vecRagdollOrigin, Vector, "CTFRagdoll", "m_vecRagdollOrigin");
+	NETVAR(m_iPlayerIndex, int, "CTFRagdoll", "m_iPlayerIndex");
+	NETVAR(m_vecForce, Vector, "CTFRagdoll", "m_vecForce");
+	NETVAR(m_vecRagdollVelocity, Vector, "CTFRagdoll", "m_vecRagdollVelocity");
+	NETVAR(m_nForceBone, int, "CTFRagdoll", "m_nForceBone");
+	NETVAR(m_bGib, bool, "CTFRagdoll", "m_bGib");
+	NETVAR(m_bBurning, bool, "CTFRagdoll", "m_bBurning");
+	NETVAR(m_bElectrocuted, bool, "CTFRagdoll", "m_bElectrocuted");
+	NETVAR(m_bFeignDeath, bool, "CTFRagdoll", "m_bFeignDeath");
+	NETVAR(m_bWasDisguised, bool, "CTFRagdoll", "m_bWasDisguised");
+	NETVAR(m_bOnGround, bool, "CTFRagdoll", "m_bOnGround");
+	NETVAR(m_bCloaked, bool, "CTFRagdoll", "m_bCloaked");
+	NETVAR(m_bBecomeAsh, bool, "CTFRagdoll", "m_bBecomeAsh");
+	NETVAR(m_iDamageCustom, int, "CTFRagdoll", "m_iDamageCustom");
+	NETVAR(m_iTeam, int, "CTFRagdoll", "m_iTeam");
+	NETVAR(m_iClass, int, "CTFRagdoll", "m_iClass");
+	NETVAR(m_bGoldRagdoll, bool, "CTFRagdoll", "m_bGoldRagdoll");
+	NETVAR(m_bIceRagdoll, bool, "CTFRagdoll", "m_bIceRagdoll");
+	NETVAR(m_bCritOnHardHit, bool, "CTFRagdoll", "m_bCritOnHardHit");
+	NETVAR(m_flHeadScale, float, "CTFRagdoll", "m_flHeadScale");
+	NETVAR(m_flTorsoScale, float, "CTFRagdoll", "m_flTorsoScale");
+	NETVAR(m_flHandScale, float, "CTFRagdoll", "m_flHandScale");
+
+	__forceinline bool RagdollIsInValidTeam()
+	{
+		const int team = this->m_iTeam();
+		return (team == TEAM_RED || team == TEAM_BLU);
+	}
+
+	bool& m_bDissolving()
+	{
+		static int nOffset = 0xc96 - 1;
+		return *reinterpret_cast<bool*>(reinterpret_cast<DWORD>(this) + nOffset);
+	}
+
+	inline void DisableAllEffects()
+	{
+		m_bGib() = false;
+		m_bBurning() = false;
+		m_bElectrocuted() = false;
+		m_bFeignDeath() = false;
+		m_bBecomeAsh() = false;
+		m_bGoldRagdoll() = false;
+		m_bIceRagdoll() = false;
+		m_bDissolving() = false;
+	}
+};

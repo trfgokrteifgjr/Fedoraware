@@ -628,12 +628,14 @@ namespace Vars
 
 		namespace RagdollEffects
 		{
+			inline CVar<bool> NoGib{ false };
 			inline CVar<bool> EnemyOnly{ false };
 			inline CVar<bool> Burning{ false };
 			inline CVar<bool> Electrocuted{ false };
 			inline CVar<bool> BecomeAsh{ false };
 			inline CVar<bool> Dissolve{ false };
 			inline CVar<int> RagdollType{ 0 };
+			inline CVar<float> RagdollForce{ 1.f };
 		}
 
 		namespace Skins
