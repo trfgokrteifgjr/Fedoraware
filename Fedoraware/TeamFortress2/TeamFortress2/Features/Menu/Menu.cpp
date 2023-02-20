@@ -1437,13 +1437,13 @@ void CMenu::MenuVisuals()
 					WToggle("Use Separate Vector Forces", &Vars::Visuals::RagdollEffects::SeparateVectors.Value);
 					if (Vars::Visuals::RagdollEffects::SeparateVectors.Value)
 					{
-						WSlider("Ragdoll Force Forwards", &Vars::Visuals::RagdollEffects::RagdollForceForwards.Value, 0.1f, 10.f, "%.2f"); HelpMarker("Multipler for the force applied to a ragdoll's forward vector, where positive is backwards and negative is forwards.");
-						WSlider("Ragdoll Force Sideways", &Vars::Visuals::RagdollEffects::RagdollForceSides.Value, 0.1f, 10.f, "%.2f"); HelpMarker("Multipler for the force applied to a ragdoll's side vector, where negative is right and positive is left.");
-						WSlider("Ragdoll Force Up", &Vars::Visuals::RagdollEffects::RagdollForceUp.Value, 0.1f, 10.f, "%.2f"); HelpMarker("Multipler for the force applied to a ragdoll's up vector, where negative is up and positive is down.");
+						WSlider("Ragdoll Force Forwards", &Vars::Visuals::RagdollEffects::RagdollForceForwards.Value, -10.f, 10.f, "%.2f"); HelpMarker("Multipler for the force applied to a ragdoll's forward vector, where positive is backwards and negative is forwards.");
+						WSlider("Ragdoll Force Sideways", &Vars::Visuals::RagdollEffects::RagdollForceSides.Value, -10.f, 10.f, "%.2f"); HelpMarker("Multipler for the force applied to a ragdoll's side vector, where negative is right and positive is left.");
+						WSlider("Ragdoll Force Up", &Vars::Visuals::RagdollEffects::RagdollForceUp.Value, -10.f, 10.f, "%.2f"); HelpMarker("Multipler for the force applied to a ragdoll's up vector, where negative is up and positive is down.");
 					}
 					else
 					{
-						WSlider("Ragdoll Force", &Vars::Visuals::RagdollEffects::RagdollForce.Value, 0.1f, 10.f, "%.2f"); HelpMarker("Multipler for the force applied to a ragdoll.");
+						WSlider("Ragdoll Force", &Vars::Visuals::RagdollEffects::RagdollForce.Value, -10.f, 10.f, "%.2f"); HelpMarker("Multipler for the force applied to a ragdoll.");
 					}
 					SectionTitle("Freecam");
 					InputKeybind("Freecam Key", Vars::Visuals::FreecamKey);  HelpMarker("Allows you to freely move your camera when holding the key");
