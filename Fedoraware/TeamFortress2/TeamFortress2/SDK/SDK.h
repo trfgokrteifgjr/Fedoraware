@@ -1065,8 +1065,8 @@ public:
 	}
 
 	bool& m_bDissolving()
-	{
-		static int nOffset = 0xc96 - 1;
+	{						
+		static int nOffset = GetNetVar("CTFRagdoll", "m_bFeignDeath") - 1;
 		return *reinterpret_cast<bool*>(reinterpret_cast<DWORD>(this) + nOffset);
 	}
 
