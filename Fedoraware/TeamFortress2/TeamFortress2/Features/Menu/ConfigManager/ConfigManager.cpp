@@ -1114,16 +1114,11 @@ bool CConfigManager::SaveVisual(const std::string& configName)
 		SAVE_VAR(Vars::Chams::Players::Wearables);
 		SAVE_VAR(Vars::Chams::Players::Weapons);
 		SAVE_VAR(Vars::Chams::Players::FadeoutTeammates);
-		SAVE_VAR(Vars::Chams::Players::TeamColored);
-		SAVE_VAR(Vars::Chams::Players::EnemyOnly);
 		SAVE_VAR(Vars::Chams::Buildings::Active);
 		SAVE_VAR(Vars::Chams::Buildings::Material);
 		SAVE_VAR(Vars::Chams::Buildings::IgnoreZ);
-		SAVE_VAR(Vars::Chams::Buildings::TeamColored);
 		SAVE_VAR(Vars::Chams::Buildings::EnemyOnly);
 		SAVE_VAR(Vars::Chams::World::Active);
-		SAVE_VAR(Vars::Chams::World::Projectiles::TeamColored);
-		SAVE_VAR(Vars::Chams::World::Projectiles::EnemyOnly);
 		SAVE_VAR(Vars::Chams::DME::Active);
 		SAVE_VAR(Vars::Chams::DME::HandsGlowOverlay);
 		SAVE_VAR(Vars::Chams::DME::WeaponGlowOverlay);
@@ -1507,16 +1502,12 @@ bool CConfigManager::LoadVisual(const std::string& configName)
 		LOAD_VAR(Vars::Chams::Players::Wearables);
 		LOAD_VAR(Vars::Chams::Players::Weapons);
 		LOAD_VAR(Vars::Chams::Players::FadeoutTeammates);
-		LOAD_VAR(Vars::Chams::Players::TeamColored);
 		LOAD_VAR(Vars::Chams::Players::EnemyOnly);
 		LOAD_VAR(Vars::Chams::Buildings::Active);
 		LOAD_VAR(Vars::Chams::Buildings::Material);
 		LOAD_VAR(Vars::Chams::Buildings::IgnoreZ);
-		LOAD_VAR(Vars::Chams::Buildings::TeamColored);
 		LOAD_VAR(Vars::Chams::Buildings::EnemyOnly);
 		LOAD_VAR(Vars::Chams::World::Active);
-		LOAD_VAR(Vars::Chams::World::Projectiles::TeamColored);
-		LOAD_VAR(Vars::Chams::World::Projectiles::EnemyOnly);
 		LOAD_VAR(Vars::Chams::DME::Active);
 		LOAD_VAR(Vars::Chams::DME::HandsGlowOverlay);
 		LOAD_VAR(Vars::Chams::DME::WeaponGlowOverlay);
@@ -1764,8 +1755,6 @@ bool CConfigManager::LoadVisual(const std::string& configName)
 		LOAD_OTHER(Vars::Chams::DME::Weapon);
 
 		LOAD_OTHER(Vars::Chams::Buildings::Local);
-		LOAD_OTHER(Vars::Chams::Buildings::BluTeam);
-		LOAD_OTHER(Vars::Chams::Buildings::RedTeam);
 		LOAD_OTHER(Vars::Chams::Buildings::Enemy);
 		LOAD_OTHER(Vars::Chams::Buildings::Team);
 		LOAD_OTHER(Vars::Chams::Buildings::Friend);
