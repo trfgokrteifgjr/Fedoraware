@@ -692,7 +692,7 @@ enum ETFConds
 	TFCondEx3_KingBuff				= (1 << 17),
 	//TFCondEx3_RuneDebuff			= (1 << 129),	// I don't know how to get this one :c
 
-	TFCond_MiniCrits               = (TFCond_Buffed | TFCond_CritCola),
+	TFCond_MiniCrits               = (TFCond_Buffed | TFCond_CritCola | TFCond_NoHealingDamageBuff),
 	TFCond_IgnoreStates            = (TFCond_Ubercharged | TFCond_Bonked),
 	TFCondEx_IgnoreStates          = (TFCondEx_PyroHeal),
 	TFCondEx_Criticals = (TFCondEx_CritCanteen | TFCondEx_CritOnFirstBlood | TFCondEx_CritOnWin | TFCondEx_CritOnKill |

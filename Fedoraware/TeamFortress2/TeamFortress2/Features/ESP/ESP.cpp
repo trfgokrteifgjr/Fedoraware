@@ -1423,34 +1423,9 @@ std::vector<std::wstring> CESP::GetPlayerConds(CBaseEntity* pEntity) const
 	const int nCondEx = pEntity->GetCondEx();
 	const int nFlag = pEntity->GetFlags();
 
-	if (const wchar_t* rune = pEntity->GetRune())
+	if (nCond & TFCond_DefenseBuffed)
 	{
-		szCond.emplace_back(rune);
-	}
-
-	if (nCond & TFCond_Slowed)
-	{
-		if (const auto& pWeapon = pEntity->GetActiveWeapon())
-		{
-			if (pWeapon->GetWeaponID() == TF_WEAPON_MINIGUN)
-			{
-				szCond.emplace_back(L"REV");
-			}
-			if (pWeapon->GetWeaponID() == TF_WEAPON_COMPOUND_BOW)
-			{
-				szCond.emplace_back(L"CHARGING");
-			}
-		}
-	}
-
-	if (pEntity->GetHealth() > pEntity->GetMaxHealth())
-	{
-		szCond.emplace_back(L"HP+");
-	}
-
-	if (nCond & TFCond_OnFire)
-	{
-		szCond.emplace_back(L"BURNING");
+		szCond.emplace_back(L"-CRIT");
 	}
 
 	if (pEntity->IsUbered())
@@ -1463,41 +1438,28 @@ std::vector<std::wstring> CESP::GetPlayerConds(CBaseEntity* pEntity) const
 		szCond.emplace_back(L"MEGAHEAL");
 	}
 
-	if (nCond & TFCond_Bonked)
-	{
-		szCond.emplace_back(L"BONK");
-	}
-
-	if (nCond & TFCond_Kritzkrieged || nCondEx & TFCondEx_CritCanteen || nCondEx & TFCondEx_CritOnFirstBlood || nCondEx & TFCondEx_CritOnWin ||
-		nCondEx & TFCondEx_CritOnKill || nCondEx & TFCondEx_CritDemoCharge || nCondEx & TFCondEx_CritOnFlagCapture ||
-		nCondEx & TFCondEx_HalloweenCritCandy || nCondEx & TFCondEx_PyroCrits)
+	if (pEntity->IsCritBoostedNoMini())
 	{
 		szCond.emplace_back(L"CRITS");
 	}
 
 	if (nCond & TFCond_MiniCrits)
 	{
-		szCond.emplace_back(L"MINICRITS");
+		szCond.emplace_back(L"DMG+");
 	}
 
-	if (nCond & TFCond_Cloaked)
+	if (nCond & TFCond_Jarated || nCond & TFCond_MarkedForDeath || nCondEx & TFCondEx_MarkedForDeathSilent)
 	{
-		szCond.emplace_back(L"INVIS");
+		szCond.emplace_back(L"+DMG");
 	}
 
-	if (nCond & TFCond_Zoomed)
+	if (nCond & TFCond_Healing || nCond & TFCond_MegaHeal || pEntity->IsKingBuffed())
 	{
-		szCond.emplace_back(L"ZOOMED");
+		szCond.emplace_back(L"HP++");
 	}
-
-	if (nCond & TFCond_Taunting)
+	else if (nCond & TFCond_Overhealed)
 	{
-		szCond.emplace_back(L"TAUNTING");
-	}
-
-	if (nCond & TFCond_Disguised)
-	{
-		szCond.emplace_back(L"DISGUISED");
+		szCond.emplace_back(L"HP+");
 	}
 
 	if (nCond & TFCond_Milked)
@@ -1505,24 +1467,35 @@ std::vector<std::wstring> CESP::GetPlayerConds(CBaseEntity* pEntity) const
 		szCond.emplace_back(L"MILK");
 	}
 
-	if (nCond & TFCond_Jarated || nCond & TFCond_MarkedForDeath || nCondEx & TFCondEx_MarkedForDeathSilent)
-	{
-		szCond.emplace_back(L"DMG+");
-	}
-
-	if (nCond & TFCond_Bleeding)
-	{
-		szCond.emplace_back(L"BLEED");
-	}
-
 	if (pEntity->GetFeignDeathReady())
 	{
 		szCond.emplace_back(L"DR");
 	}
 
-	if (pEntity->IsBuffedByKing())
+	if (nCond & TFCond_Slowed)
 	{
-		szCond.emplace_back(L"KINGBUFF");
+		if (CBaseCombatWeapon* pWeapon = pEntity->GetActiveWeapon())
+		{
+			if (pWeapon->GetWeaponID() == TF_WEAPON_MINIGUN)
+			{
+				szCond.emplace_back(L"REV");
+			}
+		}
+	}
+
+	if (nCond & TFCond_Zoomed)
+	{
+		szCond.emplace_back(L"ZOOM");
+	}
+
+	if (nCond & TFCond_Cloaked || nCond & TFCond_CloakFlicker || nCondEx & TFCondEx2_Stealthed || nCondEx & TFCondEx2_StealthedUserBuffFade)
+	{
+		szCond.emplace_back(L"INVIS");
+	}
+
+	if (nCond & TFCond_Disguising || nCondEx & TFCondEx_DisguisedRemoved || nCond & TFCond_Disguised)
+	{
+		szCond.emplace_back(L"DISGUISE");
 	}
 
 	return szCond;
