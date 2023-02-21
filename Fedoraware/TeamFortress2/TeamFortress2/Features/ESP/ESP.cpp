@@ -594,6 +594,16 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 				auto flHealth = static_cast<float>(nHealth);
 				auto flMaxHealth = static_cast<float>(nMaxHealth);
 
+				float SPEED_FREQ = 145 / 0.65f;
+				int player_hp = flHealth;
+				int player_hp_max = flMaxHealth;
+				static float prev_player_hp[75];
+
+				if (prev_player_hp[Player->GetIndex()] > player_hp)
+					prev_player_hp[Player->GetIndex()] -= SPEED_FREQ * I::GlobalVars->frametime;
+				else
+					prev_player_hp[Player->GetIndex()] = player_hp;
+
 				Gradient_t clr = flHealth > flMaxHealth ? Colors::GradientOverhealBar : Colors::GradientHealthBar;
 
 				Color_t HealthColor = flHealth > flMaxHealth ? Colors::Overheal : Utils::GetHealthColor(nHealth, nMaxHealth);
@@ -612,12 +622,26 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 
 				if (Vars::ESP::Players::HealthBarStyle.Value == 0 && Vars::ESP::Players::HealthBar.Value)
 				{
-					g_Draw.OutlinedGradientBar(x - 2 - 2, y + h, 2, h, ratio, clr.startColour, clr.endColour, Colors::OutlineESP, false);
+					if (Vars::ESP::Main::AnimatedHealthBars.Value)
+					{
+						g_Draw.OutlinedGradientBar(x - 2 - 2, y + h, 2, h, prev_player_hp[Player->GetIndex()] / player_hp_max, clr.startColour, clr.endColour, Colors::OutlineESP, false);
+					}
+					else
+					{
+						g_Draw.OutlinedGradientBar(x - 2 - 2, y + h, 2, h, ratio, clr.startColour, clr.endColour, Colors::OutlineESP, false);
+					}
 				}
 
 				else if (Vars::ESP::Players::HealthBarStyle.Value == 1 && Vars::ESP::Players::HealthBar.Value)
 				{
-					g_Draw.RectOverlay(x - 2 - 2, y + h, 2, h, ratio, HealthColor, Colors::OutlineESP, false);
+					if (Vars::ESP::Main::AnimatedHealthBars.Value)
+					{
+						g_Draw.RectOverlay(x - 2 - 2, y + h, 2, h, prev_player_hp[Player->GetIndex()] / player_hp_max, HealthColor, Colors::OutlineESP, false);
+					}
+					else
+					{
+						g_Draw.RectOverlay(x - 2 - 2, y + h, 2, h, ratio, HealthColor, Colors::OutlineESP, false);
+					}
 				}
 
 				if (Vars::ESP::Players::HealthText.Value == 2)
@@ -931,8 +955,25 @@ void CESP::DrawBuildings(CBaseEntity* pLocal) const
 
 				const float ratio = flHealth / flMaxHealth;
 
-				g_Draw.Rect(x - RECT_WIDTH - 2, y + nHeight - nHeight * ratio, RECT_WIDTH, nHeight * ratio,
-					healthColor);
+				if (Vars::ESP::Main::AnimatedHealthBars.Value)
+				{
+					float SPEED_FREQ = 145 / 0.65f;
+					int player_hp = flHealth;
+					int player_hp_max = flMaxHealth;
+					static float prev_player_hp[75];
+
+					if (prev_player_hp[building->GetIndex()] > player_hp)
+						prev_player_hp[building->GetIndex()] -= SPEED_FREQ * I::GlobalVars->frametime;
+					else
+						prev_player_hp[building->GetIndex()] = player_hp;
+
+					g_Draw.RectOverlay(x - RECT_WIDTH - 2, y + nHeight - nHeight * ratio, RECT_WIDTH, nHeight* ratio, prev_player_hp[building->GetIndex()] / player_hp_max, healthColor, Colors::OutlineESP, false);
+				}
+				else
+				{
+					g_Draw.Rect(x - RECT_WIDTH - 2, y + nHeight - nHeight * ratio, RECT_WIDTH, nHeight* ratio,
+						healthColor);
+				}
 
 				if (Vars::ESP::Main::Outlinedbar.Value)
 				{

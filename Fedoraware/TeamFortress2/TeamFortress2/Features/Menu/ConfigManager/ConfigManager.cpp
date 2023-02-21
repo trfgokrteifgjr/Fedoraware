@@ -1045,6 +1045,7 @@ bool CConfigManager::SaveVisual(const std::string& configName)
 		SAVE_OTHER(Vars::CritHack::IndicatorPos);
 		SAVE_OTHER(Vars::Aimbot::Projectile::PredictionColor);
 		SAVE_VAR(Vars::ESP::Main::Active);
+		SAVE_VAR(Vars::ESP::Main::AnimatedHealthBars);
 		SAVE_VAR(Vars::ESP::Main::Outlinedbar);
 		SAVE_VAR(Vars::ESP::Main::EnableTeamEnemyColors);
 		SAVE_VAR(Vars::ESP::Main::DistanceToAlpha);
@@ -1423,6 +1424,7 @@ bool CConfigManager::LoadVisual(const std::string& configName)
 		LOAD_OTHER(Vars::Aimbot::Projectile::PredictionColor);
 		//ESP
 		LOAD_VAR(Vars::ESP::Main::Active);
+		LOAD_VAR(Vars::ESP::Main::AnimatedHealthBars);
 		LOAD_VAR(Vars::ESP::Main::Outlinedbar);
 		LOAD_VAR(Vars::ESP::Main::EnableTeamEnemyColors);
 		LOAD_VAR(Vars::ESP::Main::DistanceToAlpha);
@@ -1430,8 +1432,6 @@ bool CConfigManager::LoadVisual(const std::string& configName)
 		LOAD_VAR(Vars::ESP::Main::DormantTime);
 		LOAD_VAR(Vars::ESP::Main::DormantDist);
 		LOAD_VAR(Vars::ESP::Main::NetworkedDist);
-
-
 		LOAD_VAR(Vars::ESP::Players::Active);
 		LOAD_VAR(Vars::ESP::Players::ShowLocal);
 		LOAD_VAR(Vars::ESP::Players::IgnoreTeammates);
