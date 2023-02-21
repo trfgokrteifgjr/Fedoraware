@@ -1,5 +1,7 @@
 #include "../Hooks.h"
 
+//i stole this from mfed :)
+
 static int PlayerIndex;
 static uint32 CurrentFriendsID;
 
