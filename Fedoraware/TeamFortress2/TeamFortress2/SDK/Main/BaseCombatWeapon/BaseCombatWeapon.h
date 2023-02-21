@@ -188,7 +188,7 @@ public: //Everything else, lol
 	}
 
 	__inline CTFWeaponInfo* GetTFWeaponInfo()
-	{
+	{ //this sig is outdated, so it shoots with jumper weapons even though its not supposed to
 		static int GetTFWeaponInfoFNOffset = g_Pattern.Find(L"client.dll", L"55 8B EC FF 75 08 E8 ? ? ? ? 83 C4 04 85 C0 75 02 5D C3 56 50 E8 ? ? ? ? 83 C4 04 0F B7 F0 E8 ? ? ? ? 66 3B F0 75 05 33 C0 5E 5D C3");
 		static auto GetTFWeaponInfoFN = reinterpret_cast<CTFWeaponInfo * (__cdecl*)(int)>(GetTFWeaponInfoFNOffset);
 		return GetTFWeaponInfoFN(GetWeaponID());
