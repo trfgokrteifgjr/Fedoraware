@@ -18,18 +18,6 @@
 - The source code is most likely __DETECTED__, use [VAC Bypass by danielkrupinski](https://github.com/danielkrupinski/VAC-Bypass). In the event you get VAC Banned, we are not responsible. Don't cheat on accounts you care about.
 - Read the [Fedoraware Documentation](https://fedoraware.github.io/Docs/) to learn more about Fedoraware and its Features.
 
-## Guide:
-- We suggest using [Fedoraloader](https://github.com/lnx00/Fedoraloader/releases/) as it downloads the latest build and injects it with minimal crashing. It also includes VAC Bypass
-- Alternatively, use an injector like [Xenos](https://github.com/relaxtakenotes/xenos) to inject the dll into TF2. [(Tutorial)](https://www.youtube.com/watch?v=PT3kVA053IY)
-- __If you have any problems, you can leave them - [Issues](https://github.com/tf2cheater2013/Fedoraware/issues)__ (Dear god please link a config and follow the issue template)
-
-## Media:  
-- [Fedoraware is the best free cheat in tf2 (by bean)](https://www.youtube.com/watch?v=FyeaMghYZL0)
-- [The Crew (by Josep)](https://www.youtube.com/watch?v=7I44S9sSOcc)
-- [Playing as Michael Jackson (by km)](https://www.youtube.com/watch?v=cVD3BBEMNPo)
-
-![Screenshot](https://user-images.githubusercontent.com/17802843/161588254-5cf29b82-fd70-41c1-90c3-f77b29014a68.png)
-
 ## Credits to:
   - [spook953](https://github.com/spook953)
   - [Lak3](https://github.com/Lak3)
