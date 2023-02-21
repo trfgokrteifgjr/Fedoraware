@@ -137,6 +137,7 @@ std::vector<std::wstring> LCESP::GetPlayerConditions(CBaseEntity* pEntity) const
 	const int nCond = pEntity->GetCond();
 	const int nCondEx = pEntity->GetCondEx();
 	const int nFlag = pEntity->GetFlags();
+	if (!Vars::Visuals::DrawOnScreenConditions.Value) { return; }
 
 	if (nCond & TFCond_Slowed)
 	{
