@@ -395,17 +395,17 @@ void CMenu::MenuAimbot()
 				WToggle("Viewmodel flipper", &Vars::Misc::ViewmodelFlip.Value); HelpMarker("Will flip your viewmodel if it can hit from that side");
 				WToggle("Charge loose cannon", &Vars::Aimbot::Projectile::ChargeLooseCannon.Value); HelpMarker("Will charge your loose cannon in order to double donk");
 
-				SectionTitle("Splash");
-				WToggle("Splash prediction", &Vars::Aimbot::Projectile::SplashPrediction.Value); HelpMarker("Will shoot the area near the target to hit them with splash damage");
-				WSlider("Minimum splash distance", &Vars::Aimbot::Projectile::MinSplashPredictionDistance.Value, 0.f, Vars::Aimbot::Projectile::MaxSplashPredictionDistance.Value); HelpMarker("The minimum distance to try going for splash damage");
-				WSlider("Maximum splash distance", &Vars::Aimbot::Projectile::MaxSplashPredictionDistance.Value, Vars::Aimbot::Projectile::MinSplashPredictionDistance.Value, 10000.f); HelpMarker("The maximum distance to try going for splash damage");
-				WToggle("Wait for hit", &Vars::Aimbot::Projectile::WaitForHit.Value); HelpMarker("lol");
-
 				SectionTitle("Strafe Prediction");
 				MultiCombo({ "Air", "Ground" }, { &Vars::Aimbot::Projectile::StrafePredictionAir.Value, &Vars::Aimbot::Projectile::StrafePredictionGround.Value }, "Strafe Prediction");
 				WSlider("Velocity samples", &Vars::Aimbot::Projectile::StrafePredictionSamples.Value, 1, 20); HelpMarker("How many ticks to keep velocity records of");
 				WSlider("Minimum deviation", &Vars::Aimbot::Projectile::StrafePredictionMinDifference.Value, 0, 180); HelpMarker("How big the angle difference of the predicted strafe has to be to apply");
 				WSlider("Maximum distance", &Vars::Aimbot::Projectile::StrafePredictionMaxDistance.Value, 100.f, 10000.f); HelpMarker("Max distance to apply strafe prediction (lower is better)");
+
+				SectionTitle("Splash Prediction");
+				WToggle("Enabled", &Vars::Aimbot::Projectile::SplashPrediction.Value); HelpMarker("Will shoot the area near the target to hit them with splash damage");
+				WSlider("Minimum splash distance", &Vars::Aimbot::Projectile::MinSplashPredictionDistance.Value, 0.f, Vars::Aimbot::Projectile::MaxSplashPredictionDistance.Value); HelpMarker("The minimum distance to try going for splash damage");
+				WSlider("Maximum splash distance", &Vars::Aimbot::Projectile::MaxSplashPredictionDistance.Value, Vars::Aimbot::Projectile::MinSplashPredictionDistance.Value, 10000.f); HelpMarker("The maximum distance to try going for splash damage");
+				WToggle("Wait for hit", &Vars::Aimbot::Projectile::WaitForHit.Value); HelpMarker("lol");
 			}
 		} EndChild();
 
