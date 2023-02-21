@@ -1531,6 +1531,7 @@ std::vector<std::wstring> CESP::GetPlayerConds(CBaseEntity* pEntity) const
 	std::vector<std::wstring> szCond{};
 	const int nCond = pEntity->GetCond();
 	const int nCondEx = pEntity->GetCondEx();
+	const int nCondEx2 = pEntity->GetCondEx2();
 	const int nFlag = pEntity->GetFlags();
 
 	if (nCond & TFCond_DefenseBuffed)
@@ -1598,7 +1599,7 @@ std::vector<std::wstring> CESP::GetPlayerConds(CBaseEntity* pEntity) const
 		szCond.emplace_back(L"ZOOM");
 	}
 
-	if (nCond & TFCond_Cloaked || nCond & TFCond_CloakFlicker || nCondEx & TFCondEx2_Stealthed || nCondEx & TFCondEx2_StealthedUserBuffFade)
+	if (nCond & TFCond_Cloaked || nCond & TFCond_CloakFlicker || nCondEx2 & TFCondEx2_Stealthed || nCondEx2 & TFCondEx2_StealthedUserBuffFade)
 	{
 		szCond.emplace_back(L"INVIS");
 	}
