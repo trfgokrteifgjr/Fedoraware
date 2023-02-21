@@ -656,33 +656,25 @@ void CMenu::MenuVisuals()
 													  }
 													  case 3:
 													  {
-														  return Vars::Chams::Players::BluTeam;
+														  return Vars::Chams::Players::Enemy;
 													  }
 													  case 4:
 													  {
-														  return Vars::Chams::Players::RedTeam;
+														  return Vars::Chams::Players::Team;
 													  }
 													  case 5:
 													  {
-														  return Vars::Chams::Players::Enemy;
+														  return Vars::Chams::Players::Target;
 													  }
 													  case 6:
 													  {
-														  return Vars::Chams::Players::Team;
+														  return Vars::Chams::Players::Ragdoll;
 													  }
 													  case 7:
 													  {
-														  return Vars::Chams::Players::Target;
-													  }
-													  case 8:
-													  {
-														  return Vars::Chams::Players::Ragdoll;
-													  }
-													  case 9:
-													  {
 														  return Vars::Chams::DME::Hands;
 													  }
-													  case 10:
+													  case 8:
 													  {
 														  return Vars::Chams::DME::Weapon;
 													  }
@@ -695,11 +687,6 @@ void CMenu::MenuVisuals()
 					//WToggle("Player chams###PlayerChamsBox", &Vars::Chams::Players::Active.Value); HelpMarker("Player chams master switch");
 
 					MultiCombo({ "Render Wearable", "Render Weapon", "Fadeout Own Team" }, { &Vars::Chams::Players::Wearables.Value, &Vars::Chams::Players::Weapons.Value, &Vars::Chams::Players::FadeoutTeammates.Value }, "Flags");
-					WToggle("Team Colored Chams", &Vars::Chams::Players::TeamColored.Value);
-					if (Vars::Chams::Players::TeamColored.Value)
-					{
-						WToggle("Enemy Only", &Vars::Chams::Players::EnemyOnly.Value);
-					}	
 					HelpMarker("Customize Chams");
 					WCombo("Config", &currentSelected, chamOptions);
 					{
@@ -821,17 +808,10 @@ void CMenu::MenuVisuals()
 				{
 					SectionTitle("Building Chams");
 					WToggle("Building chams###BuildingChamsBox", &Vars::Chams::Buildings::Active.Value); HelpMarker("Building chams master switch");
-					WToggle("Team Colored Chams", &Vars::Chams::Buildings::TeamColored.Value);
-					if (Vars::Chams::Buildings::TeamColored.Value)
-					{
-						WToggle("Enemy Only", &Vars::Chams::Buildings::EnemyOnly.Value);
-					}
 
 					static std::vector chamOptions{
 						"Local",
 						"Friends",
-						"Blu Team",
-						"Red Team",
 						"Enemies",
 						"Teammates",
 						"Target"
@@ -857,21 +837,13 @@ void CMenu::MenuVisuals()
 													  }
 													  case 2:
 													  {
-														  return Vars::Chams::Buildings::BluTeam;
+														  return Vars::Chams::Buildings::Enemy;
 													  }
 													  case 3:
 													  {
-														  return Vars::Chams::Buildings::RedTeam;
-													  }
-													  case 4:
-													  {
-														  return Vars::Chams::Buildings::Enemy;
-													  }
-													  case 5:
-													  {
 														  return Vars::Chams::Buildings::Team;
 													  }
-													  case 6:
+													  case 4:
 													  {
 														  return Vars::Chams::Buildings::Target;
 													  }
@@ -961,22 +933,13 @@ void CMenu::MenuVisuals()
 				if (TableColumnChild("VisualsWorldCol2"))
 				{
 					SectionTitle("World Chams");
-					WToggle("World chams###woldchamsbut", &Vars::Chams::World::Active.Value);
-					WToggle("Team Colored Projectiles", &Vars::Chams::World::Projectiles::TeamColored.Value);
-					if (Vars::Chams::World::Projectiles::TeamColored.Value)
-					{
-						WToggle("Enemy Only", &Vars::Chams::World::Projectiles::EnemyOnly.Value);
-					}
-					
+					WToggle("World chams###woldchamsbut", &Vars::Chams::World::Active.Value);				
 
 					static std::vector chamOptions{
 						"Healthpacks",
 						"Ammopacks",
-						"Blu Projectiles",
-						"Red Projectiles",
 						"Team Projectiles",
 						"Enemy Projectiles",
-						"Target"
 					};
 					static std::vector dmeGlowMaterial{
 						"None",
@@ -999,23 +962,11 @@ void CMenu::MenuVisuals()
 													  }
 													  case 2:
 													  {
-														  return Vars::Chams::World::Projectiles::BluTeam;
+														  return Vars::Chams::World::Projectiles::Team;
 													  }
 													  case 3:
 													  {
-														  return Vars::Chams::World::Projectiles::RedTeam;
-													  }
-													  case 4:
-													  {
-														  return Vars::Chams::World::Projectiles::Team;
-													  }
-													  case 5:
-													  {
 														  return Vars::Chams::World::Projectiles::Enemy;
-													  }
-													  case 6:
-													  {
-														  return Vars::Chams::World::Projectiles::Target;
 													  }
 												  }
 

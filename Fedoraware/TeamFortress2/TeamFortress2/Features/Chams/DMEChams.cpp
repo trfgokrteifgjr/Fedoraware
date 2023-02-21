@@ -251,32 +251,32 @@ IMaterial* CDMEChams::GetProxyMaterial(int nIndex)
 	using namespace ProxySkins;
 	switch (nIndex)
 	{
-		case 1:
-			return spectrumSplattered;
-		case 2:
-			return electroSkullsBlue;
-		case 3:
-			return frozenAurora;
-		case 4:
-			return jazzy;
-		case 5:
-			return hana;
-		case 6:
-			return wtf;
-		case 7:
-			return ghost;
-		case 8:
-			return flames;
-		case 9:
-			return spookwood;
-		case 10:
-			return edgy;
-		case 11:
-			return serenity;
-		case 12:
-			return fade;
-		default:
-			return nullptr;
+	case 1:
+		return spectrumSplattered;
+	case 2:
+		return electroSkullsBlue;
+	case 3:
+		return frozenAurora;
+	case 4:
+		return jazzy;
+	case 5:
+		return hana;
+	case 6:
+		return wtf;
+	case 7:
+		return ghost;
+	case 8:
+		return flames;
+	case 9:
+		return spookwood;
+	case 10:
+		return edgy;
+	case 11:
+		return serenity;
+	case 12:
+		return fade;
+	default:
+		return nullptr;
 	}
 }
 
@@ -286,70 +286,70 @@ int GetType(int EntIndex)
 	if (!pEntity) { return 0; }
 	switch (pEntity->GetClassID())
 	{
-		case ETFClassID::CTFViewModel:
-		{
-			return 1;
-		}
-		case ETFClassID::CBasePlayer:
-		case ETFClassID::CTFPlayer:
-		{
-			return 2;
-		}
-		case ETFClassID::CRagdollPropAttached:
-		case ETFClassID::CRagdollProp:
-		case ETFClassID::CTFRagdoll:
-		{
-			return 3;
-		}
-		case ETFClassID::CTFWearable:
-		{
-			return 4;
-		}
-		case ETFClassID::CTFAmmoPack:
+	case ETFClassID::CTFViewModel:
+	{
+		return 1;
+	}
+	case ETFClassID::CBasePlayer:
+	case ETFClassID::CTFPlayer:
+	{
+		return 2;
+	}
+	case ETFClassID::CRagdollPropAttached:
+	case ETFClassID::CRagdollProp:
+	case ETFClassID::CTFRagdoll:
+	{
+		return 3;
+	}
+	case ETFClassID::CTFWearable:
+	{
+		return 4;
+	}
+	case ETFClassID::CTFAmmoPack:
+	{
+		return 6;
+	}
+	case ETFClassID::CBaseAnimating:
+	{
+		const auto szName = pEntity->GetModelName();
+
+		if (Hash::IsAmmo(szName))
 		{
 			return 6;
 		}
-		case ETFClassID::CBaseAnimating:
-		{
-			const auto szName = pEntity->GetModelName();
 
-			if (Hash::IsAmmo(szName))
-			{
-				return 6;
-			}
+		if (Hash::IsHealth(szName))
+		{
+			return 7;
+		}
 
-			if (Hash::IsHealth(szName))
-			{
-				return 7;
-			}
-
-			break;
-		}
-		case ETFClassID::CObjectSentrygun:
-		case ETFClassID::CObjectDispenser:
-		case ETFClassID::CObjectTeleporter:
-		{
-			return 8;
-		}
-		case ETFClassID::CTFProjectile_Rocket:
-		case ETFClassID::CTFGrenadePipebombProjectile:
-		case ETFClassID::CTFProjectile_Jar:
-		case ETFClassID::CTFProjectile_JarGas:
-		case ETFClassID::CTFProjectile_JarMilk:
-		case ETFClassID::CTFProjectile_Arrow:
-		case ETFClassID::CTFProjectile_SentryRocket:
-		case ETFClassID::CTFProjectile_Flare:
-		case ETFClassID::CTFProjectile_Cleaver:
-		case ETFClassID::CTFProjectile_EnergyBall:
-		case ETFClassID::CTFProjectile_HealingBolt:
-		case ETFClassID::CTFProjectile_ThrowableBreadMonster:
-		{
-			return 9;
-		}
-		case ETFClassID::CBaseDoor:
-		{
-			return 10;
-		}
+		break;
+	}
+	case ETFClassID::CObjectSentrygun:
+	case ETFClassID::CObjectDispenser:
+	case ETFClassID::CObjectTeleporter:
+	{
+		return 8;
+	}
+	case ETFClassID::CTFProjectile_Rocket:
+	case ETFClassID::CTFGrenadePipebombProjectile:
+	case ETFClassID::CTFProjectile_Jar:
+	case ETFClassID::CTFProjectile_JarGas:
+	case ETFClassID::CTFProjectile_JarMilk:
+	case ETFClassID::CTFProjectile_Arrow:
+	case ETFClassID::CTFProjectile_SentryRocket:
+	case ETFClassID::CTFProjectile_Flare:
+	case ETFClassID::CTFProjectile_Cleaver:
+	case ETFClassID::CTFProjectile_EnergyBall:
+	case ETFClassID::CTFProjectile_HealingBolt:
+	case ETFClassID::CTFProjectile_ThrowableBreadMonster:
+	{
+		return 9;
+	}
+	case ETFClassID::CBaseDoor:
+	{
+		return 10;
+	}
 	}
 	CBaseCombatWeapon* pWeapon = reinterpret_cast<CBaseCombatWeapon*>(pEntity);
 	if (pWeapon)
@@ -376,42 +376,13 @@ Chams_t GetPlayerChams(CBaseEntity* pEntity)
 		{
 			return Vars::Chams::Players::Friend;
 		}
-		//Team colored player chams
-		if (Vars::Chams::Players::TeamColored.Value)
+		if (pEntity->GetTeamNum() != pLocal->GetTeamNum())
 		{
-			if (Vars::Chams::Players::EnemyOnly.Value)
-			{
-				if (pEntity->GetTeamNum() != pLocal->GetTeamNum() && pEntity->GetTeamNum() == TEAM_RED)
-				{
-					return Vars::Chams::Players::RedTeam;
-				}
-				if (pEntity->GetTeamNum() != pLocal->GetTeamNum() && pEntity->GetTeamNum() == TEAM_BLU)
-				{
-					return Vars::Chams::Players::BluTeam;
-				}
-			}
-			else
-			{
-				if (pEntity->GetTeamNum() == TEAM_RED)
-				{
-					return Vars::Chams::Players::RedTeam;
-				}
-				if (pEntity->GetTeamNum() == TEAM_BLU)
-				{
-					return Vars::Chams::Players::BluTeam;
-				}
-			}			
+			return Vars::Chams::Players::Enemy;
 		}
-		else
+		if (pEntity->GetTeamNum() == pLocal->GetTeamNum())
 		{
-			if (pEntity->GetTeamNum() != pLocal->GetTeamNum())
-			{
-				return Vars::Chams::Players::Enemy;
-			}
-			if (pEntity->GetTeamNum() == pLocal->GetTeamNum())
-			{
-				return Vars::Chams::Players::Team;
-			}
+			return Vars::Chams::Players::Team;
 		}
 	}
 	return Chams_t();
@@ -450,161 +421,80 @@ Chams_t getChamsType(int nIndex, CBaseEntity* pEntity = nullptr)
 {
 	switch (nIndex)
 	{
-		case 0:
+	case 0:
+	{
+		return Vars::Chams::DME::Weapon;
+	}
+	case 1:
+	{
+		return Vars::Chams::DME::Hands;
+	}
+	case 2:
+	{
+		return pEntity ? GetPlayerChams(pEntity) : Chams_t();
+	}
+	case 3:
+	{
+		return Vars::Chams::Players::Ragdoll;
+	}
+	case 4:
+	{
+		if (!Vars::Chams::Players::Wearables.Value) { return Chams_t(); }
+		if (!pEntity) { return Chams_t(); }
+		if (CBaseEntity* pOwner = I::ClientEntityList->GetClientEntityFromHandle(pEntity->m_hOwnerEntity()))
 		{
-			return Vars::Chams::DME::Weapon;
+			return GetPlayerChams(pOwner);
 		}
-		case 1:
+		return Chams_t();
+	}
+	case 5:
+	{
+		if (!Vars::Chams::Players::Weapons.Value) { return Chams_t(); }
+		if (!pEntity) { return Chams_t(); }
+		if (CBaseEntity* pOwner = I::ClientEntityList->GetClientEntityFromHandle(pEntity->m_hOwnerEntity()))
 		{
-			return Vars::Chams::DME::Hands;
+			return GetPlayerChams(pOwner);
 		}
-		case 2:
+		return Chams_t();
+	}
+	case 6:
+	{
+		return Vars::Chams::World::Ammo;
+	}
+	case 7:
+	{
+		return Vars::Chams::World::Health;
+	}
+	case 8:
+	{
+		if (!pEntity) { return Chams_t(); }
+		const auto& Building = reinterpret_cast<CBaseObject*>(pEntity);
+		if (!Building || !(!Building->GetCarried() && Building->GetConstructed())) { return Chams_t(); }
+		if (CBaseEntity* pOwner = Building->GetOwner())
 		{
-			return pEntity ? GetPlayerChams(pEntity) : Chams_t();
+			return GetBuildingChams(pOwner);
 		}
-		case 3:
-		{
-			return Vars::Chams::Players::Ragdoll;
-		}
-		case 4:
-		{
-			if (!Vars::Chams::Players::Wearables.Value) { return Chams_t(); }
-			if (!pEntity) { return Chams_t(); }
-			if (CBaseEntity* pOwner = I::ClientEntityList->GetClientEntityFromHandle(pEntity->m_hOwnerEntity()))
-			{
-				return GetPlayerChams(pOwner);
-			}
-			return Chams_t();
-		}
-		case 5:
-		{
-			if (!Vars::Chams::Players::Weapons.Value) { return Chams_t(); }
-			if (!pEntity) { return Chams_t(); }
-			if (CBaseEntity* pOwner = I::ClientEntityList->GetClientEntityFromHandle(pEntity->m_hOwnerEntity()))
-			{
-				return GetPlayerChams(pOwner);
-			}
-			return Chams_t();
-		}
-		case 6:
-		{
-			return Vars::Chams::World::Ammo;
-		}
-		case 7:
-		{
-			return Vars::Chams::World::Health;
-		}
-		case 8:
-		{
-			if (!pEntity) { return Chams_t(); }
-			const auto& Building = reinterpret_cast<CBaseObject*>(pEntity);
-			if (!Building || !(!Building->GetCarried() && Building->GetConstructed())) { return Chams_t(); }
-			if (CBaseEntity* pOwner = Building->GetOwner())
-			{
-				return GetBuildingChams(pOwner);
-			}
-			else if (int teamNum = pEntity->GetTeamNum())
-			{	// if we don't have an owner, we need to do this, or else spawned buildings that do have a team will return no cham struct.
-				CBaseEntity* pLocal = g_EntityCache.GetLocal();
-				if (pLocal)
-				{
-					return (teamNum = pLocal->GetTeamNum()) ? Vars::Chams::Buildings::Team : Vars::Chams::Buildings::Enemy;
-				}
-			}
-			//Team colored building chams
+		else if (int teamNum = pEntity->GetTeamNum())
+		{	// if we don't have an owner, we need to do this, or else spawned buildings that do have a team will return no cham struct.
 			CBaseEntity* pLocal = g_EntityCache.GetLocal();
-			if (Vars::Chams::Buildings::TeamColored.Value)
+			if (pLocal)
 			{
-				if (Vars::Chams::Buildings::EnemyOnly.Value)//This is the exact same code as player chams
-				{
-					if (pEntity->GetTeamNum() != pLocal->GetTeamNum() && pEntity->GetTeamNum() == TEAM_RED)
-					{
-						return Vars::Chams::Buildings::RedTeam;
-					}
-					if (pEntity->GetTeamNum() != pLocal->GetTeamNum() && pEntity->GetTeamNum() == TEAM_BLU)
-					{
-						return Vars::Chams::Buildings::BluTeam;
-					}
-				}
-				else
-				{
-					if (pEntity->GetTeamNum() == TEAM_RED)
-					{
-						return Vars::Chams::Buildings::RedTeam;
-					}
-					if (pEntity->GetTeamNum() == TEAM_BLU)
-					{
-						return Vars::Chams::Buildings::BluTeam;
-					}
-				}
+				return (teamNum = pLocal->GetTeamNum()) ? Vars::Chams::Buildings::Team : Vars::Chams::Buildings::Enemy;
 			}
-			else
-			{
-				if (pEntity->GetTeamNum() != pLocal->GetTeamNum())
-				{
-					return Vars::Chams::Buildings::Enemy;
-				}
-				if (pEntity->GetTeamNum() == pLocal->GetTeamNum())
-				{
-					return Vars::Chams::Buildings::Team;
-				}
-			}
-
-			return Chams_t();
 		}
-		case 9:
+		return Chams_t();
+	}
+	case 9:
+	{
+		if (!pEntity) { return Chams_t(); }
+		if (CBaseEntity* pOwner = I::ClientEntityList->GetClientEntityFromHandle(reinterpret_cast<int>(pEntity->GetThrower())))
 		{
-			if (!pEntity) { return Chams_t(); }
-			if (CBaseEntity* pOwner = I::ClientEntityList->GetClientEntityFromHandle(reinterpret_cast<int>(pEntity->GetThrower())))
-			{
-				CBaseEntity* pLocal = g_EntityCache.GetLocal();
-				//Team colored projectile chams
-				if (Vars::Chams::Buildings::TeamColored.Value)
-				{
-					if (Vars::Chams::Buildings::EnemyOnly.Value)
-					{
-						if (pOwner->GetTeamNum() != pLocal->GetTeamNum() && pOwner->GetTeamNum() == TEAM_RED)
-						{
-							return Vars::Chams::World::Projectiles::RedTeam;
-						}
-						if (pOwner->GetTeamNum() != pLocal->GetTeamNum() && pOwner->GetTeamNum() == TEAM_BLU)
-						{
-							return Vars::Chams::World::Projectiles::BluTeam;
-						}
-					}
-					else
-					{
-						if (pOwner->GetTeamNum() == TEAM_RED)
-						{
-							return Vars::Chams::World::Projectiles::RedTeam;
-						}
-						if (pOwner->GetTeamNum() == TEAM_BLU)
-						{
-							return Vars::Chams::World::Projectiles::BluTeam;
-						}
-					}
-				}
-				else
-				{
-					//Make projectile chams based off of the thrower's team
-					if (pOwner->GetTeamNum() != pLocal->GetTeamNum())
-					{
-						return Vars::Chams::World::Projectiles::Enemy;
-					}
-					if (pOwner->GetTeamNum() == pLocal->GetTeamNum())
-					{
-						return Vars::Chams::World::Projectiles::Team;
-					}
-				}
-				if (pEntity->GetIndex() == G::CurrentTargetIdx && Vars::Chams::World::Projectiles::Target.chamsActive)
-				{
-					return Vars::Chams::World::Projectiles::Target;
-				}
-			}
-			return Chams_t();
+			return GetPlayerChams(pOwner);
 		}
-		default:
-			return Chams_t();
+		return Chams_t();
+	}
+	default:
+		return Chams_t();
 	}
 }
 
@@ -645,10 +535,10 @@ void CDMEChams::RenderFakeAng(const DrawModelState_t& pState, const ModelRenderI
 		{
 			if (IMaterialVar* $envmaptint = chamsMaterial->FindVar("$envmaptint", nullptr, false))
 			{
-					$envmaptint->SetVecValue(
-						Color::TOFLOAT(chams.colour.r) * 4,
-						Color::TOFLOAT(chams.colour.g) * 4,
-						Color::TOFLOAT(chams.colour.b) * 4);
+				$envmaptint->SetVecValue(
+					Color::TOFLOAT(chams.colour.r) * 4,
+					Color::TOFLOAT(chams.colour.g) * 4,
+					Color::TOFLOAT(chams.colour.b) * 4);
 			}
 			if (IMaterialVar* $selfillumtint = chamsMaterial->FindVar("$selfillumtint", nullptr, false))
 			{
@@ -658,7 +548,13 @@ void CDMEChams::RenderFakeAng(const DrawModelState_t& pState, const ModelRenderI
 					Color::TOFLOAT(chams.fresnelBase.b) * 4);
 			}
 		}
-	
+		else
+		{
+			I::RenderView->SetColorModulation(
+				Color::TOFLOAT(rainbow ? Utils::Rainbow().r : chams.colour.r),
+				Color::TOFLOAT(rainbow ? Utils::Rainbow().g : chams.colour.g),
+				Color::TOFLOAT(rainbow ? Utils::Rainbow().b : chams.colour.b));
+		}
 
 		I::RenderView->SetBlend(chams.colour.a);
 
@@ -666,53 +562,6 @@ void CDMEChams::RenderFakeAng(const DrawModelState_t& pState, const ModelRenderI
 		{
 			dmeHook->Original<void(__thiscall*)(CModelRender*, const DrawModelState_t&, const ModelRenderInfo_t&, matrix3x4*)>()(I::ModelRender, pState, pInfo, reinterpret_cast<matrix3x4*>(&F::FakeAng.BoneMatrix));
 		}
-
-	/*	if (chams.drawMaterial == 9) // edit certain custom material shit thru the menu with this
-		{
-			IMaterial* pMaterial = v_MatList.at(chams.drawMaterial);
-
-			if (chamsMaterial == v_MatList.at(chams.drawMaterial))
-			{
-				if (IMaterialVar* $envmaptint = chamsMaterial->FindVar("$envmaptint", nullptr, false))
-				{
-					if (Vars::Chams::Players::TeamColored.Value)
-					{
-						if (pEntity != nullptr && pEntity->GetTeamNum() == TEAM_RED)
-						{
-							$envmaptint->SetVecValue(
-								Color::TOFLOAT(chams.RedColour.r) * 4,
-								Color::TOFLOAT(chams.RedColour.g) * 4,
-								Color::TOFLOAT(chams.RedColour.b) * 4);
-						}
-						if (pEntity != nullptr && pEntity->GetTeamNum() == TEAM_BLU)
-						{
-							$envmaptint->SetVecValue(
-								Color::TOFLOAT(chams.BluColour.r) * 4,
-								Color::TOFLOAT(chams.BluColour.g) * 4,
-								Color::TOFLOAT(chams.BluColour.b) * 4);
-						}
-					}
-					else
-					{
-						$envmaptint->SetVecValue(
-							Color::TOFLOAT(chams.colour.r) * 4,
-							Color::TOFLOAT(chams.colour.g) * 4,
-							Color::TOFLOAT(chams.colour.b) * 4);
-					}
-				}
-				if (IMaterialVar* $phongtint = pMaterial->FindVar("$phongtint", nullptr, false))
-				{
-					$phongtint->SetVecValue(
-						Color::TOFLOAT(rainbowOverlay ? Utils::Rainbow().r : chams.overlayColour.r),
-						Color::TOFLOAT(rainbowOverlay ? Utils::Rainbow().g : chams.overlayColour.g),
-						Color::TOFLOAT(rainbowOverlay ? Utils::Rainbow().b : chams.overlayColour.b));
-				}
-				if (IMaterialVar* $phongfresnelranges = pMaterial->FindVar("$phongfresnelranges", nullptr, false))
-				{
-					$phongfresnelranges->SetVecValue(0, 0.5 / chams.overlayIntensity, 10 / chams.overlayIntensity);
-				}
-			}
-		}*/
 
 		if (chams.overlayType)
 		{
@@ -853,30 +702,10 @@ bool CDMEChams::Render(const DrawModelState_t& pState, const ModelRenderInfo_t& 
 			{
 				if (IMaterialVar* $envmaptint = chamsMaterial->FindVar("$envmaptint", nullptr, false))
 				{
-					if (Vars::Chams::Players::TeamColored.Value)
-					{
-						if (pEntity != nullptr && pEntity->GetTeamNum() == TEAM_RED)
-						{
-							$envmaptint->SetVecValue(
-								Color::TOFLOAT(chams.RedColour.r) * 4,
-								Color::TOFLOAT(chams.RedColour.g) * 4,
-								Color::TOFLOAT(chams.RedColour.b) * 4);
-						}
-						if (pEntity != nullptr && pEntity->GetTeamNum() == TEAM_BLU)
-						{
-							$envmaptint->SetVecValue(
-								Color::TOFLOAT(chams.BluColour.r) * 4,
-								Color::TOFLOAT(chams.BluColour.g) * 4,
-								Color::TOFLOAT(chams.BluColour.b) * 4);
-						}
-					}
-					else
-					{
-						$envmaptint->SetVecValue(
-							Color::TOFLOAT(chams.colour.r) * 4,
-							Color::TOFLOAT(chams.colour.g) * 4,
-							Color::TOFLOAT(chams.colour.b) * 4);
-					}
+					$envmaptint->SetVecValue(
+						Color::TOFLOAT(chams.colour.r) * 4,
+						Color::TOFLOAT(chams.colour.g) * 4,
+						Color::TOFLOAT(chams.colour.b) * 4);
 				}
 				if (IMaterialVar* $selfillumtint = chamsMaterial->FindVar("$selfillumtint", nullptr, false))
 				{
@@ -888,39 +717,27 @@ bool CDMEChams::Render(const DrawModelState_t& pState, const ModelRenderInfo_t& 
 			}
 			else
 			{
-				if (Vars::Chams::Players::TeamColored.Value)
-				{
-					if (pEntity != nullptr && pEntity->GetTeamNum() == TEAM_RED)
-					{
-						I::RenderView->SetColorModulation(
-							Color::TOFLOAT(rainbow ? Utils::Rainbow().r : chams.RedColour.r),
-							Color::TOFLOAT(rainbow ? Utils::Rainbow().g : chams.RedColour.g),
-							Color::TOFLOAT(rainbow ? Utils::Rainbow().b : chams.RedColour.b));
-					}
-					if (pEntity != nullptr && pEntity->GetTeamNum() == TEAM_BLU)
-					{
-						I::RenderView->SetColorModulation(
-							Color::TOFLOAT(rainbow ? Utils::Rainbow().r : chams.BluColour.r),
-							Color::TOFLOAT(rainbow ? Utils::Rainbow().g : chams.BluColour.g),
-							Color::TOFLOAT(rainbow ? Utils::Rainbow().b : chams.BluColour.b));
-					}
-				}
-				else
-				{
-					I::RenderView->SetColorModulation(
-						Color::TOFLOAT(rainbow ? Utils::Rainbow().r : chams.colour.r),
-						Color::TOFLOAT(rainbow ? Utils::Rainbow().g : chams.colour.g),
-						Color::TOFLOAT(rainbow ? Utils::Rainbow().b : chams.colour.b));
-				}
+				I::RenderView->SetColorModulation(
+					Color::TOFLOAT(rainbow ? Utils::Rainbow().r : chams.colour.r),
+					Color::TOFLOAT(rainbow ? Utils::Rainbow().g : chams.colour.g),
+					Color::TOFLOAT(rainbow ? Utils::Rainbow().b : chams.colour.b));
 			}
 
 			float alpha = Color::TOFLOAT(chams.colour.a);
 			if (pEntity && pLocal)
 			{
-				if (drawType == 2 && pEntity != pLocal && pEntity->GetTeamNum() == pLocal->GetTeamNum() && pLocal->IsAlive() && Vars::Chams::Players::FadeoutTeammates.Value)
+				CBaseEntity* pOwner = pEntity;
+				if (drawType == 4 || drawType == 5) {
+					pOwner = I::ClientEntityList->GetClientEntityFromHandle(pEntity->m_hOwnerEntity());
+				}
+
+				if (pOwner && pOwner->IsPlayer() && pOwner != pLocal && pOwner->GetTeamNum() == pLocal->GetTeamNum() && pLocal->IsAlive())
 				{
-					alpha = Math::RemapValClamped(pLocal->GetWorldSpaceCenter().DistTo(pEntity->GetWorldSpaceCenter()), 450.f, 100.f, Color::TOFLOAT(chams.colour.a), 0.0f);
-					if (alpha < 0.05f)
+					if (Vars::Chams::Players::FadeoutTeammates.Value) {
+						alpha = Math::RemapValClamped(pLocal->GetWorldSpaceCenter().DistTo(pEntity->GetWorldSpaceCenter()), 450.f, 100.f, Color::TOFLOAT(chams.colour.a), 0.0f);
+					}
+
+					if (alpha < 0.01f)
 					{	//dont draw if we are too close
 						return true;
 					}
