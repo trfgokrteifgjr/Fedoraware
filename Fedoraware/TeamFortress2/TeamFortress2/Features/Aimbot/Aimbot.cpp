@@ -38,26 +38,29 @@ bool CAimbot::ShouldRun(CBaseEntity* pLocal, CBaseCombatWeapon* pWeapon)
 
 	switch (G::CurItemDefIndex)
 	{
-	case Soldier_m_RocketJumper:
-	case Demoman_s_StickyJumper: return false;
-	default: break;
+		case Soldier_m_RocketJumper:
+		case Demoman_s_StickyJumper: 
+		{
+			return false;
+		}
+		default: break;
 	}
 
 	switch (pWeapon->GetWeaponID())
 	{
-	case TF_WEAPON_PDA:
-	case TF_WEAPON_PDA_ENGINEER_BUILD:
-	case TF_WEAPON_PDA_ENGINEER_DESTROY:
-	case TF_WEAPON_PDA_SPY:
-	case TF_WEAPON_PDA_SPY_BUILD:
-	case TF_WEAPON_BUILDER:
-	case TF_WEAPON_INVIS:
-	case TF_WEAPON_BUFF_ITEM:
-	case TF_WEAPON_GRAPPLINGHOOK:
+		case TF_WEAPON_PDA:
+		case TF_WEAPON_PDA_ENGINEER_BUILD:
+		case TF_WEAPON_PDA_ENGINEER_DESTROY:
+		case TF_WEAPON_PDA_SPY:
+		case TF_WEAPON_PDA_SPY_BUILD:
+		case TF_WEAPON_BUILDER:
+		case TF_WEAPON_INVIS:
+		case TF_WEAPON_BUFF_ITEM:
+		case TF_WEAPON_GRAPPLINGHOOK:
 		{
 			return false;
 		}
-	default: break;
+		default: break;
 	}
 
 /*	//	weapon data check for null damage
