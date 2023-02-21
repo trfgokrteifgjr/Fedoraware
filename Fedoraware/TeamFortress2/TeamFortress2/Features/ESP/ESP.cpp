@@ -1539,7 +1539,7 @@ std::vector<std::wstring> CESP::GetPlayerConds(CBaseEntity* pEntity) const
 		szCond.emplace_back(L"-CRIT");
 	}
 
-	if (pEntity->IsUbered())
+	if (!pEntity->IsVulnerable())
 	{
 		szCond.emplace_back(L"UBER");
 	}
