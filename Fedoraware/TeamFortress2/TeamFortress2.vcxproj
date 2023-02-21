@@ -292,6 +292,7 @@
     <ClCompile Include="TeamFortress2\Hooks\Detours\S_StartDynamicSound.cpp" />
     <ClCompile Include="TeamFortress2\Hooks\Detours\UniformRandomStream_RandInt.cpp" />
     <ClCompile Include="TeamFortress2\Hooks\Detours\UTIL_TraceLine.cpp" />
+    <ClCompile Include="TeamFortress2\Hooks\Detours\VGui_MenuBuilder_AddMenuItem.cpp" />
     <ClCompile Include="TeamFortress2\Hooks\Detours\ViewRender_LevelInit.cpp" />
     <ClCompile Include="TeamFortress2\Hooks\Detours\ViewRender_LevelShutdown.cpp" />
     <ClCompile Include="TeamFortress2\Hooks\Detours\ViewRender_PerformScreenSpaceEffects.cpp" />
