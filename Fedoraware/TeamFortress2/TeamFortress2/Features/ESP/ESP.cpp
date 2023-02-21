@@ -1568,7 +1568,7 @@ std::vector<std::wstring> CESP::GetPlayerConds(CBaseEntity* pEntity) const
 	{
 		szCond.emplace_back(L"HP++");
 	}
-	else if (nCond & TFCond_Overhealed)
+	else if (pEntity->GetHealth() > pEntity->GetMaxHealth())
 	{
 		szCond.emplace_back(L"HP+");
 	}
