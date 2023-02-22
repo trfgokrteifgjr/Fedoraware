@@ -1,6 +1,11 @@
 #pragma once
 #include "../../SDK/SDK.h"
 
+#ifdef DEBUG
+#include <iostream>
+#include <fstream>
+#endif
+
 class CMisc
 {
 	void AccurateMovement(CUserCmd* pCmd, CBaseEntity* pLocal);
@@ -40,6 +45,10 @@ class CMisc
 	bool SteamCleared = false;
 	bool bMovementScuffed = false;
 public:
+#ifdef DEBUG
+	void DumpClassIDS();
+#endif
+
 	bool TauntControl(CUserCmd* pCmd);
 	void RunPre(CUserCmd* pCmd, bool* pSendPacket);
 	void RunMid(CUserCmd* pCmd, const int nOldGroundEnt);

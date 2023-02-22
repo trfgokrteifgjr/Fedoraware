@@ -1908,6 +1908,12 @@ void CMenu::MenuMisc()
 				F::DMEChams.CreateMaterials();
 				F::Glow.CreateMaterials();
 			}
+#ifdef DEBUG
+			if (Button("Dump Classes", ImVec2(btnWidth, 20)))
+			{
+				F::Misc.DumpClassIDS();
+			}
+#endif
 			//if (Button("CPrint", ImVec2(btnWidth, 20))){
 			//	I::CenterPrint->Print((char*)"niggaz");
 			//}

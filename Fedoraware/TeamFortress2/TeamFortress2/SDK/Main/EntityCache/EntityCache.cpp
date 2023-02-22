@@ -136,11 +136,18 @@ void CEntityCache::Fill()
 
 					if (nClassID == ETFClassID::CTFGrenadePipebombProjectile && pEntity->GetPipebombType() == TYPE_STICKY)
 					{
-						if (I::ClientEntityList->GetClientEntityFromHandle(reinterpret_cast<int>(pEntity->GetThrower())) == m_pLocal)
+						CBaseEntity* pThrower = I::ClientEntityList->GetClientEntityFromHandle(reinterpret_cast<int>(pEntity->GetThrower()));
+						CBaseEntity* pOwner = I::ClientEntityList->GetClientEntityFromHandle(pEntity->GethOwner());
+						if (pThrower == m_pLocal || pOwner == m_pLocal)
 						{
 							m_vecGroups[EGroupType::LOCAL_STICKIES].push_back(pEntity);
 						}
-
+#ifdef DEBUG
+						Utils::ConLog("EntityCache", tfm::format("\npEntity : %p\npLocal : %p\n\n", pEntity, m_pLocal).c_str(), { 104, 235, 255, 255 });
+						if (!pOwner || !pThrower) { break; }
+						if (pThrower == m_pLocal || pOwner == m_pLocal) { break; }
+						Utils::ConLog("EntityCache", tfm::format("\npLocal : %p\npLocalWeapon : %p\npThrower : %p\npOwner : %p\n\n", m_pLocal, m_pLocalWeapon, pThrower, pOwner).c_str(), { 104, 235, 255, 255 });
+#endif
 						break;
 					}
 
