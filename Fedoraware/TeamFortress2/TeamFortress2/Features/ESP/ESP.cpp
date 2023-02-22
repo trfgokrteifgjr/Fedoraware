@@ -382,8 +382,8 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 				// Cheater detection ESP
 				if (G::PlayerPriority[pi.friendsID].Mode == 4 && Vars::ESP::Players::CheaterDetection.Value)
 				{
-					g_Draw.String(FONT, middle, y - 28, { 255, 0, 0, 255 }, ALIGN_CENTERHORIZONTAL, "CHEATER");
-					nTextOffset += g_Draw.m_vecFonts[FONT].nTall;
+					g_Draw.String(FONT_NAME, middle, y - 28, { 255, 0, 0, 255 }, ALIGN_CENTERHORIZONTAL, "CHEATER");
+					nTextOffset += g_Draw.m_vecFonts[FONT_NAME].nTall;
 				}
 
 				// GUID ESP
@@ -428,9 +428,9 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 			}
 
 			const auto& pWeapon = Player->GetActiveWeapon();
+			int weaponoffset = 0;
 			if (pWeapon)
 			{
-				int weaponoffset = 0;
 				// Weapon text
 				if (Vars::ESP::Players::WeaponText.Value)
 				{
@@ -495,14 +495,8 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 					void* pCurItemData = CTFPlayerSharedUtils_GetEconItemViewByLoadoutSlot(Player, iWeaponSlot, 0);
 					if (pCurItemData)
 					{
-						int offset = 0;
-						if (Vars::ESP::Players::Distance.Value)
-						{
-							offset = 10;
-						}
 						szItemName = C_EconItemView_GetItemName(pCurItemData);
-						g_Draw.String(FONT_ESP, x + (w / 2), y + h + offset, Colors::WeaponIcon, ALIGN_CENTERHORIZONTAL, "%ls", szItemName);
-						weaponoffset += Vars::Fonts::FONT_ESP::nTall.Value;
+						g_Draw.String(FONT_ESP, x + (w / 2), y + h + (Vars::ESP::Players::WeaponIcon.Value ? 25 : 0), Colors::WeaponIcon, ALIGN_CENTERHORIZONTAL, "%ls", szItemName);
 					}
 
 
@@ -552,7 +546,7 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 						scale > easedScale
 							? easedScale = g_Draw.EaseOut(scale, easedScale, 0.99f)
 							: easedScale = g_Draw.EaseIn(easedScale, scale, 0.99f);
-						g_Draw.DrawHudTexture(fx + fw / 2.f - iconWidth / 2.f * scale, fy + fh + 1.f + weaponoffset + offset, scale, pIcon, 
+						g_Draw.DrawHudTexture(fx + fw / 2.f - iconWidth / 2.f * scale, fy + fh + 1.f + weaponoffset, scale, pIcon, 
 							Colors::WeaponIcon);
 					}
 				}
@@ -560,12 +554,19 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 
 			//Distance ESP
 			if (Vars::ESP::Players::Distance.Value)
-			{
-				const Vec3 vDelta = Player->GetAbsOrigin() - pLocal->GetAbsOrigin();
-				const float flDistance = vDelta.Length2D() * 0.01905; // 1 m = 52.49 hu, so this is accurate *enough*
-				const int Distance = std::round(flDistance); //return as an int, so it doesnt show a shitty decimal number
+			{				
+				if (Player != g_EntityCache.GetLocal())
+				{
+					//this code sucks!!!
+					int offset = 0;
+					if (Vars::ESP::Players::WeaponIcon.Value && Vars::ESP::Players::WeaponText.Value) { offset = 26; }
+					else if (Vars::ESP::Players::WeaponText.Value) { offset = 1; }
+					else if (Vars::ESP::Players::WeaponIcon.Value) { offset = 25; }
+					weaponoffset += Vars::Fonts::FONT_ESP::nTall.Value;
 
-				g_Draw.String(FONT_ESP, x + (w / 2), y + h, Colors::White, ALIGN_CENTERHORIZONTAL, L"%dM", Distance);
+					const int Distance = std::round(flDistance / 52.49);
+					g_Draw.String(FONT_ESP, x + (w / 2), y + h + weaponoffset + offset, Colors::White, ALIGN_CENTERHORIZONTAL, L"%dM", Distance);
+				}
 			}
 
 			// Player conditions
@@ -624,11 +625,11 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 				{
 					if (Vars::ESP::Main::AnimatedHealthBars.Value)
 					{
-						g_Draw.OutlinedGradientBar(x - 2 - 2, y + h, 2, h, prev_player_hp[Player->GetIndex()] / player_hp_max, clr.startColour, clr.endColour, Colors::OutlineESP, false);
+						g_Draw.OutlinedGradientBar(x - 4, y + h, 2, h, prev_player_hp[Player->GetIndex()] / player_hp_max, clr.startColour, clr.endColour, Colors::OutlineESP, false);
 					}
 					else
 					{
-						g_Draw.OutlinedGradientBar(x - 2 - 2, y + h, 2, h, ratio, clr.startColour, clr.endColour, Colors::OutlineESP, false);
+						g_Draw.OutlinedGradientBar(x - 4, y + h, 2, h, ratio, clr.startColour, clr.endColour, Colors::OutlineESP, false);
 					}
 				}
 
@@ -636,11 +637,11 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 				{
 					if (Vars::ESP::Main::AnimatedHealthBars.Value)
 					{
-						g_Draw.RectOverlay(x - 2 - 2, y + h, 2, h, prev_player_hp[Player->GetIndex()] / player_hp_max, HealthColor, Colors::OutlineESP, false);
+						g_Draw.RectOverlay(x - 4, y + h, 2, h, prev_player_hp[Player->GetIndex()] / player_hp_max, HealthColor, Colors::OutlineESP, false);
 					}
 					else
 					{
-						g_Draw.RectOverlay(x - 2 - 2, y + h, 2, h, ratio, HealthColor, Colors::OutlineESP, false);
+						g_Draw.RectOverlay(x - 4, y + h, 2, h, ratio, HealthColor, Colors::OutlineESP, false);
 					}
 				}
 
@@ -844,10 +845,7 @@ void CESP::DrawBuildings(CBaseEntity* pLocal) const
 			//Distance ESP
 			if (Vars::ESP::Buildings::Distance.Value)
 			{
-				const Vec3 vDelta = building->GetAbsOrigin() - pLocal->GetAbsOrigin();
-				const float flDistance = vDelta.Length2D() * 0.01905; // 1 m = 52.49 hu, so this is accurate *enough*
-				const int Distance = std::round(flDistance); //return as an int, so it doesnt show a shitty decimal number
-
+				const int Distance = std::round(flDistance / 52.49);
 				g_Draw.String(FONT_ESP, x + (w / 2), y + h, Colors::White, ALIGN_CENTERHORIZONTAL, L"%dM", Distance);
 			}
 
@@ -949,7 +947,6 @@ void CESP::DrawBuildings(CBaseEntity* pLocal) const
 					flHealth = flMaxHealth;
 				}
 
-				static constexpr int RECT_WIDTH = 2;
 				const int nHeight = h + (flHealth < flMaxHealth ? 2 : 1);
 				int nHeight2 = h + 1;
 
@@ -958,26 +955,26 @@ void CESP::DrawBuildings(CBaseEntity* pLocal) const
 				if (Vars::ESP::Main::AnimatedHealthBars.Value)
 				{
 					float SPEED_FREQ = 145 / 0.65f;
-					int player_hp = flHealth;
-					int player_hp_max = flMaxHealth;
-					static float prev_player_hp[75];
+					int building_hp = flHealth;
+					int building_hp_max = flMaxHealth;
+					static float prev_building_hp[75];
 
-					if (prev_player_hp[building->GetIndex()] > player_hp)
-						prev_player_hp[building->GetIndex()] -= SPEED_FREQ * I::GlobalVars->frametime;
+					if (prev_building_hp[building->GetIndex()] > building_hp)
+						prev_building_hp[building->GetIndex()] -= SPEED_FREQ * I::GlobalVars->frametime;
 					else
-						prev_player_hp[building->GetIndex()] = player_hp;
+						prev_building_hp[building->GetIndex()] = building_hp;
 
-					g_Draw.RectOverlay(x - RECT_WIDTH - 2, y + nHeight - nHeight * ratio, RECT_WIDTH, nHeight* ratio, prev_player_hp[building->GetIndex()] / player_hp_max, healthColor, Colors::OutlineESP, false);
+					g_Draw.RectOverlay(x - 4, y + h, 2, h, prev_building_hp[building->GetIndex()] / building_hp_max, healthColor, Colors::OutlineESP, false);
 				}
 				else
 				{
-					g_Draw.Rect(x - RECT_WIDTH - 2, y + nHeight - nHeight * ratio, RECT_WIDTH, nHeight* ratio,
+					g_Draw.Rect(x - 4, y + nHeight - nHeight * ratio, 2, nHeight* ratio,
 						healthColor);
 				}
 
 				if (Vars::ESP::Main::Outlinedbar.Value)
 				{
-					g_Draw.OutlinedRect(x - RECT_WIDTH - 2 - 1, y + nHeight - nHeight * ratio - 1, RECT_WIDTH + 2,
+					g_Draw.OutlinedRect(x - 5, y + nHeight - nHeight * ratio - 1, 4,
 						nHeight * ratio + 2, Colors::OutlineESP);
 				}
 
@@ -1075,10 +1072,7 @@ void CESP::DrawWorld() const
 			//Distance ESP
 			if (Vars::ESP::World::HealthDistance.Value)
 			{
-				const Vec3 vDelta = health->GetAbsOrigin() - pLocal->GetAbsOrigin();
-				const float flDistance = vDelta.Length2D() * 0.01905; // 1 m = 52.49 hu, so this is accurate *enough*
-				const int Distance = std::round(flDistance); //return as an int, so it doesnt show a shitty decimal number
-
+				const int Distance = std::round(flDistance / 52.49); 
 				g_Draw.String(FONT_ESP, x + (w / 2), y + h, Colors::White, ALIGN_CENTERHORIZONTAL, L"%dM", Distance);
 			}
 
@@ -1115,7 +1109,7 @@ void CESP::DrawWorld() const
 		}
 	}
 
-	for (const auto& ammo : g_EntityCache.GetGroup(EGroupType::WORLD_AMMO))
+	for(const auto& ammo : g_EntityCache.GetGroup(EGroupType::WORLD_AMMO))
 	{
 		// distance things
 		const Vec3 vDelta = ammo->GetAbsOrigin() - pLocal->GetAbsOrigin();
@@ -1147,10 +1141,7 @@ void CESP::DrawWorld() const
 			//Distance ESP
 			if (Vars::ESP::World::AmmoDistance.Value)
 			{
-				const Vec3 vDelta = ammo->GetAbsOrigin() - pLocal->GetAbsOrigin();
-				const float flDistance = vDelta.Length2D() * 0.01905; // 1 m = 52.49 hu, so this is accurate *enough*
-				const int Distance = std::round(flDistance); //return as an int, so it doesnt show a shitty decimal number
-
+				const int Distance = std::round(flDistance / 52.49);
 				g_Draw.String(FONT_ESP, x + (w / 2), y + h, Colors::White, ALIGN_CENTERHORIZONTAL, L"%dM", Distance);
 			}
 
@@ -1257,10 +1248,7 @@ void CESP::DrawWorld() const
 			//Distance ESP
 			if (Vars::ESP::World::NPCDistance.Value)
 			{
-				const Vec3 vDelta = NPC->GetAbsOrigin() - pLocal->GetAbsOrigin();
-				const float flDistance = vDelta.Length2D() * 0.01905; // 1 m = 52.49 hu, so this is accurate *enough*
-				const int Distance = std::round(flDistance); //return as an int, so it doesnt show a shitty decimal number
-
+				const int Distance = std::round(flDistance / 52.49);
 				g_Draw.String(FONT_ESP, x + (w / 2), y + h, Colors::White, ALIGN_CENTERHORIZONTAL, L"%dM", Distance);
 			}
 
@@ -1351,10 +1339,7 @@ void CESP::DrawWorld() const
 
 			if (Vars::ESP::World::BombDistance.Value)
 			{
-				const Vec3 vDelta = Bombs->GetAbsOrigin() - pLocal->GetAbsOrigin();
-				const float flDistance = vDelta.Length2D() * 0.01905; // 1 m = 52.49 hu, so this is accurate *enough*
-				const int Distance = std::round(flDistance); //I think this method is better than doing it the normal way
-
+				const int Distance = std::round(flDistance / 52.49);
 				g_Draw.String(FONT_ESP, x + (w / 2), y + h, Colors::White, ALIGN_CENTERHORIZONTAL, L"%dM", Distance);
 			}
 
