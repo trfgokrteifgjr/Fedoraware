@@ -609,8 +609,6 @@ void CMenu::MenuVisuals()
 						"Local",
 						"FakeAngles",
 						"Friends",
-						"Blu Team",
-						"Red Team",
 						"Enemies",
 						"Teammates",
 						"Target",
