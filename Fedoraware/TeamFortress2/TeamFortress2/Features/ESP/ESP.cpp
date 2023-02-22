@@ -555,9 +555,7 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 			//Distance ESP
 			if (Vars::ESP::Players::Distance.Value)
 			{				
-				int offset = 0;
-				//this code sucks!!!
-				if (Vars::ESP::Players::WeaponText.Value || Vars::ESP::Players::WeaponIcon.Value)
+				if (Player != g_EntityCache.GetLocal())
 				{
 					if(Vars::ESP::Players::WeaponText.Value) { offset = 1; }
 					if (Vars::ESP::Players::WeaponIcon.Value) { offset = 25; }
@@ -628,11 +626,11 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 				{
 					if (Vars::ESP::Main::AnimatedHealthBars.Value)
 					{
-						g_Draw.OutlinedGradientBar(x - 2 - 2, y + h, 2, h, prev_player_hp[Player->GetIndex()] / player_hp_max, clr.startColour, clr.endColour, Colors::OutlineESP, false);
+						g_Draw.OutlinedGradientBar(x - 4, y + h, 2, h, prev_player_hp[Player->GetIndex()] / player_hp_max, clr.startColour, clr.endColour, Colors::OutlineESP, false);
 					}
 					else
 					{
-						g_Draw.OutlinedGradientBar(x - 2 - 2, y + h, 2, h, ratio, clr.startColour, clr.endColour, Colors::OutlineESP, false);
+						g_Draw.OutlinedGradientBar(x - 4, y + h, 2, h, ratio, clr.startColour, clr.endColour, Colors::OutlineESP, false);
 					}
 				}
 
@@ -640,11 +638,11 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 				{
 					if (Vars::ESP::Main::AnimatedHealthBars.Value)
 					{
-						g_Draw.RectOverlay(x - 2 - 2, y + h, 2, h, prev_player_hp[Player->GetIndex()] / player_hp_max, HealthColor, Colors::OutlineESP, false);
+						g_Draw.RectOverlay(x - 4, y + h, 2, h, prev_player_hp[Player->GetIndex()] / player_hp_max, HealthColor, Colors::OutlineESP, false);
 					}
 					else
 					{
-						g_Draw.RectOverlay(x - 2 - 2, y + h, 2, h, ratio, HealthColor, Colors::OutlineESP, false);
+						g_Draw.RectOverlay(x - 4, y + h, 2, h, ratio, HealthColor, Colors::OutlineESP, false);
 					}
 				}
 
