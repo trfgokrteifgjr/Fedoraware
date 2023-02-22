@@ -382,8 +382,8 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 				// Cheater detection ESP
 				if (G::PlayerPriority[pi.friendsID].Mode == 4 && Vars::ESP::Players::CheaterDetection.Value)
 				{
-					g_Draw.String(FONT, middle, y - 28, { 255, 0, 0, 255 }, ALIGN_CENTERHORIZONTAL, "CHEATER");
-					nTextOffset += g_Draw.m_vecFonts[FONT].nTall;
+					g_Draw.String(FONT_NAME, middle, y - 28, { 255, 0, 0, 255 }, ALIGN_CENTERHORIZONTAL, "CHEATER");
+					nTextOffset += g_Draw.m_vecFonts[FONT_NAME].nTall;
 				}
 
 				// GUID ESP
@@ -428,9 +428,9 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 			}
 
 			const auto& pWeapon = Player->GetActiveWeapon();
+			int weaponoffset = 0;
 			if (pWeapon)
 			{
-				int weaponoffset = 0;
 				// Weapon text
 				if (Vars::ESP::Players::WeaponText.Value)
 				{
@@ -495,14 +495,8 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 					void* pCurItemData = CTFPlayerSharedUtils_GetEconItemViewByLoadoutSlot(Player, iWeaponSlot, 0);
 					if (pCurItemData)
 					{
-						int offset = 0;
-						if (Vars::ESP::Players::Distance.Value)
-						{
-							offset = 10;
-						}
 						szItemName = C_EconItemView_GetItemName(pCurItemData);
-						g_Draw.String(FONT_ESP, x + (w / 2), y + h + offset, Colors::WeaponIcon, ALIGN_CENTERHORIZONTAL, "%ls", szItemName);
-						weaponoffset += Vars::Fonts::FONT_ESP::nTall.Value;
+						g_Draw.String(FONT_ESP, x + (w / 2), y + h + (Vars::ESP::Players::WeaponIcon.Value ? 25 : 0), Colors::WeaponIcon, ALIGN_CENTERHORIZONTAL, "%ls", szItemName);
 					}
 
 
@@ -552,7 +546,7 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 						scale > easedScale
 							? easedScale = g_Draw.EaseOut(scale, easedScale, 0.99f)
 							: easedScale = g_Draw.EaseIn(easedScale, scale, 0.99f);
-						g_Draw.DrawHudTexture(fx + fw / 2.f - iconWidth / 2.f * scale, fy + fh + 1.f + weaponoffset + offset, scale, pIcon, 
+						g_Draw.DrawHudTexture(fx + fw / 2.f - iconWidth / 2.f * scale, fy + fh + 1.f + weaponoffset, scale, pIcon, 
 							Colors::WeaponIcon);
 					}
 				}
@@ -560,12 +554,22 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 
 			//Distance ESP
 			if (Vars::ESP::Players::Distance.Value)
-			{
-				const Vec3 vDelta = Player->GetAbsOrigin() - pLocal->GetAbsOrigin();
-				const float flDistance = vDelta.Length2D() * 0.01905; // 1 m = 52.49 hu, so this is accurate *enough*
-				const int Distance = std::round(flDistance); //return as an int, so it doesnt show a shitty decimal number
+			{				
+				int offset = 0;
+				//this code sucks!!!
+				if (Vars::ESP::Players::WeaponText.Value || Vars::ESP::Players::WeaponIcon.Value)
+				{
+					if(Vars::ESP::Players::WeaponText.Value) { offset = 1; }
+					if (Vars::ESP::Players::WeaponIcon.Value) { offset = 25; }
+					if (Vars::ESP::Players::WeaponIcon.Value && Vars::ESP::Players::WeaponText.Value)
+					{
+						offset = 26;
+					}
+				}
 
-				g_Draw.String(FONT_ESP, x + (w / 2), y + h, Colors::White, ALIGN_CENTERHORIZONTAL, L"%dM", Distance);
+				weaponoffset += Vars::Fonts::FONT_ESP::nTall.Value;
+				const int Distance = std::round(flDistance / 52.49);
+				g_Draw.String(FONT_ESP, x + (w / 2), y + h + weaponoffset + offset, Colors::White, ALIGN_CENTERHORIZONTAL, L"%dM", Distance);
 			}
 
 			// Player conditions
@@ -844,10 +848,7 @@ void CESP::DrawBuildings(CBaseEntity* pLocal) const
 			//Distance ESP
 			if (Vars::ESP::Buildings::Distance.Value)
 			{
-				const Vec3 vDelta = building->GetAbsOrigin() - pLocal->GetAbsOrigin();
-				const float flDistance = vDelta.Length2D() * 0.01905; // 1 m = 52.49 hu, so this is accurate *enough*
-				const int Distance = std::round(flDistance); //return as an int, so it doesnt show a shitty decimal number
-
+				const int Distance = std::round(flDistance / 52.49);
 				g_Draw.String(FONT_ESP, x + (w / 2), y + h, Colors::White, ALIGN_CENTERHORIZONTAL, L"%dM", Distance);
 			}
 
@@ -1075,10 +1076,7 @@ void CESP::DrawWorld() const
 			//Distance ESP
 			if (Vars::ESP::World::HealthDistance.Value)
 			{
-				const Vec3 vDelta = health->GetAbsOrigin() - pLocal->GetAbsOrigin();
-				const float flDistance = vDelta.Length2D() * 0.01905; // 1 m = 52.49 hu, so this is accurate *enough*
-				const int Distance = std::round(flDistance); //return as an int, so it doesnt show a shitty decimal number
-
+				const int Distance = std::round(flDistance / 52.49); 
 				g_Draw.String(FONT_ESP, x + (w / 2), y + h, Colors::White, ALIGN_CENTERHORIZONTAL, L"%dM", Distance);
 			}
 
@@ -1115,7 +1113,7 @@ void CESP::DrawWorld() const
 		}
 	}
 
-	for (const auto& ammo : g_EntityCache.GetGroup(EGroupType::WORLD_AMMO))
+	for(const auto& ammo : g_EntityCache.GetGroup(EGroupType::WORLD_AMMO))
 	{
 		// distance things
 		const Vec3 vDelta = ammo->GetAbsOrigin() - pLocal->GetAbsOrigin();
@@ -1147,10 +1145,7 @@ void CESP::DrawWorld() const
 			//Distance ESP
 			if (Vars::ESP::World::AmmoDistance.Value)
 			{
-				const Vec3 vDelta = ammo->GetAbsOrigin() - pLocal->GetAbsOrigin();
-				const float flDistance = vDelta.Length2D() * 0.01905; // 1 m = 52.49 hu, so this is accurate *enough*
-				const int Distance = std::round(flDistance); //return as an int, so it doesnt show a shitty decimal number
-
+				const int Distance = std::round(flDistance / 52.49);
 				g_Draw.String(FONT_ESP, x + (w / 2), y + h, Colors::White, ALIGN_CENTERHORIZONTAL, L"%dM", Distance);
 			}
 
@@ -1257,10 +1252,7 @@ void CESP::DrawWorld() const
 			//Distance ESP
 			if (Vars::ESP::World::NPCDistance.Value)
 			{
-				const Vec3 vDelta = NPC->GetAbsOrigin() - pLocal->GetAbsOrigin();
-				const float flDistance = vDelta.Length2D() * 0.01905; // 1 m = 52.49 hu, so this is accurate *enough*
-				const int Distance = std::round(flDistance); //return as an int, so it doesnt show a shitty decimal number
-
+				const int Distance = std::round(flDistance / 52.49);
 				g_Draw.String(FONT_ESP, x + (w / 2), y + h, Colors::White, ALIGN_CENTERHORIZONTAL, L"%dM", Distance);
 			}
 
@@ -1351,10 +1343,7 @@ void CESP::DrawWorld() const
 
 			if (Vars::ESP::World::BombDistance.Value)
 			{
-				const Vec3 vDelta = Bombs->GetAbsOrigin() - pLocal->GetAbsOrigin();
-				const float flDistance = vDelta.Length2D() * 0.01905; // 1 m = 52.49 hu, so this is accurate *enough*
-				const int Distance = std::round(flDistance); //I think this method is better than doing it the normal way
-
+				const int Distance = std::round(flDistance / 52.49);
 				g_Draw.String(FONT_ESP, x + (w / 2), y + h, Colors::White, ALIGN_CENTERHORIZONTAL, L"%dM", Distance);
 			}
 
