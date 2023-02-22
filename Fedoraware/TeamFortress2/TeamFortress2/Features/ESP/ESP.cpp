@@ -959,16 +959,16 @@ void CESP::DrawBuildings(CBaseEntity* pLocal) const
 				if (Vars::ESP::Main::AnimatedHealthBars.Value)
 				{
 					float SPEED_FREQ = 145 / 0.65f;
-					int player_hp = flHealth;
-					int player_hp_max = flMaxHealth;
-					static float prev_player_hp[75];
+					int building_hp = flHealth;
+					int building_hp_max = flMaxHealth;
+					static float prev_building_hp[75];
 
-					if (prev_player_hp[building->GetIndex()] > player_hp)
-						prev_player_hp[building->GetIndex()] -= SPEED_FREQ * I::GlobalVars->frametime;
+					if (prev_building_hp[building->GetIndex()] > building_hp)
+						prev_building_hp[building->GetIndex()] -= SPEED_FREQ * I::GlobalVars->frametime;
 					else
-						prev_player_hp[building->GetIndex()] = player_hp;
+						prev_building_hp[building->GetIndex()] = building_hp;
 
-					g_Draw.RectOverlay(x - RECT_WIDTH - 2, y + nHeight - nHeight * ratio, RECT_WIDTH, nHeight* ratio, prev_player_hp[building->GetIndex()] / player_hp_max, healthColor, Colors::OutlineESP, false);
+					g_Draw.RectOverlay(x - RECT_WIDTH - 2, y + h, RECT_WIDTH, h, prev_building_hp[building->GetIndex()] / building_hp_max, healthColor, Colors::OutlineESP, false);
 				}
 				else
 				{
