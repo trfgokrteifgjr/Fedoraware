@@ -1301,6 +1301,20 @@ void CMisc::AutoPeek(CUserCmd* pCmd, CBaseEntity* pLocal)
 	}
 }
 
+#ifdef DEBUG
+void CMisc::DumpClassIDS() {
+	std::ofstream fDump("CLASSIDDUMP.txt");
+	fDump << "enum struct ETFClassID\n{\n";
+	CClientClass* ClientClass = I::BaseClientDLL->GetAllClasses();
+	while (ClientClass) {
+		fDump << "	" << ClientClass->GetName() << " = " << ClientClass->m_ClassID << ",\n";
+		ClientClass = ClientClass->m_pNext;
+	}
+	fDump << "}";
+	fDump.close();
+}
+#endif
+
 void CMisc::SteamRPC()
 {
 	if (!Vars::Misc::Steam::EnableRPC.Value)
