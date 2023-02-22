@@ -621,15 +621,17 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 
 				float ratio = flHealth / flMaxHealth;
 
+				static Color_t transparent = { 0, 0, 0, 0 };
+				Color_t barBackground = Vars::ESP::Main::Outlinedbar.Value ? Colors::OutlineESP : transparent;
 				if (Vars::ESP::Players::HealthBarStyle.Value == 0 && Vars::ESP::Players::HealthBar.Value)
 				{
 					if (Vars::ESP::Main::AnimatedHealthBars.Value)
 					{
-						g_Draw.OutlinedGradientBar(x - 4, y + h, 2, h, prev_player_hp[Player->GetIndex()] / player_hp_max, clr.startColour, clr.endColour, Colors::OutlineESP, false);
+						g_Draw.OutlinedGradientBar(x - 4, y + h, 2, h, prev_player_hp[Player->GetIndex()] / player_hp_max, clr.startColour, clr.endColour, barBackground, false);
 					}
 					else
 					{
-						g_Draw.OutlinedGradientBar(x - 4, y + h, 2, h, ratio, clr.startColour, clr.endColour, Colors::OutlineESP, false);
+						g_Draw.OutlinedGradientBar(x - 4, y + h, 2, h, ratio, clr.startColour, clr.endColour, barBackground, false);
 					}
 				}
 
@@ -637,11 +639,11 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 				{
 					if (Vars::ESP::Main::AnimatedHealthBars.Value)
 					{
-						g_Draw.RectOverlay(x - 4, y + h, 2, h, prev_player_hp[Player->GetIndex()] / player_hp_max, HealthColor, Colors::OutlineESP, false);
+						g_Draw.RectOverlay(x - 4, y + h, 2, h, prev_player_hp[Player->GetIndex()] / player_hp_max, HealthColor, barBackground, false);
 					}
 					else
 					{
-						g_Draw.RectOverlay(x - 4, y + h, 2, h, ratio, HealthColor, Colors::OutlineESP, false);
+						g_Draw.RectOverlay(x - 4, y + h, 2, h, ratio, HealthColor, barBackground, false);
 					}
 				}
 
@@ -951,6 +953,8 @@ void CESP::DrawBuildings(CBaseEntity* pLocal) const
 				int nHeight2 = h + 1;
 
 				const float ratio = flHealth / flMaxHealth;
+				static Color_t transparent = { 0, 0, 0, 0 };
+				Color_t barBackground = Vars::ESP::Main::Outlinedbar.Value ? Colors::OutlineESP : transparent;
 
 				if (Vars::ESP::Main::AnimatedHealthBars.Value)
 				{
@@ -964,18 +968,17 @@ void CESP::DrawBuildings(CBaseEntity* pLocal) const
 					else
 						prev_building_hp[building->GetIndex()] = building_hp;
 
-					g_Draw.RectOverlay(x - 4, y + h, 2, h, prev_building_hp[building->GetIndex()] / building_hp_max, healthColor, Colors::OutlineESP, false);
+					g_Draw.RectOverlay(x - 4, y + h, 2, h, prev_building_hp[building->GetIndex()] / building_hp_max, healthColor, barBackground, false);
 				}
 				else
 				{
-					g_Draw.Rect(x - 4, y + nHeight - nHeight * ratio, 2, nHeight* ratio,
-						healthColor);
+					g_Draw.RectOverlay(4, y + nHeight - nHeight * ratio, 2, nHeight* ratio, ratio, healthColor, barBackground, false);
 				}
 
 				if (Vars::ESP::Main::Outlinedbar.Value)
 				{
 					g_Draw.OutlinedRect(x - 5, y + nHeight - nHeight * ratio - 1, 4,
-						nHeight * ratio + 2, Colors::OutlineESP);
+						nHeight * ratio + 1, Colors::OutlineESP);
 				}
 
 				if (Vars::ESP::Players::HealthText.Value == 2)
