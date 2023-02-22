@@ -948,7 +948,6 @@ void CESP::DrawBuildings(CBaseEntity* pLocal) const
 					flHealth = flMaxHealth;
 				}
 
-				static constexpr int RECT_WIDTH = 2;
 				const int nHeight = h + (flHealth < flMaxHealth ? 2 : 1);
 				int nHeight2 = h + 1;
 
@@ -966,17 +965,17 @@ void CESP::DrawBuildings(CBaseEntity* pLocal) const
 					else
 						prev_building_hp[building->GetIndex()] = building_hp;
 
-					g_Draw.RectOverlay(x - RECT_WIDTH - 2, y + h, RECT_WIDTH, h, prev_building_hp[building->GetIndex()] / building_hp_max, healthColor, Colors::OutlineESP, false);
+					g_Draw.RectOverlay(x - 4, y + h, 2, h, prev_building_hp[building->GetIndex()] / building_hp_max, healthColor, Colors::OutlineESP, false);
 				}
 				else
 				{
-					g_Draw.Rect(x - RECT_WIDTH - 2, y + nHeight - nHeight * ratio, RECT_WIDTH, nHeight* ratio,
+					g_Draw.Rect(x - 4, y + nHeight - nHeight * ratio, 2, nHeight* ratio,
 						healthColor);
 				}
 
 				if (Vars::ESP::Main::Outlinedbar.Value)
 				{
-					g_Draw.OutlinedRect(x - RECT_WIDTH - 2 - 1, y + nHeight - nHeight * ratio - 1, RECT_WIDTH + 2,
+					g_Draw.OutlinedRect(x - 5, y + nHeight - nHeight * ratio - 1, 4,
 						nHeight * ratio + 2, Colors::OutlineESP);
 				}
 
