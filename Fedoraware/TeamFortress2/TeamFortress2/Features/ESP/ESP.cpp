@@ -557,17 +557,16 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 			{				
 				if (Player != g_EntityCache.GetLocal())
 				{
-					if(Vars::ESP::Players::WeaponText.Value) { offset = 1; }
-					if (Vars::ESP::Players::WeaponIcon.Value) { offset = 25; }
-					if (Vars::ESP::Players::WeaponIcon.Value && Vars::ESP::Players::WeaponText.Value)
-					{
-						offset = 26;
-					}
-				}
+					//this code sucks!!!
+					int offset = 0;
+					if (Vars::ESP::Players::WeaponIcon.Value && Vars::ESP::Players::WeaponText.Value) { offset = 26; }
+					else if (Vars::ESP::Players::WeaponText.Value) { offset = 1; }
+					else if (Vars::ESP::Players::WeaponIcon.Value) { offset = 25; }
+					weaponoffset += Vars::Fonts::FONT_ESP::nTall.Value;
 
-				weaponoffset += Vars::Fonts::FONT_ESP::nTall.Value;
-				const int Distance = std::round(flDistance / 52.49);
-				g_Draw.String(FONT_ESP, x + (w / 2), y + h + weaponoffset + offset, Colors::White, ALIGN_CENTERHORIZONTAL, L"%dM", Distance);
+					const int Distance = std::round(flDistance / 52.49);
+					g_Draw.String(FONT_ESP, x + (w / 2), y + h + weaponoffset + offset, Colors::White, ALIGN_CENTERHORIZONTAL, L"%dM", Distance);
+				}
 			}
 
 			// Player conditions
