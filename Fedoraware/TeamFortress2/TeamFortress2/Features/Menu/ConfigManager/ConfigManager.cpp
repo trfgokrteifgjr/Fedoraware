@@ -1179,6 +1179,7 @@ bool CConfigManager::SaveVisual(const std::string& configName)
 		SAVE_VAR(Vars::Radar::World::Active);
 		SAVE_VAR(Vars::Radar::World::Health);
 		SAVE_VAR(Vars::Radar::World::Ammo);
+		SAVE_VAR(Vars::Visuals::ScoreboardColours);
 		SAVE_VAR(Vars::Visuals::MenuCelebration);
 		SAVE_VAR(Vars::Visuals::CleanScreenshots);
 		SAVE_VAR(Vars::Visuals::RemoveMOTD);
@@ -1564,6 +1565,7 @@ bool CConfigManager::LoadVisual(const std::string& configName)
 		LOAD_VAR(Vars::Radar::World::Active);
 		LOAD_VAR(Vars::Radar::World::Health);
 		LOAD_VAR(Vars::Radar::World::Ammo);
+		LOAD_VAR(Vars::Visuals::ScoreboardColours);
 		LOAD_VAR(Vars::Visuals::MenuCelebration);
 		LOAD_VAR(Vars::Visuals::CleanScreenshots);
 		LOAD_VAR(Vars::Visuals::RemoveMOTD);

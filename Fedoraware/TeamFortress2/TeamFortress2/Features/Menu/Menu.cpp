@@ -1165,6 +1165,7 @@ void CMenu::MenuVisuals()
 						I::ViewRender->SetScreenOverlayMaterial(nullptr);
 					}
 					WToggle("Menu Celebration", &Vars::Visuals::MenuCelebration.Value);
+					WToggle("Scoreboard Colours", &Vars::Visuals::ScoreboardColours.Value);
 					WCombo("Particle Colors", &Vars::Visuals::Particles::ParticleColors.Value, { "Disabled", "Color Picker", "Rainbow" });
 					if (Vars::Visuals::Particles::ParticleColors.Value == 1)
 					{

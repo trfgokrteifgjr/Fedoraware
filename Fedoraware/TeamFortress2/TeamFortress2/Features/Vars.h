@@ -484,6 +484,7 @@ namespace Vars
 
 	namespace Visuals
 	{
+		inline CVar<bool> ScoreboardColours{ false };
 		inline CVar<bool> MenuCelebration{ true };
 		inline CVar<bool> CleanScreenshots{ true };
 		inline CVar<bool> RemoveDisguises{ false };
