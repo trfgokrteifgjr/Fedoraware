@@ -185,6 +185,7 @@
     <ClCompile Include="TeamFortress2\Hooks\Detours\C_OP_RenderSprites_RenderSpriteCard.cpp" />
     <ClCompile Include="TeamFortress2\Hooks\Detours\C_TFPlayer_FireEvent.cpp" />
     <ClCompile Include="TeamFortress2\Hooks\Detours\VGui_MenuBuilder_AddMenuItem.cpp" />
+    <ClCompile Include="TeamFortress2\Hooks\Detours\C_PlayerResource_GetTeamColor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TeamFortress2\Features\AutoQueue\AutoQueue.h" />
