@@ -796,7 +796,6 @@ namespace Utils
 			Math::VectorAngles(pLocal->GetVecVelocity(), direction);
 			direction.y = pCmd->viewangles.y - direction.y;
 			Math::AngleVectors(direction, &forward);
-			Math::AngleVectors(direction, &forward);
 
 			Vector negated_direction = forward * Speed;
 			pCmd->forwardmove = negated_direction.x;
