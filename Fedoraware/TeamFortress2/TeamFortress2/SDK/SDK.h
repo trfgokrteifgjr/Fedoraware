@@ -786,7 +786,6 @@ namespace Utils
 		if (safe && G::IsAttacking) { return; }
 
 		if (CBaseEntity* pLocal = g_EntityCache.GetLocal()) {
-			const float Speed = pLocal->GetVecVelocity().Length2D();
 			QAngle direction;
 			Vector forward;
 
@@ -796,9 +795,8 @@ namespace Utils
 			Math::VectorAngles(pLocal->GetVecVelocity(), direction);
 			direction.y = pCmd->viewangles.y - direction.y;
 			Math::AngleVectors(direction, &forward);
-			Math::AngleVectors(direction, &forward);
 
-			Vector negated_direction = forward * Speed;
+			Vector negated_direction = forward * pLocal->GetVecVelocity().Length2D();
 			pCmd->forwardmove = negated_direction.x;
 			pCmd->sidemove = negated_direction.y;
 
