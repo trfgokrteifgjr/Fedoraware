@@ -563,7 +563,9 @@ namespace Vars
 		inline CVar<int> SeperatorSpacing{ 6 };
 
 		inline CVar<int> ParticleTracer{ 2 };
-		inline std::string ParticleName = "merasmus_zap_beam01"; // dont save this as a var its pointless
+		inline CVar<int> ParticleTracerCrits{ 2 };
+		inline std::string ParticleName		 = "merasmus_zap_beam01"; // dont save these as vars its pointless
+		inline std::string ParticleNameCrits = "merasmus_zap_beam01"; 
 		inline CVar<bool> DoPostProcessing{ false };
 
 		namespace Particles
