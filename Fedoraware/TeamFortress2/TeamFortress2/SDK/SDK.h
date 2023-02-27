@@ -88,15 +88,6 @@ struct ShaderStencilState_t
 	void SetStencilState(IMatRenderContext *pRenderContext);
 };
 
-enum MM_PlayerConnectionState_t
-{
-	MM_DISCONNECTED = 0,
-	MM_CONNECTED,
-	MM_CONNECTING, // the server knows that this player is coming
-	MM_LOADING, // loading into the server
-	MM_WAITING_FOR_PLAYER
-};
-
 // sto and sto 2, tyo tyo1 tyo2
 enum DataCenter_t
 {
