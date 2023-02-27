@@ -670,6 +670,7 @@ namespace Vars
 	{
 		inline CVar<bool> FastDeltaStrafe{ false };
 		inline CVar<int> AccurateMovement{ false };
+		inline CVar<int> InfiniteEatKey{ 0 };
 		inline CVar<bool> AutoJump{ false };
 		inline CVar<bool> AutoVote{ false };
 		inline CVar<bool> DuckJump{ false };

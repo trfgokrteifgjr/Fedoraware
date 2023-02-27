@@ -224,6 +224,23 @@ void CMisc::LegJitter(CUserCmd* pCmd, CBaseEntity* pLocal)
 	}
 }
 
+void CMisc::Glutton(CBaseEntity* pLocal, CUserCmd* pCmd) {
+	static KeyHelper kGlutton{ &Vars::Misc::InfiniteEatKey.Value };
+	if (!pLocal->IsAlive() || !kGlutton.Down()) { return; }
+
+	CBaseCombatWeapon* pWeapon = pLocal->GetActiveWeapon();
+	const int iWeaponID = pWeapon->GetWeaponID();
+	if (iWeaponID != TF_WEAPON_LUNCHBOX) { return; }
+
+	pCmd->buttons |= IN_ATTACK;
+
+	static float flLastSendTime = I::GlobalVars->curtime;		//	dont get disconnected
+	if (fabsf(I::GlobalVars->curtime - flLastSendTime) > .5f) {
+		I::EngineClient->ClientCmd_Unrestricted("taunt");
+		flLastSendTime = I::GlobalVars->curtime;
+	}
+}
+
 void CMisc::AntiBackstab(CBaseEntity* pLocal, CUserCmd* pCmd)
 {
 	G::AvoidingBackstab = false;

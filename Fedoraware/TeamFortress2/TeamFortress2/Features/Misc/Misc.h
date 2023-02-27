@@ -21,6 +21,7 @@ class CMisc
 	void AutoPeek(CUserCmd* pCmd, CBaseEntity* pLocal);
 	void StopMovement(CUserCmd* pCmd, bool* pSendPacket);
 	void FastDeltaMove(CUserCmd* pCmd, bool* pSendPacket);
+	void Glutton(CBaseEntity* pLocal, CUserCmd* pCmd);
 
 	void AntiAFK(CUserCmd* pCmd);
 	void ChatSpam();
