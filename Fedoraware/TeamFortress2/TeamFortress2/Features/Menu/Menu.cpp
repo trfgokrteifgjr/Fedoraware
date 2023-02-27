@@ -1220,10 +1220,15 @@ void CMenu::MenuVisuals()
 					ColorPickerL("GUI Notif Outline", Colors::NotifOutline, 1);
 					ColorPickerL("GUI Notif Colour", Colors::NotifText, 2);
 					WSlider("GUI Notif Time", &Vars::Visuals::NotificationLifetime.Value, 0.5f, 3.f, "%.1f");
-					WCombo("Particle tracer", &Vars::Visuals::ParticleTracer.Value, { "Off", "Machina", "C.A.P.P.E.R", "Short Circuit", "Merasmus ZAP", "Merasmus ZAP Beam 2", "Big Nasty", "Distortion Trail", "Black Ink", "Custom" });
-					if (Vars::Visuals::ParticleTracer.Value == 9)
+					WCombo("Particle tracer", &Vars::Visuals::ParticleTracer.Value, { "Off", "Machina", "C.A.P.P.E.R", "Short Circuit", "Merasmus ZAP", "Big Nasty", "Distortion Trail", "Black Ink", "Custom" });
+					if (Vars::Visuals::ParticleTracer.Value == 8)
 					{
-						WInputText("Custom Tracer", &Vars::Visuals::ParticleName); HelpMarker("If you want to use a custom particle tracer");
+						WInputText("Custom Tracer", &Vars::Visuals::ParticleName);
+					}
+					WCombo("Particle tracer (Crits)", &Vars::Visuals::ParticleTracerCrits.Value, { "Off", "Machina", "C.A.P.P.E.R", "Short Circuit", "Merasmus ZAP", "Big Nasty", "Distortion Trail", "Black Ink", "Custom" });
+					if (Vars::Visuals::ParticleTracerCrits.Value == 8)
+					{
+						WInputText("Custom Crit Tracer", &Vars::Visuals::ParticleName);
 					}
 					WToggle("On Screen Local Conditions", &Vars::Visuals::DrawOnScreenConditions.Value); HelpMarker("Render your local conditions on your screen");
 					WToggle("On Screen Ping", &Vars::Visuals::DrawOnScreenPing.Value); HelpMarker("Render your ping and your scoreboard ping on the screen");

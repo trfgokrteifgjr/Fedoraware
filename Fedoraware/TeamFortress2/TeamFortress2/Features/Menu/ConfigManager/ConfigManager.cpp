@@ -670,6 +670,7 @@ bool CConfigManager::LoadConfig(const std::string& configName)
 				LOAD_VAR(Vars::Aimbot::Global::AimBombs);
 				LOAD_VAR(Vars::Aimbot::Global::IgnoreOptions);
 				LOAD_VAR(Vars::Aimbot::Global::TickTolerance);
+				LOAD_VAR(Vars::Aimbot::Global::BAimLethal);
 				LOAD_VAR(Vars::Aimbot::Global::showHitboxes);
 				LOAD_VAR(Vars::Aimbot::Global::ClearPreviousHitbox);
 				LOAD_VAR(Vars::Aimbot::Global::HitboxLifetime);
@@ -1424,6 +1425,8 @@ bool CConfigManager::LoadVisual(const std::string& configName)
 		LOAD_VAR(Vars::Backtrack::BtChams::IgnoreZ);
 		LOAD_VAR(Vars::Backtrack::BtChams::Material);
 		LOAD_OTHER(Vars::Backtrack::BtChams::BacktrackColor);
+		LOAD_VAR(Vars::CritHack::Indicators);
+		LOAD_OTHER(Vars::CritHack::IndicatorPos);
 		LOAD_OTHER(Vars::Aimbot::Projectile::PredictionColor);
 		//ESP
 		LOAD_VAR(Vars::ESP::Main::Active);
