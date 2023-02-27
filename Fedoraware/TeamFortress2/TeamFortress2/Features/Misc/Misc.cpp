@@ -30,6 +30,7 @@ void CMisc::RunPre(CUserCmd* pCmd, bool* pSendPacket)
 		AntiBackstab(pLocal, pCmd);
 		ViewmodelFlip(pCmd, pLocal);
 		AutoPeek(pCmd, pLocal);
+		Glutton(pLocal, pCmd);
 	}
 
 	AntiAFK(pCmd);
