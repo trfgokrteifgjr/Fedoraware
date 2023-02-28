@@ -67,7 +67,7 @@ bool CAimbotMelee::CanMeleeHit(CBaseEntity* pLocal, CBaseCombatWeapon* pWeapon, 
 		if (pTarget->GetVelocity().Length() < 10.f || !pTarget->IsPlayer()){
 			Vec3 vecTraceEnd = vecTraceStart + (vecForward * flRange);
 			Utils::TraceHull(vecTraceStart, vecTraceEnd, vecSwingMins, vecSwingMaxs, MASK_SHOT, &filter, &trace);
-			return (trace.entity && trace.entity->GetIndex() == nTargetIndex);
+			return (trace.entity && trace.entity == pTarget);
 		}
 
 		if (F::MoveSim.Initialize(pTarget)){
@@ -82,7 +82,7 @@ bool CAimbotMelee::CanMeleeHit(CBaseEntity* pLocal, CBaseCombatWeapon* pWeapon, 
 
 			Vec3 vecTraceEnd = vecTraceStart + (vecForward * flRange);
 			Utils::TraceHull(vecTraceStart, vecTraceEnd, vecSwingMins, vecSwingMaxs, MASK_SHOT, &filter, &trace);
-			const bool bReturn = (trace.entity && trace.entity->GetIndex() == nTargetIndex);
+			const bool bReturn = (trace.entity && trace.entity == pTarget);
 
 			pTarget->SetAbsOrigin(vRestore);
 			F::MoveSim.Restore();
@@ -277,10 +277,26 @@ bool CAimbotMelee::VerifyTarget(CBaseEntity* pLocal, CBaseCombatWeapon* pWeapon,
 	}
 	else if (target.ShouldBacktrack)
 	{
-		const float flRange = (pWeapon->GetSwingRange(pLocal)) * 1.9f;
-		//Utils::ConLog("AimbotMelee", tfm::format("flRange : %.1f", flRange).c_str(), {133, 255, 159, 255});
-		if (hitboxpos.Dist2D(pLocal->GetShootPos()) > flRange)
-		{ return false; }
+		const float FL_DELAY = std::max(pWeapon->GetWeaponData().m_flSmackDelay - ((F::Ticks.MeleeDoubletapCheck(pLocal) && Vars::Misc::CL_Move::AntiWarp.Value) ? TICKS_TO_TIME(G::ShiftedTicks) : 0.f), 0.f);
+		if (FL_DELAY == 0.f) { return false; }
+
+		if (F::MoveSim.Initialize(g_EntityCache.GetLocal()))
+		{
+			const int iTicks = TIME_TO_TICKS(FL_DELAY);
+			const Vec3 vPointDelta = pLocal->GetShootPos() - pLocal->GetAbsOrigin();
+			const float flRange = (pWeapon->GetSwingRange(pLocal)) * 1.9f;
+
+			CMoveData moveData = {};
+			Vec3 absOrigin = {};
+			for (int i = 0; i < iTicks; i++) {
+				F::MoveSim.RunTick(moveData, absOrigin);
+			}
+			const Vec3 vShootPos = absOrigin + vPointDelta;
+
+			const bool bInRange = hitboxpos.DistTo(vShootPos) < flRange;
+			F::MoveSim.Restore();
+			return bInRange;
+		}
 	}
 	else {
 		if (!Utils::VisPos(pLocal, target.m_pEntity, pLocal->GetShootPos(), target.m_vPos))

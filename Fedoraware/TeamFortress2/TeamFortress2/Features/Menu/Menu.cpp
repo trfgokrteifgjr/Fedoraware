@@ -1787,6 +1787,8 @@ void CMenu::MenuMisc()
 			InputKeybind("Taunt spin key", Vars::Misc::TauntSpinKey, false);
 			WSlider("Taunt spin speed", &Vars::Misc::TauntSpinSpeed.Value, 0.1f, 100.f, "%.2f", ImGuiSliderFlags_AlwaysClamp | ImGuiSliderFlags_ClampOnInput);
 
+
+			InputKeybind("Glutton Key", Vars::Misc::InfiniteEatKey, true); HelpMarker("Heavy Only, allows constant consumption of sammys");
 			WCombo("Pick Class", &Vars::Misc::AutoJoin.Value, { "Off", "Scout", "Soldier", "Pyro", "Demoman", "Heavy", "Engineer", "Medic", "Sniper", "Spy" }); HelpMarker("Automatically joins the given class");
 			WToggle("Rage retry", &Vars::Misc::RageRetry.Value); HelpMarker("Will automatically reconnect when your health is low");
 			if (Vars::Misc::RageRetry.Value)
