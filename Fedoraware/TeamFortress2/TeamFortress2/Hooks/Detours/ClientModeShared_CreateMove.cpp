@@ -164,6 +164,7 @@ MAKE_HOOK(ClientModeShared_CreateMove, Utils::GetVFuncPtr(I::ClientModeShared, 2
 			F::Auto.Run(pCmd);
 			F::AntiAim.Run(pCmd, pSendPacket);
 			F::Misc.RunMid(pCmd, nOldFlags);
+			F::FakeLag.PreserveBlastJump(pSendPacket, nOldGroundEnt);
 		}
 		F::EnginePrediction.End(pCmd);
 

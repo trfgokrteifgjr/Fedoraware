@@ -101,11 +101,32 @@ bool CFakeLag::IsAllowed(CBaseEntity* pLocal)
 	}
 }
 
+void CFakeLag::PreserveBlastJump(bool* pSendPacket, const int nOldGround) {
+	if (ChokeCounter > 19) { return; }
+	if (G::IsAttacking) { return; }
+	if (nOldGround >= 0) { return; }
+	if (!Vars::Misc::CL_Move::RetainBlastJump.Value) { return; }
+
+	CBaseEntity* pLocal = g_EntityCache.GetLocal();
+	if (!pLocal || !pLocal->IsAlive() || !pLocal->IsPlayer()) { return; }
+	if (!pLocal->IsOnGround()) { return; }
+	if (pLocal->GetClassNum() != ETFClass::CLASS_SOLDIER) { return; }
+	if (pLocal->GetCondEx2() & TFCondEx2_BlastJumping) {
+		//we are on the ground, weren't the last tick, aren't attacking, are a soldier, are blast jumping, and can choke.
+		//Utils::ConLog("FakeLag", "Retaining Blast Jump", { 190, 123, 123, 255 });
+		pForced = { true, true };
+	}
+}
+
 void CFakeLag::OnTick(CUserCmd* pCmd, bool* pSendPacket)
 {
 	G::IsChoking = false;	//	do this first
-	if (!Vars::Misc::CL_Move::Fakelag.Value) { return; }
 	if (G::ShouldShift) { return; }
+
+	if (pForced.first) { pForced.first = false; G::IsChoking = true;  *pSendPacket = false; ChokeCounter++; return; }
+	else if (pForced.second) { pForced.second = false; G::IsChoking = true;  *pSendPacket = false; ChokeCounter++; return; }
+
+	if (!Vars::Misc::CL_Move::Fakelag.Value) { ChokeCounter = 0; return; }
 
 	// Set the selected choke amount (if not random)
 	if (Vars::Misc::CL_Move::FakelagMode.Value != FL_Random)
