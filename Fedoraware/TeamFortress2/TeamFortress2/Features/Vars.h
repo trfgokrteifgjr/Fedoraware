@@ -772,6 +772,8 @@ namespace Vars
 			inline CVar<int> DoubletapKey{ 0x56 }; //V
 			inline CVar<bool> AutoRetain{ true };
 			inline CVar<bool> RetainFakelag{ false };
+			inline CVar<bool> RetainBlastJump{ false };
+			inline CVar<bool> UnchokeOnAttack{ false };
 			inline CVar<bool> RechargeWhileDead{ false };
 			inline CVar<bool> AutoRecharge{ false }; //H
 			inline CVar<bool> AntiWarp{ false }; //H

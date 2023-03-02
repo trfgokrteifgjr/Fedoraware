@@ -53,9 +53,18 @@ bool CFakeLag::IsAllowed(CBaseEntity* pLocal)
 	}
 
 	// Are we attacking? TODO: Add more logic here
-	if (G::IsAttacking)
+	if (G::IsAttacking && Vars::Misc::CL_Move::UnchokeOnAttack.Value)
 	{
 		return false;
+	}
+
+	// Unchoke when we are back in the air.
+	if (!pLocal->OnSolid() && bPreservingBlast) {
+		bPreservingBlast = false;
+		return false;
+	}
+	else if (bPreservingBlast) {
+		return true;
 	}
 
 	// Are we recharging
@@ -101,11 +110,25 @@ bool CFakeLag::IsAllowed(CBaseEntity* pLocal)
 	}
 }
 
+void CFakeLag::PreserveBlastJump(bool* pSendPacket, const int nOldGround) {
+	//if (G::IsAttacking) { return; }
+	bPreservingBlast = false;
+	if (!Vars::Misc::CL_Move::RetainBlastJump.Value) { return; }
+
+	CBaseEntity* pLocal = g_EntityCache.GetLocal();
+	if (!pLocal || !pLocal->IsAlive() || !pLocal->IsPlayer()) { return; }
+	if (!pLocal->IsOnGround()) { return; }
+	if (pLocal->GetClassNum() != ETFClass::CLASS_SOLDIER) { return; }
+	if (pLocal->GetCondEx2() & TFCondEx2_BlastJumping) {
+		bPreservingBlast = true;
+	}
+}
+
 void CFakeLag::OnTick(CUserCmd* pCmd, bool* pSendPacket)
 {
 	G::IsChoking = false;	//	do this first
-	if (!Vars::Misc::CL_Move::Fakelag.Value) { return; }
 	if (G::ShouldShift) { return; }
+	if (!Vars::Misc::CL_Move::Fakelag.Value && !bPreservingBlast) { ChokeCounter = 0; return; }
 
 	// Set the selected choke amount (if not random)
 	if (Vars::Misc::CL_Move::FakelagMode.Value != FL_Random)

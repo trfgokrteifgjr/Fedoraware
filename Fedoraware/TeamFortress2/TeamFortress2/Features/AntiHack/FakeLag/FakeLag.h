@@ -12,6 +12,7 @@ class CFakeLag
 
 	int ChokeCounter = 0; // How many ticks have been choked
 	int ChosenAmount = 0; // How many ticks should be choked
+	bool bPreservingBlast = false;
 	std::pair<bool, int> pInAirTicks = {false, 0};	//	started on ground, ticks in air
 	Vec3 vLastPosition;
 
@@ -20,6 +21,7 @@ class CFakeLag
 	bool DuckLogic(CBaseEntity* pLocal);
 
 public:
+	void PreserveBlastJump(bool* pSendPacket, const int nOldGround);
 	void OnTick(CUserCmd* pCmd, bool* pSendPacket);
 };
 

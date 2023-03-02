@@ -1598,6 +1598,7 @@ void CMenu::MenuHvH()
 
 			/* Section: Fakelag */
 			SectionTitle("Fakelag");
+			WToggle("Retain BlastJump", &Vars::Misc::CL_Move::RetainBlastJump.Value); HelpMarker("Will attempt to retain the blast jumping condition as soldier and runs independently of fakelag.");
 			WToggle("Enable Fakelag", &Vars::Misc::CL_Move::Fakelag.Value);
 			MultiCombo({ "While Moving", "On Key", "While Visible", "Predict Visibility", "While Unducking", "While Airborne" }, { &Vars::Misc::CL_Move::WhileMoving.Value, &Vars::Misc::CL_Move::FakelagOnKey.Value, &Vars::Misc::CL_Move::WhileVisible.Value, &Vars::Misc::CL_Move::PredictVisibility.Value, &Vars::Misc::CL_Move::WhileUnducking.Value, &Vars::Misc::CL_Move::WhileInAir.Value }, "Flags###FakeLagFlags");
 			if (Vars::Misc::CL_Move::FakelagOnKey.Value)
@@ -1616,6 +1617,7 @@ void CMenu::MenuHvH()
 					break;
 				}
 			}	//	add more here if you add your own fakelag modes :D
+			WToggle("Unchoke On Attack", &Vars::Misc::CL_Move::UnchokeOnAttack.Value); HelpMarker("Will exit a fakelag cycle if you are attacking.");
 
 
 		} EndChild();
