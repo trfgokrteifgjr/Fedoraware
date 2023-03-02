@@ -1617,6 +1617,7 @@ void CMenu::MenuHvH()
 					break;
 				}
 			}	//	add more here if you add your own fakelag modes :D
+			WToggle("Unchoke On Attack", &Vars::Misc::CL_Move::UnchokeOnAttack.Value); HelpMarker("Will exit a fakelag cycle if you are attacking.");
 
 
 		} EndChild();
