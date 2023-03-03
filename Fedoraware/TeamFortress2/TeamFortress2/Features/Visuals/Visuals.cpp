@@ -858,11 +858,32 @@ void CVisuals::DrawProjectileTracer(CBaseEntity* pLocal, const Vec3& position)
 
 void CVisuals::DrawAimbotFOV(CBaseEntity* pLocal)
 {
+	float curFOV = 0.f;
+	if (Vars::Aimbot::Global::Active.Value)
+	{
+		switch (G::CurWeaponType)
+		{
+		case EWeaponType::HITSCAN:
+			if (Vars::Aimbot::Hitscan::Active.Value)
+				curFOV = Vars::Aimbot::Hitscan::AimFOV.Value;
+			break;
+		case EWeaponType::PROJECTILE:
+			if(Vars::Aimbot::Projectile::Active.Value)
+				curFOV = Vars::Aimbot::Projectile::AimFOV.Value;
+			break;
+		case EWeaponType::MELEE:
+			if (Vars::Aimbot::Melee::Active.Value)
+				curFOV = Vars::Aimbot::Melee::AimFOV.Value;
+			break;
+		default: curFOV = 0.f; break;
+		}
+	}
+
 	//Current Active Aimbot FOV
-	if (Vars::Visuals::AimFOVAlpha.Value && Vars::Aimbot::Global::AimFOV.Value)
+	if (Vars::Visuals::AimFOVAlpha.Value && curFOV)
 	{
 		const float flFOV = static_cast<float>(Vars::Visuals::FieldOfView.Value);
-		const float flR = tanf(DEG2RAD(Vars::Aimbot::Global::AimFOV.Value) / 2.0f)
+		const float flR = tanf(DEG2RAD(curFOV) / 2.0f)
 			/ tanf(
 			DEG2RAD((pLocal->IsScoped() && !Vars::Visuals::RemoveZoom.Value) ? 30.0f : flFOV) /
 			2.0f) * g_ScreenSize.w;

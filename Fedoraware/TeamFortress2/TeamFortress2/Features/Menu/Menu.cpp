@@ -272,7 +272,6 @@ void CMenu::MenuAimbot()
 			WToggle("Aimbot", &Vars::Aimbot::Global::Active.Value); HelpMarker("Aimbot master switch");
 			ColorPickerL("Target", Colors::Target);
 			InputKeybind("Aimbot key", Vars::Aimbot::Global::AimKey); HelpMarker("The key to enable aimbot");
-			WSlider("Aimbot FoV####AimbotFoV", &Vars::Aimbot::Global::AimFOV.Value, 0.f, 180.f, "%.f", ImGuiSliderFlags_AlwaysClamp);
 			ColorPickerL("Aimbot FOV circle", Colors::FOVCircle);
 			WToggle("Autoshoot###AimbotAutoshoot", &Vars::Aimbot::Global::AutoShoot.Value); HelpMarker("Automatically shoot when a target is found");
 			MultiCombo({ "Players", "Buildings", "Stickies", "NPCs", "Bombs" }, { &Vars::Aimbot::Global::AimPlayers.Value, &Vars::Aimbot::Global::AimBuildings.Value, &Vars::Aimbot::Global::AimStickies.Value, &Vars::Aimbot::Global::AimNPC.Value, &Vars::Aimbot::Global::AimBombs.Value }, "Aim targets");
@@ -310,6 +309,8 @@ void CMenu::MenuAimbot()
 		if (TableColumnChild("AimbotCol2"))
 		{
 			SectionTitle("Hitscan");
+			WToggle("Active ###HitscanAimbotActive", &Vars::Aimbot::Hitscan::Active.Value);
+			WSlider("Aim FOV ###HitscanFOV", &Vars::Aimbot::Hitscan::AimFOV.Value, 0.f, 180.f, "%1.f", ImGuiSliderFlags_AlwaysClamp);
 			WCombo("Sort method###HitscanSortMethod", &Vars::Aimbot::Hitscan::SortMethod.Value, { "FOV", "Distance" }); HelpMarker("Which method the aimbot uses to decide which target to aim at");
 			if (Vars::Aimbot::Hitscan::SortMethod.Value == 1)
 			{
@@ -350,27 +351,27 @@ void CMenu::MenuAimbot()
 			WToggle("Piss on Team", &Vars::Aimbot::Hitscan::ExtinguishTeam.Value); HelpMarker("Will aim at burning teammates with The Sydney Sleeper");
 
 			SectionTitle("Melee");
+			WToggle("Active ###MeleeAimbotActive", &Vars::Aimbot::Melee::Active.Value);
+			WSlider("Aim FOV ###MeleeFOV", &Vars::Aimbot::Melee::AimFOV.Value, 0.f, 180.f, "%1.f", ImGuiSliderFlags_AlwaysClamp);
+			WCombo("Sort method###MeleeSortMethod", &Vars::Aimbot::Melee::SortMethod.Value, { "FOV", "Distance", }); HelpMarker("Which method the aimbot uses to decide which target to aim at");
+			if (Vars::Aimbot::Melee::SortMethod.Value == 1)
 			{
-				WCombo("Sort method###MeleeSortMethod", &Vars::Aimbot::Melee::SortMethod.Value, { "FOV", "Distance", }); HelpMarker("Which method the aimbot uses to decide which target to aim at");
-				if (Vars::Aimbot::Melee::SortMethod.Value == 1)
-				{
-					WToggle("Respect FOV", &Vars::Aimbot::Melee::RespectFOV.Value); HelpMarker("Respect the Aim FOV set when using distance sorting.");
-				}
-				WCombo("Aim method###MeleeAimMethod", &Vars::Aimbot::Melee::AimMethod.Value, { "Plain", "Smooth", "Silent" }); HelpMarker("Which method the aimbot uses to aim at the target");
+				WToggle("Respect FOV", &Vars::Aimbot::Melee::RespectFOV.Value); HelpMarker("Respect the Aim FOV set when using distance sorting.");
 			}
+			WCombo("Aim method###MeleeAimMethod", &Vars::Aimbot::Melee::AimMethod.Value, { "Plain", "Smooth", "Silent" }); HelpMarker("Which method the aimbot uses to aim at the target");
 			WSlider("Smooth factor###MeleeSmoothing", &Vars::Aimbot::Melee::SmoothingAmount.Value, 0, 20, "%d", ImGuiSliderFlags_AlwaysClamp); HelpMarker("How smooth the aimbot should be");
 			WToggle("Range check", &Vars::Aimbot::Melee::RangeCheck.Value); HelpMarker("Only aim at target if within melee range");
 			WToggle("Swing prediction", &Vars::Aimbot::Melee::PredictSwing.Value); HelpMarker("Aimbot will attack preemptively, predicting you will be in range of the target");
 			WToggle("Whip teammates", &Vars::Aimbot::Melee::WhipTeam.Value); HelpMarker("Aimbot will target teammates if holding the Disciplinary Action");
-			//WToggle("Wait for hit", &Vars::Aimbot::Projectile::WaitForHit.Value); HelpMarker("Will avoid shooting until the last shot hits");
 		} EndChild();
 
 		/* Column 3 */
 		if (TableColumnChild("AimbotCol3"))
 		{
 			SectionTitle("Projectile");
+			WToggle("Active", &Vars::Aimbot::Projectile::Active.Value);
+			WSlider("Aim FOV", &Vars::Aimbot::Projectile::AimFOV.Value, 0.f, 180.f, "%1.f", ImGuiSliderFlags_AlwaysClamp);
 			WSlider("Prediction Time", &Vars::Aimbot::Projectile::PredictionTime.Value, 0.1f, 10.f, "%.1f");
-
 			{
 				WCombo("Sort method###ProjectileSortMethod", &Vars::Aimbot::Projectile::SortMethod.Value, { "FOV", "Distance" });
 				if (Vars::Aimbot::Projectile::SortMethod.Value == 1)

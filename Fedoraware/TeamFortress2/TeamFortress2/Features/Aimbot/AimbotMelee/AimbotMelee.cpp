@@ -158,7 +158,7 @@ std::vector<Target_t> CAimbotMelee::GetTargets(CBaseEntity* pLocal, CBaseCombatW
 			Vec3 vAngleTo = Math::CalcAngle(vLocalPos, vPos);
 			const float flFOVTo = Math::CalcFov(vLocalAngles, vAngleTo);
 
-			if (respectFOV && flFOVTo > Vars::Aimbot::Global::AimFOV.Value)
+			if (respectFOV && flFOVTo > Vars::Aimbot::Melee::AimFOV.Value)
 			{
 				continue;
 			}
@@ -206,7 +206,7 @@ std::vector<Target_t> CAimbotMelee::GetTargets(CBaseEntity* pLocal, CBaseCombatW
 			Vec3 vAngleTo = Math::CalcAngle(vLocalPos, vPos);
 			const float flFOVTo = Math::CalcFov(vLocalAngles, vAngleTo);
 
-			if (respectFOV && flFOVTo > Vars::Aimbot::Global::AimFOV.Value)
+			if (respectFOV && flFOVTo > Vars::Aimbot::Melee::AimFOV.Value)
 			{
 				continue;
 			}
@@ -227,7 +227,7 @@ std::vector<Target_t> CAimbotMelee::GetTargets(CBaseEntity* pLocal, CBaseCombatW
 			const float flFOVTo = Math::CalcFov(vLocalAngles, vAngleTo);
 			const float flDistTo = sortMethod == ESortMethod::DISTANCE ? vLocalPos.DistTo(vPos) : 0.0f;
 
-			if (respectFOV && flFOVTo > Vars::Aimbot::Global::AimFOV.Value)
+			if (respectFOV && flFOVTo > Vars::Aimbot::Melee::AimFOV.Value)
 			{
 				continue;
 			}
@@ -402,7 +402,7 @@ void CAimbotMelee::Run(CBaseEntity* pLocal, CBaseCombatWeapon* pWeapon, CUserCmd
 {
 	bCached = false;
 
-	if (!Vars::Aimbot::Global::Active.Value || G::AutoBackstabRunning || pWeapon->GetWeaponID() == TF_WEAPON_KNIFE)
+	if (!Vars::Aimbot::Global::Active.Value || !Vars::Aimbot::Melee::Active.Value || G::AutoBackstabRunning || pWeapon->GetWeaponID() == TF_WEAPON_KNIFE)
 	{
 		return;
 	}
