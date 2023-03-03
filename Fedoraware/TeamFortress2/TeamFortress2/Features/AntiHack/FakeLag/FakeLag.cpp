@@ -22,26 +22,15 @@ bool CFakeLag::IsVisible(CBaseEntity* pLocal)
 	return false;
 }
 
-bool CFakeLag::DuckLogic(CBaseEntity* pLocal)
-{	//	0, do nothing, 1 choke, 2 
-	//	logically we can wait until ducktime is close to 800, as that is when our actual animation transitions from ducked to unducked
-	const bool bOldDuck = pLocal->IsDucking();
-	if (Vars::Misc::CL_Move::WhileUnducking.Value)
-	{
-		if (bOldDuck && !(G::LastUserCmd->buttons & IN_DUCK)) { return false; }
-	}
-	return true;
-}
-
 bool CFakeLag::IsAllowed(CBaseEntity* pLocal)
 {
 	INetChannel* iNetChan = I::EngineClient->GetNetChannelInfo();
-	const int doubleTapAllowed = 22 - G::ShiftedTicks;
+	const int doubleTapAllowed = 21 - G::ShiftedTicks;
 	const bool retainFakelagTest = Vars::Misc::CL_Move::RetainFakelag.Value ? G::ShiftedTicks != 1 : !G::ShiftedTicks;
 	if (!iNetChan) { return false; }	//	no netchannel no fakelag
 
 	// Failsafe, in case we're trying to choke too many ticks
-	if (std::max(ChokeCounter, iNetChan->m_nChokedPackets) > 21)
+	if (std::max(ChokeCounter, iNetChan->m_nChokedPackets) >= 21)
 	{
 		return false;
 	}
@@ -58,12 +47,8 @@ bool CFakeLag::IsAllowed(CBaseEntity* pLocal)
 		return false;
 	}
 
-	// Unchoke when we are back in the air.
-	if (!pLocal->OnSolid() && bPreservingBlast) {
-		bPreservingBlast = false;
-		return false;
-	}
-	else if (bPreservingBlast) {
+	// Special Cases
+	if (bPreservingBlast || bUnducking) {
 		return true;
 	}
 
@@ -73,7 +58,7 @@ bool CFakeLag::IsAllowed(CBaseEntity* pLocal)
 		return false;
 	}
 
-	if (!DuckLogic(pLocal) || (Vars::Misc::CL_Move::WhileInAir.Value && pLocal->OnSolid()))
+	if (Vars::Misc::CL_Move::WhileInAir.Value && !pLocal->OnSolid())
 	{
 		return false;
 	}	//	no other checks, we want this
@@ -110,22 +95,40 @@ bool CFakeLag::IsAllowed(CBaseEntity* pLocal)
 	}
 }
 
-void CFakeLag::PreserveBlastJump(bool* pSendPacket, const int nOldGround) {
+void CFakeLag::PreserveBlastJump(const int nOldGround, const int nOldFlags) {
 	//if (G::IsAttacking) { return; }
 	bPreservingBlast = false;
 	if (!Vars::Misc::CL_Move::RetainBlastJump.Value) { return; }
 
 	CBaseEntity* pLocal = g_EntityCache.GetLocal();
 	if (!pLocal || !pLocal->IsAlive() || !pLocal->IsPlayer()) { return; }
-	if (!pLocal->IsOnGround()) { return; }
+	if (!pLocal->OnSolid() && nOldGround < 0 && !(nOldFlags & FL_ONGROUND)) { return; }
 	if (pLocal->GetClassNum() != ETFClass::CLASS_SOLDIER) { return; }
 	if (pLocal->GetCondEx2() & TFCondEx2_BlastJumping) {
 		bPreservingBlast = true;
 	}
 }
 
-void CFakeLag::OnTick(CUserCmd* pCmd, bool* pSendPacket)
+void CFakeLag::Unduck(const int nOldFlags){
+	bUnducking = false;
+	if (!Vars::Misc::CL_Move::WhileUnducking.Value) { return; }
+
+	CBaseEntity* pLocal = g_EntityCache.GetLocal();
+	if (!pLocal || !pLocal->IsAlive() || pLocal->IsDucking() || !pLocal->IsPlayer()) { return; }
+	if (!(nOldFlags & FL_DUCKING)) { return; }
+	// we were ducking before & are not ducking next
+	bUnducking = true; 
+}
+
+void CFakeLag::Prediction(const int nOldGroundInt, const int nOldFlags){
+	//	do blast jump preservation here.
+	PreserveBlastJump(nOldGroundInt, nOldFlags);
+	Unduck(nOldFlags);
+}
+
+void CFakeLag::OnTick(CUserCmd* pCmd, bool* pSendPacket, const int nOldGroundInt, const int nOldFlags)
 {
+	Prediction(nOldGroundInt, nOldFlags);
 	G::IsChoking = false;	//	do this first
 	if (G::ShouldShift) { return; }
 	if (!Vars::Misc::CL_Move::Fakelag.Value && !bPreservingBlast) { ChokeCounter = 0; return; }
