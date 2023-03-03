@@ -103,15 +103,13 @@ void CMenu::DrawMenu()
 			}
 			ImGui::HelpMarker("Lua Scripts");
 
-#ifdef _DEBUG
-// Debug Menu
+			// Debug Menu
 			ImGui::SetCursorPos({ currentX -= 25, 0 });
 			if (ImGui::IconButton(ICON_MD_BUG_REPORT))
 			{
 				ShowDebugMenu = !ShowDebugMenu;
 			}
 			ImGui::HelpMarker("Debug Menu");
-#endif
 		}
 
 		// Tabbar
