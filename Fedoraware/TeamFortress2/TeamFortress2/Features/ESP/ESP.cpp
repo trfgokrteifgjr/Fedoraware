@@ -972,7 +972,7 @@ void CESP::DrawBuildings(CBaseEntity* pLocal) const
 				}
 				else
 				{
-					g_Draw.RectOverlay(4, y + nHeight - nHeight * ratio, 2, nHeight* ratio, ratio, healthColor, barBackground, false);
+					g_Draw.RectOverlay(x - 4, y + nHeight - nHeight * ratio, 2, nHeight * ratio, ratio, healthColor, barBackground, false);
 				}
 
 				if (Vars::ESP::Main::Outlinedbar.Value)
