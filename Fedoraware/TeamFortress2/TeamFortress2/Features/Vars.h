@@ -732,6 +732,7 @@ namespace Vars
 		inline CVar<bool> AntiVAC{ false };
 		inline CVar<int> InstantAccept{ false };
 		inline CVar<bool> RunescapeChat{ false };
+		inline CVar<bool> ScoreboardPlayerlist{ false };
 		namespace Followbot
 		{
 			inline CVar<bool> Enabled{ false };

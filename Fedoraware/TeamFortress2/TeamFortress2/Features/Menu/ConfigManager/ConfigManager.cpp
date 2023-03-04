@@ -449,6 +449,7 @@ bool CConfigManager::SaveConfig(const std::string& configName)
 
 		//Misc
 		{
+			SAVE_VAR(Vars::Misc::ScoreboardPlayerlist);
 			SAVE_VAR(Vars::Misc::FastDeltaStrafe);
 			SAVE_VAR(Vars::Misc::AccurateMovement);
 			SAVE_VAR(Vars::Misc::InfiniteEatKey);
@@ -835,6 +836,7 @@ bool CConfigManager::LoadConfig(const std::string& configName)
 
 		//Misc
 		{
+			LOAD_VAR(Vars::Misc::ScoreboardPlayerlist);
 			LOAD_VAR(Vars::Misc::FastDeltaStrafe);
 			LOAD_VAR(Vars::Misc::AccurateMovement);
 			LOAD_VAR(Vars::Misc::InfiniteEatKey);
