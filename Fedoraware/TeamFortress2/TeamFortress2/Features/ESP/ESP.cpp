@@ -564,7 +564,7 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 					else if (Vars::ESP::Players::WeaponIcon.Value) { offset = 25; }
 					weaponoffset += Vars::Fonts::FONT_ESP::nTall.Value;
 
-					const int Distance = std::round(flDistance / 52.49);
+					const int Distance = round(flDistance / 52.49);
 					g_Draw.String(FONT_ESP, x + (w / 2), y + h + weaponoffset + offset, Colors::White, ALIGN_CENTERHORIZONTAL, L"%dM", Distance);
 				}
 			}
@@ -847,7 +847,7 @@ void CESP::DrawBuildings(CBaseEntity* pLocal) const
 			//Distance ESP
 			if (Vars::ESP::Buildings::Distance.Value)
 			{
-				const int Distance = std::round(flDistance / 52.49);
+				const int Distance = round(flDistance / 52.49);
 				g_Draw.String(FONT_ESP, x + (w / 2), y + h, Colors::White, ALIGN_CENTERHORIZONTAL, L"%dM", Distance);
 			}
 
@@ -1075,7 +1075,7 @@ void CESP::DrawWorld() const
 			//Distance ESP
 			if (Vars::ESP::World::HealthDistance.Value)
 			{
-				const int Distance = std::round(flDistance / 52.49); 
+				const int Distance = round(flDistance / 52.49); 
 				g_Draw.String(FONT_ESP, x + (w / 2), y + h, Colors::White, ALIGN_CENTERHORIZONTAL, L"%dM", Distance);
 			}
 
@@ -1144,7 +1144,7 @@ void CESP::DrawWorld() const
 			//Distance ESP
 			if (Vars::ESP::World::AmmoDistance.Value)
 			{
-				const int Distance = std::round(flDistance / 52.49);
+				const int Distance = round(flDistance / 52.49);
 				g_Draw.String(FONT_ESP, x + (w / 2), y + h, Colors::White, ALIGN_CENTERHORIZONTAL, L"%dM", Distance);
 			}
 
@@ -1251,7 +1251,7 @@ void CESP::DrawWorld() const
 			//Distance ESP
 			if (Vars::ESP::World::NPCDistance.Value)
 			{
-				const int Distance = std::round(flDistance / 52.49);
+				const int Distance = round(flDistance / 52.49);
 				g_Draw.String(FONT_ESP, x + (w / 2), y + h, Colors::White, ALIGN_CENTERHORIZONTAL, L"%dM", Distance);
 			}
 
@@ -1342,7 +1342,7 @@ void CESP::DrawWorld() const
 
 			if (Vars::ESP::World::BombDistance.Value)
 			{
-				const int Distance = std::round(flDistance / 52.49);
+				const int Distance = round(flDistance / 52.49);
 				g_Draw.String(FONT_ESP, x + (w / 2), y + h, Colors::White, ALIGN_CENTERHORIZONTAL, L"%dM", Distance);
 			}
 
