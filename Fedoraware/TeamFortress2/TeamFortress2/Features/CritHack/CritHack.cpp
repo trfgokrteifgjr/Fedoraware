@@ -211,7 +211,17 @@ bool CCritHack::ShouldCrit()
 			//81 if below half health
 			//49 if above half health
 
-			// this is currently not coded in, not sure why
+			if (CBaseEntity* pLocal = g_EntityCache.GetLocal())
+			{
+				if (pLocal->GetHealth() <= round(pLocal->GetMaxHealth() / 2))
+				{
+					MeleeDamage = 81;
+				}
+				else if (pLocal->GetHealth() > round(pLocal->GetMaxHealth() / 2))
+				{
+					MeleeDamage = 49;
+				}
+			}
 			break;
 		}
 		default: break;
