@@ -582,7 +582,7 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 				{
 					if (Player != pLocal) // no reason to draw on local player
 					{
-						if (ping >= 200 || ping <= 10) // ping warning
+						if ((ping >= 200 || ping <= 10) && ping != 0) // ping warning
 						{
 							g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 255, 95, 95, 255 }, ALIGN_DEFAULT, "%dMS", ping); //make it all caps so it matches with the condition esp
 							nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
