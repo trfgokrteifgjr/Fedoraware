@@ -246,6 +246,7 @@ namespace Vars
 			inline CVar<bool> WeaponText{ false };
 			inline CVar<int> HealthText{ 0 }; // 0 - Off, 1 - Default, 2 - Bar
 			inline CVar<bool> Cond{ false };
+			inline CVar<bool> FriendText{ false };
 			inline CVar<bool> Distance{ false };
 			inline CVar<bool> HealthBar{ false };
 			inline CVar<int> HealthBarStyle{ 0 }; // 0 - gradient, 1 - old

@@ -596,6 +596,14 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 				}
 			}
 
+			if (Vars::ESP::Players::FriendText.Value)
+			{
+				if (g_EntityCache.IsFriend(Player->GetIndex()))
+				{
+					g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, Colors::Friend, ALIGN_DEFAULT, "FRIEND"); //make it all caps so it matches with the condition esp
+					nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
+				}
+			}
 
 			// Health bar
 			if (Vars::ESP::Players::HealthBar.Value)
