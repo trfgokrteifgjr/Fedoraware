@@ -577,12 +577,16 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 				std::vector<std::wstring> cond_strings = GetPlayerConds(Player);
 
 				int ping = cResource->GetPing(Player->GetIndex());
-				if (Player != pLocal) // no reason to draw on local player
+				const INetChannel* netChannel = I::EngineClient->GetNetChannelInfo();
+				if (!netChannel->IsLoopback()) // dont draw if in a local server, since every ping will be below 10 anyways, also reduces clutter 
 				{
-					if (ping >= 200 || ping <= 10) // ping warning
+					if (Player != pLocal) // no reason to draw on local player
 					{
-						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 255, 95, 95, 255 }, ALIGN_DEFAULT, "%dMS", ping); //make it all caps so it matches with the condition esp
-						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
+						if (ping >= 200 || ping <= 10) // ping warning
+						{
+							g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 255, 95, 95, 255 }, ALIGN_DEFAULT, "%dMS", ping); //make it all caps so it matches with the condition esp
+							nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
+						}
 					}
 				}
 
