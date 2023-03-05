@@ -555,7 +555,7 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 			//Distance ESP
 			if (Vars::ESP::Players::Distance.Value)
 			{				
-				if (Player != g_EntityCache.GetLocal())
+				if (Player != pLocal)
 				{
 					//this code sucks!!!
 					int offset = 0;
