@@ -276,7 +276,6 @@ bool CConfigManager::SaveConfig(const std::string& configName)
 			{
 				SAVE_VAR(Vars::Aimbot::Global::Active);
 				SAVE_VAR(Vars::Aimbot::Global::AimKey);
-				SAVE_VAR(Vars::Aimbot::Global::AimFOV);
 				SAVE_VAR(Vars::Aimbot::Global::AutoShoot);
 				SAVE_VAR(Vars::Aimbot::Global::DontWaitForShot);
 				SAVE_VAR(Vars::Aimbot::Global::FlickatEnemies);
@@ -309,13 +308,13 @@ bool CConfigManager::SaveConfig(const std::string& configName)
 
 			//Hitscan
 			{
-				//SAVE_VAR(Vars::Aimbot::Hitscan::Active);
+				SAVE_VAR(Vars::Aimbot::Hitscan::Active);
+				SAVE_VAR(Vars::Aimbot::Hitscan::AimFOV);
 				SAVE_VAR(Vars::Aimbot::Hitscan::SortMethod);
 				SAVE_VAR(Vars::Aimbot::Hitscan::BackTrackMethod);
 				SAVE_VAR(Vars::Aimbot::Hitscan::RespectFOV);
 				SAVE_VAR(Vars::Aimbot::Hitscan::AimMethod);
 				SAVE_VAR(Vars::Aimbot::Hitscan::AimHitbox);
-				//SAVE_VAR(Vars::Aimbot::Hitscan::AimFOV);
 				SAVE_VAR(Vars::Aimbot::Hitscan::SmoothingAmount);
 				SAVE_VAR(Vars::Aimbot::Hitscan::TapFire);
 				SAVE_VAR(Vars::Aimbot::Hitscan::TapFireDist);
@@ -335,7 +334,8 @@ bool CConfigManager::SaveConfig(const std::string& configName)
 
 			//Projectile
 			{
-				//SAVE_VAR(Vars::Aimbot::Projectile::Active);
+				SAVE_VAR(Vars::Aimbot::Projectile::Active);
+				SAVE_VAR(Vars::Aimbot::Projectile::AimFOV);
 				SAVE_VAR(Vars::Aimbot::Projectile::SortMethod);
 				SAVE_VAR(Vars::Aimbot::Projectile::RespectFOV);
 				SAVE_VAR(Vars::Aimbot::Projectile::AimMethod);
@@ -359,16 +359,15 @@ bool CConfigManager::SaveConfig(const std::string& configName)
 				SAVE_VAR(Vars::Aimbot::Projectile::MinSplashPredictionDistance);
 				SAVE_VAR(Vars::Aimbot::Projectile::MaxSplashPredictionDistance);
 				SAVE_VAR(Vars::Aimbot::Projectile::WaitForHit);
-				//SAVE_VAR(Vars::Aimbot::Projectile::AimFOV);
 			}
 
 			//Melee
 			{
-				//SAVE_VAR(Vars::Aimbot::Melee::Active);
+				SAVE_VAR(Vars::Aimbot::Melee::Active);
+				SAVE_VAR(Vars::Aimbot::Melee::AimFOV);
 				SAVE_VAR(Vars::Aimbot::Melee::SortMethod);
 				SAVE_VAR(Vars::Aimbot::Melee::RespectFOV);
 				SAVE_VAR(Vars::Aimbot::Melee::AimMethod);
-				//SAVE_VAR(Vars::Aimbot::Melee::AimFOV);
 				SAVE_VAR(Vars::Aimbot::Melee::SmoothingAmount);
 				SAVE_VAR(Vars::Aimbot::Melee::RangeCheck);
 				SAVE_VAR(Vars::Aimbot::Melee::PredictSwing);
@@ -450,6 +449,7 @@ bool CConfigManager::SaveConfig(const std::string& configName)
 
 		//Misc
 		{
+			SAVE_VAR(Vars::Misc::ScoreboardPlayerlist);
 			SAVE_VAR(Vars::Misc::FastDeltaStrafe);
 			SAVE_VAR(Vars::Misc::AccurateMovement);
 			SAVE_VAR(Vars::Misc::InfiniteEatKey);
@@ -661,7 +661,6 @@ bool CConfigManager::LoadConfig(const std::string& configName)
 			{
 				LOAD_VAR(Vars::Aimbot::Global::Active);
 				LOAD_VAR(Vars::Aimbot::Global::AimKey);
-				LOAD_VAR(Vars::Aimbot::Global::AimFOV);
 				LOAD_VAR(Vars::Aimbot::Global::AutoShoot);
 				LOAD_VAR(Vars::Aimbot::Global::DontWaitForShot);
 				LOAD_VAR(Vars::Aimbot::Global::FlickatEnemies);
@@ -697,12 +696,12 @@ bool CConfigManager::LoadConfig(const std::string& configName)
 
 			//Hitscan
 			{
-				//LOAD_VAR(Vars::Aimbot::Hitscan::Active);
+				LOAD_VAR(Vars::Aimbot::Hitscan::Active);
+				LOAD_VAR(Vars::Aimbot::Hitscan::AimFOV);
 				LOAD_VAR(Vars::Aimbot::Hitscan::SortMethod);
 				LOAD_VAR(Vars::Aimbot::Hitscan::BackTrackMethod);
 				LOAD_VAR(Vars::Aimbot::Hitscan::AimMethod);
 				LOAD_VAR(Vars::Aimbot::Hitscan::AimHitbox);
-				//LOAD_VAR(Vars::Aimbot::Hitscan::AimFOV);
 				LOAD_VAR(Vars::Aimbot::Hitscan::RespectFOV);
 				LOAD_VAR(Vars::Aimbot::Hitscan::SmoothingAmount);
 				LOAD_VAR(Vars::Aimbot::Hitscan::TapFire);
@@ -723,7 +722,8 @@ bool CConfigManager::LoadConfig(const std::string& configName)
 
 			//Projectile
 			{
-				//LOAD_VAR(Vars::Aimbot::Projectile::Active);
+				LOAD_VAR(Vars::Aimbot::Projectile::Active);
+				LOAD_VAR(Vars::Aimbot::Projectile::AimFOV);
 				LOAD_VAR(Vars::Aimbot::Projectile::SortMethod);
 				LOAD_VAR(Vars::Aimbot::Projectile::AimMethod);
 				LOAD_VAR(Vars::Aimbot::Projectile::AimPosition);
@@ -747,15 +747,14 @@ bool CConfigManager::LoadConfig(const std::string& configName)
 				LOAD_VAR(Vars::Aimbot::Projectile::MinSplashPredictionDistance);
 				LOAD_VAR(Vars::Aimbot::Projectile::MaxSplashPredictionDistance);
 				LOAD_VAR(Vars::Aimbot::Projectile::WaitForHit);
-				//LOAD_VAR(Vars::Aimbot::Projectile::AimFOV);
 			}
 
 			//Melee
 			{
-				//LOAD_VAR(Vars::Aimbot::Melee::Active);
+				LOAD_VAR(Vars::Aimbot::Melee::Active);
+				LOAD_VAR(Vars::Aimbot::Melee::AimFOV);
 				LOAD_VAR(Vars::Aimbot::Melee::SortMethod);
 				LOAD_VAR(Vars::Aimbot::Melee::AimMethod);
-				//LOAD_VAR(Vars::Aimbot::Melee::AimFOV);
 				LOAD_VAR(Vars::Aimbot::Melee::RespectFOV);
 				LOAD_VAR(Vars::Aimbot::Melee::SmoothingAmount);
 				LOAD_VAR(Vars::Aimbot::Melee::RangeCheck);
@@ -837,6 +836,7 @@ bool CConfigManager::LoadConfig(const std::string& configName)
 
 		//Misc
 		{
+			LOAD_VAR(Vars::Misc::ScoreboardPlayerlist);
 			LOAD_VAR(Vars::Misc::FastDeltaStrafe);
 			LOAD_VAR(Vars::Misc::AccurateMovement);
 			LOAD_VAR(Vars::Misc::InfiniteEatKey);
