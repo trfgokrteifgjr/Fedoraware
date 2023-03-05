@@ -110,7 +110,6 @@ void CFakeLag::PreserveBlastJump(const int nOldGround, const int nOldFlags) {
 }
 
 void CFakeLag::Unduck(const int nOldFlags){
-	bUnducking = false;
 	if (!Vars::Misc::CL_Move::WhileUnducking.Value) { return; }
 
 	CBaseEntity* pLocal = g_EntityCache.GetLocal();
@@ -158,6 +157,7 @@ void CFakeLag::OnTick(CUserCmd* pCmd, bool* pSendPacket, const int nOldGroundInt
 		if (Vars::Misc::CL_Move::FakelagMode.Value == FL_Random) { ChosenAmount = Utils::RandIntSimple(Vars::Misc::CL_Move::FakelagMin.Value, Vars::Misc::CL_Move::FakelagMax.Value); }
 		ChokeCounter = 0;
 		pInAirTicks = {pLocal->OnSolid(), 0};
+		bUnducking = false;
 		return;
 	}
 
