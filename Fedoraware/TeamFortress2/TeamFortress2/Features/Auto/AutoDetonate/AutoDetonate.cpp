@@ -51,6 +51,14 @@ bool CAutoDetonate::CheckDetonation(CBaseEntity* pLocal, const std::vector<CBase
 				continue;
 			}
 
+			const Vec3 vOrigin = pExplosive->GetWorldSpaceCenter();
+			Vec3 vPos{};
+			pTarget->GetCollision()->CalcNearestPoint(vOrigin, &vPos);
+			if ((vOrigin - vPos).Length() > radius) 
+			{ 
+				continue; 
+			}
+
 			const bool isPlayer = Vars::Triggerbot::Detonate::DetonateTargets.Value & (PLAYER) && pTarget->IsPlayer();
 			const bool isBuilding = Vars::Triggerbot::Detonate::DetonateTargets.Value & (BUILDING) && pTarget->IsBuilding();
 			const bool isNPC = Vars::Triggerbot::Detonate::DetonateTargets.Value & (NPC) && pTarget->IsNPC();

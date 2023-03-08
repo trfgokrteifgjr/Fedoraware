@@ -281,6 +281,10 @@ public: //Everything else, lol.
 		return reinterpret_cast<size_t*>(this + dwOff);
 	}
 
+	__inline CCollisionProperty* GetCollision() {
+		return reinterpret_cast<CCollisionProperty*>(this + 0x1C8);
+	}
+
 	__inline bool* PDAman()
 	{
 		static auto dwOff = g_NetVars.get_offset("DT_TFPlayer", "m_bViewingCYOAPDA");
