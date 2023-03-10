@@ -23,12 +23,6 @@ Vec3 CAimbotProjectile::Predictor_t::Extrapolate(float time)
 /* Returns the projectile info of a given weapon */
 bool CAimbotProjectile::GetProjectileInfo(CBaseCombatWeapon* pWeapon, ProjectileInfo_t& out)
 {
-	CBaseEntity* pLocal = g_EntityCache.GetLocal();
-	if (!pLocal || !pWeapon)
-	{
-		return false;
-	}
-
 	switch (pWeapon->GetWeaponID())
 	{
 		case TF_WEAPON_ROCKETLAUNCHER:
