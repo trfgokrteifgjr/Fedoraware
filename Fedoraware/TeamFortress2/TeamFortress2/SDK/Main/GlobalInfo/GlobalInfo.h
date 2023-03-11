@@ -106,7 +106,8 @@ namespace G
 
 	inline bool IsIgnored(uint32_t friendsID)
 	{
-		return PlayerPriority[friendsID].Mode < 2;
+		return PlayerPriority[friendsID].Mode == 1;
+		return PlayerPriority[friendsID].Mode == 2 && (Vars::Aimbot::Global::IgnoreOptions.Value & (FRIENDS));
 	}
 
 	inline bool IsRage(uint32_t friendsID)
