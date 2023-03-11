@@ -6,8 +6,39 @@
 #include "AimbotMelee/AimbotMelee.h"
 #include "../Misc/Misc.h"
 
+bool CAimbot::ShouldntRun(bool yay = false)
+{
+	// you shouldnt need this function, im just too retarded to figure out what to do, :)
+	// this is only called in a single function, yippee!!
+	return yay;
+}
+
+void CAimbot::ReportRoundStatus(CGameEvent* pEvent, FNV1A_t uNameHash)
+{
+	CBaseEntity* pLocal = g_EntityCache.GetLocal();
+	if (!pEvent || !pLocal) { return; }
+	CBaseCombatWeapon* pWeapon = g_EntityCache.GetLocal()->GetActiveWeapon();
+
+	if (uNameHash == FNV1A::HashConst("teamplay_round_stalemate")) { ShouldntRun(true); }
+
+	if (uNameHash == FNV1A::HashConst("teamplay_round_end"))
+	{
+		if (pEvent->GetInt("team") == g_EntityCache.GetLocal()->GetTeamNum())
+		{
+			ShouldntRun(true);
+		}
+	}
+
+	if (uNameHash == FNV1A::HashConst("teamplay_round_start"))
+	{
+		ShouldntRun(false); //nigger code fuck this shit!
+	}
+}
+
 bool CAimbot::ShouldRun(CBaseEntity* pLocal, CBaseCombatWeapon* pWeapon)
 {
+	if (ShouldntRun()) { return false; }
+
 	// Don't run while freecam is active
 	if (G::FreecamActive) { return false; }
 
@@ -74,23 +105,6 @@ bool CAimbot::ShouldRun(CBaseEntity* pLocal, CBaseCombatWeapon* pWeapon)
 	}*/
 
 	return true;
-}
-
-void CAimbot::ReportRoundEnd(CGameEvent* pEvent, FNV1A_t uNameHash)
-{
-	CBaseEntity* pLocal = g_EntityCache.GetLocal();
-	if (!pEvent || !pLocal) { return; }
-	CBaseCombatWeapon* pWeapon = g_EntityCache.GetLocal()->GetActiveWeapon();
-
-	if (uNameHash == FNV1A::HashConst("teamplay_round_stalemate")) { ShouldRun(pLocal, pWeapon) == false; }
-
-	if (uNameHash == FNV1A::HashConst("teamplay_round_end"))
-	{
-		if (pEvent->GetInt("team") == g_EntityCache.GetLocal()->GetTeamNum())
-		{
-			ShouldRun(pLocal, pWeapon) == false;
-		}
-	}
 }
 
 void CAimbot::Run(CUserCmd* pCmd)

@@ -47,9 +47,11 @@ void CEventListener::FireGameEvent(CGameEvent* pEvent)
 		F::BadActors.ReportDamage(pEvent);
 	}
 
-	if (uNameHash == FNV1A::HashConst("teamplay_round_win") || uNameHash == FNV1A::HashConst("teamplay_round_stalemate"))
+	if (uNameHash == FNV1A::HashConst("teamplay_round_start") 
+		|| uNameHash == FNV1A::HashConst("teamplay_round_win") 
+		|| uNameHash == FNV1A::HashConst("teamplay_round_stalemate"))
 	{
-		F::Aimbot.ReportRoundEnd(pEvent, uNameHash);
+		F::Aimbot.ReportRoundStatus(pEvent, uNameHash);
 	}
 
 	// Run Lua callbacks
