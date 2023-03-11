@@ -23,7 +23,7 @@ void CAimbot::ReportRoundStatus(CGameEvent* pEvent, FNV1A_t uNameHash)
 
 	if (uNameHash == FNV1A::HashConst("teamplay_round_end"))
 	{
-		if (pEvent->GetInt("team") == pLocal->GetTeamNum())
+		if (pEvent->GetInt("team") == g_EntityCache.GetLocal()->GetTeamNum())
 		{
 			ShouldntRun(true);
 		}
