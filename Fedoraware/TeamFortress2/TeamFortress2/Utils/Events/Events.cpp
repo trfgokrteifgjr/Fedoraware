@@ -8,6 +8,7 @@
 #include "../../Features/LuaEngine/Callbacks/LuaCallbacks.h"
 #include "../../Features/Backtrack/Backtrack.h"
 #include "../../Features/Misc/Misc.h"
+#include "../../Features/Aimbot/Aimbot.h"
 
 void CEventListener::Setup(const std::deque<const char*>& deqEvents)
 {
@@ -44,6 +45,11 @@ void CEventListener::FireGameEvent(CGameEvent* pEvent)
 		F::Resolver.OnPlayerHurt(pEvent);
 		F::Backtrack.PlayerHurt(pEvent);
 		F::BadActors.ReportDamage(pEvent);
+	}
+
+	if (uNameHash == FNV1A::HashConst("teamplay_round_win") || uNameHash == FNV1A::HashConst("teamplay_round_stalemate"))
+	{
+		F::Aimbot.ReportRoundEnd(pEvent, uNameHash);
 	}
 
 	// Run Lua callbacks

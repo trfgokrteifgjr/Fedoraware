@@ -172,7 +172,7 @@ DWORD WINAPI MainThread(LPVOID lpParam)
 	Initialize();
 	LoadDefaultConfig();
 
-	g_Events.Setup({ "vote_cast", "player_changeclass", "player_connect", "player_hurt", "achievement_earned", "player_death", "vote_started", "teamplay_round_start", "player_spawn", "item_pickup" }); // all events @ https://github.com/tf2cheater2013/gameevents.txt
+	g_Events.Setup({ "vote_cast", "player_changeclass", "player_connect", "player_hurt", "achievement_earned", "player_death", "vote_started", "teamplay_round_start", "player_spawn", "item_pickup", "teamplay_round_win", "teamplay_round_stalemate" }); // all events @ https://github.com/tf2cheater2013/gameevents.txt
 
 	Loaded();
 
