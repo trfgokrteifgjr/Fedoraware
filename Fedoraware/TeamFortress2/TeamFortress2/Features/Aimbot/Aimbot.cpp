@@ -17,7 +17,7 @@ void CAimbot::ReportRoundStatus(CGameEvent* pEvent, FNV1A_t uNameHash)
 {
 	CBaseEntity* pLocal = g_EntityCache.GetLocal();
 	if (!pEvent || !pLocal) { return; }
-	CBaseCombatWeapon* pWeapon = g_EntityCache.GetLocal()->GetActiveWeapon();
+	CBaseCombatWeapon* pWeapon = pLocal->GetActiveWeapon();
 
 	if (uNameHash == FNV1A::HashConst("teamplay_round_stalemate")) { ShouldntRun(true); }
 
