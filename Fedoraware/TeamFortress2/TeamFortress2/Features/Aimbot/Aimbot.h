@@ -7,7 +7,6 @@ private:
 	bool ShouldRun(CBaseEntity* pLocal, CBaseCombatWeapon* pWeapon);
 
 public:
-	void ReportRoundEnd(CGameEvent* pEvent, FNV1A_t uNameHash);
 	void Run(CUserCmd* pCmd);
 };
 
