@@ -266,11 +266,6 @@ int CCritHack::LastGoodCritTick(const CUserCmd* pCmd)
 		CritTicks.pop_back();
 	}
 
-	if (const auto netchan = I::EngineClient->GetNetChannelInfo())
-	{
-		netchan->m_nOutSequenceNr = pCmd->command_number - 1;
-	}
-
 	return retVal;
 }
 
@@ -278,7 +273,7 @@ void CCritHack::ScanForCrits(const CUserCmd* pCmd, int loops)
 {
 	static int previousWeapon = 0;
 	static int previousCrit = 0;
-	static int startingNum = pCmd->command_number;
+	static int startingNum = I::ClientState->m_NetChannel->m_nOutSequenceNr = pCmd->command_number - 1;
 
 	const auto& pLocal = g_EntityCache.GetLocal();
 	if (!pLocal) { return; }
