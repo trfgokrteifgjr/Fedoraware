@@ -266,6 +266,11 @@ int CCritHack::LastGoodCritTick(const CUserCmd* pCmd)
 		CritTicks.pop_back();
 	}
 
+	if (const auto netchan = I::EngineClient->GetNetChannelInfo())
+	{
+		netchan->m_nOutSequenceNr = pCmd->command_number - 1;
+	}
+
 	return retVal;
 }
 
