@@ -610,7 +610,7 @@ bool CAimbotHitscan::ShouldFire(CBaseEntity* pLocal, CBaseCombatWeapon* pWeapon,
 			if (Vars::Aimbot::Hitscan::WaitForCharge.Value && bIsScoped)
 			{
 				const int nHealth = target.m_pEntity->GetHealth();
-				const bool bIsCritBoosted = pLocal->IsCritBoostedNoMini();
+				const bool bIsCritBoosted = pLocal->IsCritBoosted();
 
 				if (target.m_nAimedHitbox == HITBOX_HEAD && G::CurItemDefIndex !=
 					Sniper_m_TheSydneySleeper)

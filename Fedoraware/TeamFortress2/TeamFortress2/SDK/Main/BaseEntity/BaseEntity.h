@@ -525,23 +525,6 @@ public: //Everything else, lol.
 		int nCond = GetCond(), nCondEx = GetCondEx();
 
 		return (nCond & TFCond_Kritzkrieged ||
-				nCond & TFCond_MiniCrits ||
-				nCondEx & TFCondEx_CritCanteen ||
-				nCondEx & TFCondEx_CritOnFirstBlood ||
-				nCondEx & TFCondEx_CritOnWin ||
-				nCondEx & TFCondEx_CritOnKill ||
-				nCondEx & TFCondEx_CritDemoCharge ||
-				nCondEx & TFCondEx_CritOnFlagCapture ||
-				nCondEx & TFCondEx_HalloweenCritCandy ||
-				nCondEx & TFCondEx_PyroCrits ||
-				IsCritTempRune());
-	}
-
-	__inline bool IsCritBoostedNoMini()
-	{
-		int nCond = GetCond(), nCondEx = GetCondEx();
-
-		return (nCond & TFCond_Kritzkrieged ||
 				nCondEx & TFCondEx_CritCanteen ||
 				nCondEx & TFCondEx_CritOnFirstBlood ||
 				nCondEx & TFCondEx_CritOnWin ||

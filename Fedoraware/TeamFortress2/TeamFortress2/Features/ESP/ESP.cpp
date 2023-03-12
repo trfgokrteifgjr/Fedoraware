@@ -1545,16 +1545,46 @@ std::vector<std::wstring> CESP::GetPlayerConds(CBaseEntity* pEntity) const
 	const int nCond = pEntity->GetCond();
 	const int nCondEx = pEntity->GetCondEx();
 	const int nCondEx2 = pEntity->GetCondEx2();
-	const int nFlag = pEntity->GetFlags();
 
-	if (nCond & TFCond_DefenseBuffed)
+	if (pEntity->GetRune())
 	{
-		szCond.emplace_back(L"-CRIT");
+		szCond.emplace_back(pEntity->GetRune());
 	}
 
-	if (!pEntity->IsVulnerable())
+	if (nCond & TFCond_Ubercharged || nCondEx & TFCondEx_UberchargedHidden || nCondEx & TFCondEx_UberchargedCanteen)
 	{
 		szCond.emplace_back(L"UBER");
+	}
+	else if (nCond & TFCond_Bonked)
+	{
+		szCond.emplace_back(L"BONK");
+	} // no need to show bonk effect if they are ubered, right?
+
+	/* vaccinator effects */
+	if (nCondEx & TFCondEx_BulletCharge)
+	{
+		szCond.emplace_back(L"BULLET CHARGE");
+	}
+	if (nCondEx & TFCondEx_ExplosiveCharge)
+	{
+		szCond.emplace_back(L"BLAST CHARGE");
+	}
+	if (nCondEx & TFCondEx_FireCharge)
+	{
+		szCond.emplace_back(L"FIRE CHARGE");
+	}
+
+	if (nCondEx & TFCondEx_BulletResistance)
+	{
+		szCond.emplace_back(L"BULLET RESIST");
+	}
+	if (nCondEx & TFCondEx_ExplosiveResistance)
+	{
+		szCond.emplace_back(L"BLAST RESIST");
+	}
+	if (nCondEx & TFCondEx_FireResistance)
+	{
+		szCond.emplace_back(L"FIRE RESIST");
 	}
 
 	if (nCond & TFCond_MegaHeal)
@@ -1562,19 +1592,43 @@ std::vector<std::wstring> CESP::GetPlayerConds(CBaseEntity* pEntity) const
 		szCond.emplace_back(L"MEGAHEAL");
 	}
 
-	if (pEntity->IsCritBoostedNoMini())
+	if (pEntity->IsCritBoosted())
 	{
 		szCond.emplace_back(L"CRITS");
 	}
 
-	if (nCond & TFCond_MiniCrits)
+	if (nCond & TFCond_Buffed)
 	{
-		szCond.emplace_back(L"DMG+");
+		szCond.emplace_back(L"BUFF BANNER");
+	} // id rather show buff banner instead of mini crits here because knowing team-wide buffs is more important
+	else if (nCond & TFCond_CritCola || nCond & TFCond_NoHealingDamageBuff)
+	{
+		szCond.emplace_back(L"MINI-CRITS");
 	}
 
-	if (nCond & TFCond_Jarated || nCond & TFCond_MarkedForDeath || nCondEx & TFCondEx_MarkedForDeathSilent)
+	if (nCond & TFCond_DefenseBuffed)
 	{
-		szCond.emplace_back(L"+DMG");
+		szCond.emplace_back(L"BATTALIONS");
+	}
+
+	if (nCond & TFCond_RegenBuffed)
+	{
+		szCond.emplace_back(L"CONCHEROR");
+	}
+
+	if (nCond & TFCondEx_FocusBuff)
+	{
+		szCond.emplace_back(L"FOCUS");
+	}
+
+	if (nCond & TFCond_Jarated)
+	{
+		szCond.emplace_back(L"JARATE");
+	}
+
+	if (nCond & TFCond_MarkedForDeath || nCondEx & TFCondEx_MarkedForDeathSilent)
+	{
+		szCond.emplace_back(L"MARKED");
 	}
 
 	if (nCond & TFCond_Healing || nCond & TFCond_MegaHeal || pEntity->IsKingBuffed())
