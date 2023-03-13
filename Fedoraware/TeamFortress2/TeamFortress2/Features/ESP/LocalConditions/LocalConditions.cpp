@@ -565,10 +565,6 @@ std::vector<std::wstring> LCESP::GetPlayerConditions(CBaseEntity* pEntity) const
 			szCond.emplace_back(L"DONOTUSE 0");
 		}
 	*/
-		if (const wchar_t* rune = pEntity->GetRune())
-		{
-			szCond.emplace_back(rune);
-		}
 
 	/*	if (nCondEx3 & TFCondEx3_GrapplingHook)
 		{

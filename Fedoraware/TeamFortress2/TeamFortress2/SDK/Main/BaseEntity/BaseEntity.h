@@ -536,21 +536,21 @@ public: //Everything else, lol.
 				IsCritTempRune());
 	}
 
-	__inline const wchar_t* GetRune()
+	__inline const char* GetRune()
 	{
-		if (IsStrengthRune()) { return (L"Strength Rune"); }
-		if (IsHasteRune()) { return (L"Haste Rune"); }
-		if (IsRegenRune()) { return (L"Regen Rune"); }
-		if (IsResistRune()) { return (L"Resist Rune"); }
-		if (IsVampireRune()) { return (L"Vampire Rune"); }
-		if (IsReflectRune()) { return (L"Reflect Rune"); }
-		if (IsPrecisionRune()) { return (L"Precision Rune"); }
-		if (IsAgilityRune()) { return (L"Agility Rune"); }
-		if (IsKnockoutRune()) { return (L"Knockout Rune"); }
-		if (IsImbalanceRune()) { return (L"Imbalance Rune"); }
-		if (IsKingRune()) { return (L"King"); }
-		if (IsPlagueRune()) { return (L"Plague Rune"); }
-		if (IsSupernovaRune()) { return (L"Supernova Rune"); }
+		if (IsStrengthRune()) { return "Strength Rune"; }
+		if (IsHasteRune()) { return "Haste Rune"; }
+		if (IsRegenRune()) { return "Regen Rune"; }
+		if (IsResistRune()) { return "Resist Rune"; }
+		if (IsVampireRune()) { return "Vampire Rune"; }
+		if (IsReflectRune()) { return "Reflect Rune"; }
+		if (IsPrecisionRune()) { return "Precision Rune"; }
+		if (IsAgilityRune()) { return "Agility Rune"; }
+		if (IsKnockoutRune()) { return "Knockout Rune"; }
+		if (IsImbalanceRune()) { return "Imbalance Rune"; }
+		if (IsKingRune()) { return "King"; }
+		if (IsPlagueRune()) { return "Plague Rune"; }
+		if (IsSupernovaRune()) { return "Supernova Rune"; }
 		return nullptr;
 	}
 

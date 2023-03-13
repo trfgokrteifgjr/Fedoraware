@@ -574,7 +574,6 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 			{
 				size_t FONT = FONT_ESP_COND;
 				int offset = g_Draw.m_vecFonts[FONT].nTall / 4;
-				std::vector<std::wstring> cond_strings = GetPlayerConds(Player);
 
 				int ping = cResource->GetPing(Player->GetIndex());
 				const INetChannel* netChannel = I::EngineClient->GetNetChannelInfo();
@@ -590,11 +589,180 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 					}
 				}
 
-				if (!cond_strings.empty())
-				{
-					for (auto& condString : cond_strings)
+				const int nCond = Player->GetCond();
+				const int nCondEx = Player->GetCondEx();
+				const int nCondEx2 = Player->GetCondEx2();
+				const Color_t teamColors = Utils::GetTeamColor(Player->GetTeamNum(), Vars::ESP::Main::EnableTeamEnemyColors.Value);
+
+				{ //this is here just so i can collapse this entire section to reduce clutter
+					if (nCond & TFCond_Ubercharged || nCondEx & TFCondEx_UberchargedHidden || nCondEx & TFCondEx_UberchargedCanteen)
 					{
-						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, Colors::Cond, ALIGN_DEFAULT, condString.data());
+						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, teamColors, ALIGN_DEFAULT, "UBER");
+						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
+					}
+					else if (nCond & TFCond_Bonked)
+					{
+						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 135, 60, 255, 255 }, ALIGN_DEFAULT, "BONK");
+						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
+					} // no need to show bonk effect if they are ubered, right?
+
+					/* vaccinator effects */
+					if (nCondEx & TFCondEx_BulletCharge)
+					{
+						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 255, 100, 200, 255 }, ALIGN_DEFAULT, "BULLET CHARGE");
+						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
+					}
+					if (nCondEx & TFCondEx_ExplosiveCharge)
+					{
+						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 255, 100, 200, 255 }, ALIGN_DEFAULT, "BLAST CHARGE");
+						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
+					}
+					if (nCondEx & TFCondEx_FireCharge)
+					{
+						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 255, 100, 200, 255 }, ALIGN_DEFAULT, "FIRE CHARGE");
+						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
+					}
+
+					if (nCondEx & TFCondEx_BulletResistance)
+					{
+						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 255, 100, 200, 255 }, ALIGN_DEFAULT, "BULLET RESIST");
+						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
+					}
+					if (nCondEx & TFCondEx_ExplosiveResistance)
+					{
+						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 255, 100, 200, 255 }, ALIGN_DEFAULT, "BLAST RESIST");
+						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
+					}
+					if (nCondEx & TFCondEx_FireResistance)
+					{
+						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 255, 100, 200, 255 }, ALIGN_DEFAULT, "FIRE RESIST");
+						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
+					}
+
+					if (nCond & TFCond_MegaHeal)
+					{
+						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 0, 255, 0, 255 }, ALIGN_DEFAULT, "MEGAHEAL");
+						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
+					}
+
+					if (Player->IsCritBoosted())
+					{
+						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 255, 107, 108, 255 }, ALIGN_DEFAULT, "CRITS");
+						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
+					}
+
+					if (nCond & TFCond_Buffed)
+					{
+						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, teamColors, ALIGN_DEFAULT, "BUFF BANNER");
+						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
+					} // id rather show buff banner instead of mini crits here because knowing team-wide buffs is more important
+					else if (nCond & TFCond_CritCola || nCond & TFCond_NoHealingDamageBuff)
+					{
+						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 255, 255, 0, 255 }, ALIGN_DEFAULT, "MINI-CRITS");
+						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
+					}
+
+					if (nCond & TFCond_DefenseBuffed)
+					{
+						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, teamColors, ALIGN_DEFAULT, "BATTALIONS");
+						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
+					}
+
+					if (nCond & TFCond_RegenBuffed)
+					{
+						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, teamColors, ALIGN_DEFAULT, "CONCHEROR");
+						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
+					}
+
+					if (nCond & TFCondEx_FocusBuff)
+					{
+						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, Colors::Cond, ALIGN_DEFAULT, "FOCUS");
+						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
+					}
+
+					if (nCond & TFCond_Jarated)
+					{
+						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 255, 255, 0, 255 }, ALIGN_DEFAULT, "JARATE");
+						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
+					}
+
+					if (nCond & TFCond_MarkedForDeath || nCondEx & TFCondEx_MarkedForDeathSilent)
+					{
+						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 255, 255, 0, 255 }, ALIGN_DEFAULT, "MARKED");
+						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
+					}
+
+					if (nCond & TFCond_Healing || nCond & TFCond_MegaHeal || Player->IsKingBuffed())
+					{
+						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 0, 255, 0, 255 }, ALIGN_DEFAULT, "HP++");
+						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
+					}
+					else if (Player->GetHealth() > Player->GetMaxHealth())
+					{
+						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 0, 255, 0, 255 }, ALIGN_DEFAULT, "HP+");
+						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
+					}
+
+					if (nCond & TFCond_Milked)
+					{
+						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, Colors::White, ALIGN_DEFAULT, "MILK");
+						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
+					}
+
+					if (Player->GetFeignDeathReady())
+					{
+						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, Colors::Cond, ALIGN_DEFAULT, "DR");
+						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
+					}
+
+					if (nCond & TFCond_Slowed)
+					{
+						if (const auto& pWeapon = Player->GetActiveWeapon())
+						{
+							if (pWeapon->GetWeaponID() == TF_WEAPON_MINIGUN)
+							{
+								g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, Colors::White, ALIGN_DEFAULT, "REV");
+								nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
+							}
+							if (pWeapon->GetWeaponID() == TF_WEAPON_COMPOUND_BOW)
+							{
+								bool charged = (I::GlobalVars->curtime - pWeapon->GetChargeBeginTime()) >= 1.0f;
+								if (charged)
+								{
+									g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, Colors::Cond, ALIGN_DEFAULT, "CHARGED");
+								}
+								else
+								{
+									g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, Colors::Cond, ALIGN_DEFAULT, "CHARGING");
+								}
+								nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall; //just put this here since it should draw something regardless
+							}
+						}
+					}
+
+					if (nCond & TFCond_Zoomed)
+					{
+						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 0, 255, 255, 255 }, ALIGN_DEFAULT, "ZOOM");
+						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
+						
+					/* CAN SOMEONE FIX THIS FOR ME, THIS IS CHARGE PERCENTAGE */
+					//	if (pWeapon)
+					//	{
+					//		const float flPercent = Math::RemapValClamped(pWeapon->GetChargeDamage(), 50.0f, 150.0f, 1.0f, 100.0f);
+					//		g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, teamColors, ALIGN_DEFAULT, "CHARGE %d%", std::clamp(static_cast<int>(flPercent), 1, 100));
+					//		nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
+					//	}
+					}
+
+					if (nCond & TFCond_Cloaked || nCond & TFCond_CloakFlicker || nCondEx2 & TFCondEx2_Stealthed || nCondEx2 & TFCondEx2_StealthedUserBuffFade)
+					{
+						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, Colors::Cloak, ALIGN_DEFAULT, "INVIS");
+						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
+					}
+
+					if (nCond & TFCond_Disguising || nCondEx & TFCondEx_DisguisedRemoved || nCond & TFCond_Disguised)
+					{
+						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, Colors::White, ALIGN_DEFAULT, "DISGUISE");
 						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
 					}
 				}
@@ -1536,147 +1704,6 @@ bool InCond(CBaseEntity* pEntity, int eCond)
 		}
 	}
 	return false;
-}
-
-std::vector<std::wstring> CESP::GetPlayerConds(CBaseEntity* pEntity) const
-{
-
-	std::vector<std::wstring> szCond{};
-	const int nCond = pEntity->GetCond();
-	const int nCondEx = pEntity->GetCondEx();
-	const int nCondEx2 = pEntity->GetCondEx2();
-
-	if (pEntity->GetRune())
-	{
-		szCond.emplace_back(pEntity->GetRune());
-	}
-
-	if (nCond & TFCond_Ubercharged || nCondEx & TFCondEx_UberchargedHidden || nCondEx & TFCondEx_UberchargedCanteen)
-	{
-		szCond.emplace_back(L"UBER");
-	}
-	else if (nCond & TFCond_Bonked)
-	{
-		szCond.emplace_back(L"BONK");
-	} // no need to show bonk effect if they are ubered, right?
-
-	/* vaccinator effects */
-	if (nCondEx & TFCondEx_BulletCharge)
-	{
-		szCond.emplace_back(L"BULLET CHARGE");
-	}
-	if (nCondEx & TFCondEx_ExplosiveCharge)
-	{
-		szCond.emplace_back(L"BLAST CHARGE");
-	}
-	if (nCondEx & TFCondEx_FireCharge)
-	{
-		szCond.emplace_back(L"FIRE CHARGE");
-	}
-
-	if (nCondEx & TFCondEx_BulletResistance)
-	{
-		szCond.emplace_back(L"BULLET RESIST");
-	}
-	if (nCondEx & TFCondEx_ExplosiveResistance)
-	{
-		szCond.emplace_back(L"BLAST RESIST");
-	}
-	if (nCondEx & TFCondEx_FireResistance)
-	{
-		szCond.emplace_back(L"FIRE RESIST");
-	}
-
-	if (nCond & TFCond_MegaHeal)
-	{
-		szCond.emplace_back(L"MEGAHEAL");
-	}
-
-	if (pEntity->IsCritBoosted())
-	{
-		szCond.emplace_back(L"CRITS");
-	}
-
-	if (nCond & TFCond_Buffed)
-	{
-		szCond.emplace_back(L"BUFF BANNER");
-	} // id rather show buff banner instead of mini crits here because knowing team-wide buffs is more important
-	else if (nCond & TFCond_CritCola || nCond & TFCond_NoHealingDamageBuff)
-	{
-		szCond.emplace_back(L"MINI-CRITS");
-	}
-
-	if (nCond & TFCond_DefenseBuffed)
-	{
-		szCond.emplace_back(L"BATTALIONS");
-	}
-
-	if (nCond & TFCond_RegenBuffed)
-	{
-		szCond.emplace_back(L"CONCHEROR");
-	}
-
-	if (nCond & TFCondEx_FocusBuff)
-	{
-		szCond.emplace_back(L"FOCUS");
-	}
-
-	if (nCond & TFCond_Jarated)
-	{
-		szCond.emplace_back(L"JARATE");
-	}
-
-	if (nCond & TFCond_MarkedForDeath || nCondEx & TFCondEx_MarkedForDeathSilent)
-	{
-		szCond.emplace_back(L"MARKED");
-	}
-
-	if (nCond & TFCond_Healing || nCond & TFCond_MegaHeal || pEntity->IsKingBuffed())
-	{
-		szCond.emplace_back(L"HP++");
-	}
-	else if (pEntity->GetHealth() > pEntity->GetMaxHealth())
-	{
-		szCond.emplace_back(L"HP+");
-	}
-
-	if (nCond & TFCond_Milked)
-	{
-		szCond.emplace_back(L"MILK");
-	}
-
-	if (pEntity->GetFeignDeathReady())
-	{
-		szCond.emplace_back(L"DR");
-	}
-
-	if (nCond & TFCond_Slowed)
-	{
-		if (const auto& pWeapon = pEntity->GetActiveWeapon())
-		{
-			if (pWeapon->GetWeaponID() == TF_WEAPON_MINIGUN)
-			{
-				szCond.emplace_back(L"REV");
-			}
-		}
-	}
-
-	if (nCond & TFCond_Zoomed)
-	{
-		szCond.emplace_back(L"ZOOM");
-	}
-
-	if (nCond & TFCond_Cloaked || nCond & TFCond_CloakFlicker || nCondEx2 & TFCondEx2_Stealthed || nCondEx2 & TFCondEx2_StealthedUserBuffFade)
-	{
-		szCond.emplace_back(L"INVIS");
-	}
-
-	if (nCond & TFCond_Disguising || nCondEx & TFCondEx_DisguisedRemoved || nCond & TFCond_Disguised)
-	{
-		szCond.emplace_back(L"DISGUISE");
-	}
-
-	return szCond;
 }
 
 const wchar_t* CESP::GetPlayerClass(int nClassNum)
