@@ -592,61 +592,66 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 				const int nCond = Player->GetCond();
 				const int nCondEx = Player->GetCondEx();
 				const int nCondEx2 = Player->GetCondEx2();
+
+				//colors
 				const Color_t teamColors = Utils::GetTeamColor(Player->GetTeamNum(), Vars::ESP::Main::EnableTeamEnemyColors.Value);
+				const Color_t pink = { 255, 100, 200, 255 };
+				const Color_t green = { 0, 255, 0, 255 };
+				const Color_t yellow = { 255, 255, 0, 255 };
 
 				{ //this is here just so i can collapse this entire section to reduce clutter
 					if (nCond & TFCond_Ubercharged || nCondEx & TFCondEx_UberchargedHidden || nCondEx & TFCondEx_UberchargedCanteen)
 					{
-						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, teamColors, ALIGN_DEFAULT, "UBER");
+						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, Colors::UberColor, ALIGN_DEFAULT, "UBER");
 						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
 					}
 					else if (nCond & TFCond_Bonked)
-					{
+					{															//purple
 						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 135, 60, 255, 255 }, ALIGN_DEFAULT, "BONK");
 						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
 					} // no need to show bonk effect if they are ubered, right?
 
 					/* vaccinator effects */
 					if (nCondEx & TFCondEx_BulletCharge)
-					{
-						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 255, 100, 200, 255 }, ALIGN_DEFAULT, "BULLET CHARGE");
+					{															
+						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, pink, ALIGN_DEFAULT, "BULLET CHARGE");
 						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
 					}
 					if (nCondEx & TFCondEx_ExplosiveCharge)
 					{
-						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 255, 100, 200, 255 }, ALIGN_DEFAULT, "BLAST CHARGE");
+						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, pink, ALIGN_DEFAULT, "BLAST CHARGE");
 						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
 					}
 					if (nCondEx & TFCondEx_FireCharge)
 					{
-						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 255, 100, 200, 255 }, ALIGN_DEFAULT, "FIRE CHARGE");
+						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, pink, ALIGN_DEFAULT, "FIRE CHARGE");
 						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
 					}
 
 					if (nCondEx & TFCondEx_BulletResistance)
 					{
-						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 255, 100, 200, 255 }, ALIGN_DEFAULT, "BULLET RESIST");
+						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, pink, ALIGN_DEFAULT, "BULLET RESIST");
 						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
 					}
 					if (nCondEx & TFCondEx_ExplosiveResistance)
 					{
-						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 255, 100, 200, 255 }, ALIGN_DEFAULT, "BLAST RESIST");
+						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, pink, ALIGN_DEFAULT, "BLAST RESIST");
 						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
 					}
 					if (nCondEx & TFCondEx_FireResistance)
 					{
-						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 255, 100, 200, 255 }, ALIGN_DEFAULT, "FIRE RESIST");
+						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, pink, ALIGN_DEFAULT, "FIRE RESIST");
 						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
 					}
 
 					if (nCond & TFCond_MegaHeal)
 					{
-						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 0, 255, 0, 255 }, ALIGN_DEFAULT, "MEGAHEAL");
+						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, green, ALIGN_DEFAULT, "MEGAHEAL");
 						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
 					}
 
 					if (Player->IsCritBoosted())
-					{
+					{															//light red
 						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 255, 107, 108, 255 }, ALIGN_DEFAULT, "CRITS");
 						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
 					}
@@ -658,7 +663,7 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 					} // id rather show buff banner instead of mini crits here because knowing team-wide buffs is more important
 					else if (nCond & TFCond_CritCola || nCond & TFCond_NoHealingDamageBuff)
 					{
-						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 255, 255, 0, 255 }, ALIGN_DEFAULT, "MINI-CRITS");
+						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, yellow, ALIGN_DEFAULT, "MINI-CRITS");
 						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
 					}
 
@@ -682,24 +687,24 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 
 					if (nCond & TFCond_Jarated)
 					{
-						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 255, 255, 0, 255 }, ALIGN_DEFAULT, "JARATE");
+						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, yellow, ALIGN_DEFAULT, "JARATE");
 						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
 					}
 
 					if (nCond & TFCond_MarkedForDeath || nCondEx & TFCondEx_MarkedForDeathSilent)
 					{
-						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 255, 255, 0, 255 }, ALIGN_DEFAULT, "MARKED");
+						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, yellow, ALIGN_DEFAULT, "MARKED");
 						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
 					}
 
 					if (nCond & TFCond_Healing || nCond & TFCond_MegaHeal || Player->IsKingBuffed())
 					{
-						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 0, 255, 0, 255 }, ALIGN_DEFAULT, "HP++");
+						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, green, ALIGN_DEFAULT, "HP++");
 						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
 					}
 					else if (Player->GetHealth() > Player->GetMaxHealth())
 					{
-						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 0, 255, 0, 255 }, ALIGN_DEFAULT, "HP+");
+						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, green, ALIGN_DEFAULT, "HP+");
 						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
 					}
 
@@ -720,8 +725,8 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 						if (const auto& pWeapon = Player->GetActiveWeapon())
 						{
 							if (pWeapon->GetWeaponID() == TF_WEAPON_MINIGUN)
-							{
-								g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, Colors::White, ALIGN_DEFAULT, "REV");
+							{															//dark gray
+								g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 68, 68, 68, 255 }, ALIGN_DEFAULT, "REV");
 								nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
 							}
 							if (pWeapon->GetWeaponID() == TF_WEAPON_COMPOUND_BOW)
@@ -741,7 +746,7 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 					}
 
 					if (nCond & TFCond_Zoomed)
-					{
+					{															//aqua
 						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 0, 255, 255, 255 }, ALIGN_DEFAULT, "ZOOM");
 						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
 						
@@ -761,8 +766,8 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 					}
 
 					if (nCond & TFCond_Disguising || nCondEx & TFCondEx_DisguisedRemoved || nCond & TFCond_Disguised)
-					{
-						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, Colors::White, ALIGN_DEFAULT, "DISGUISE");
+					{															//gray
+						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 128, 128, 128, 255}, ALIGN_DEFAULT, "DISGUISE");
 						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
 					}
 				}
