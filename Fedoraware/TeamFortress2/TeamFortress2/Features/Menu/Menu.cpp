@@ -1285,7 +1285,7 @@ void CMenu::MenuVisuals()
 					WToggle("Anti viewmodel flip", &Vars::Misc::AntiViewmodelFlip.Value); HelpMarker("This is scuffed");
 
 					SectionTitle("DT Indicator");
-					WCombo("DT indicator style", &Vars::Misc::CL_Move::DTBarStyle.Value, { "Off", "Default", "Nitro", "Rijin", "SEOwned", "Numeric", "DeadFlag", "SeownedDE" }); HelpMarker("What style the bar should draw in.");
+					WCombo("DT indicator style", &Vars::Misc::CL_Move::DTBarStyle.Value, { "Off", "Default", "Nitro", "Rijin", "SEOwned", "Numeric", "DeadFlag" }); HelpMarker("What style the bar should draw in.");
 					Text("Charging Gradient");
 					ColorPickerL("DT charging right", Colors::DTBarIndicatorsCharging.endColour);
 					ColorPickerL("DT charging left", Colors::DTBarIndicatorsCharging.startColour, 1);

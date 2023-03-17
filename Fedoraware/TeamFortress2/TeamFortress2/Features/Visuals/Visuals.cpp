@@ -510,6 +510,9 @@ void CVisuals::DrawTickbaseInfo(CBaseEntity* pLocal)
 						{
 							g_Draw.String(FONT_INDICATORS, g_ScreenSize.c, g_ScreenSize.h / 2 + offset + g_Draw.m_vecFonts[FONT_INDICATORS].nTall, { 191, 70, 70, 255 }, ALIGN_CENTERHORIZONTAL,
 								L"(RapidFire) Too Expensive %i < %i", 0 - G::ShiftedTicks, Vars::Misc::CL_Move::DTTicks.Value);
+
+							g_Draw.String(FONT_INDICATORS, g_ScreenSize.c, g_ScreenSize.h / 2 + offset + g_Draw.m_vecFonts[FONT_INDICATORS].nTall * 2, { 191, 70, 70, 255 }, ALIGN_CENTERHORIZONTAL,
+								L"", 0 - G::ShiftedTicks, Vars::Misc::CL_Move::DTTicks.Value);
 						}
 						else if (G::Recharging)
 						{
@@ -525,30 +528,6 @@ void CVisuals::DrawTickbaseInfo(CBaseEntity* pLocal)
 						{
 							g_Draw.String(FONT_INDICATORS, g_ScreenSize.c, g_ScreenSize.h / 2 + offset + g_Draw.m_vecFonts[FONT_INDICATORS].nTall, { 60, 160, 110, 255 }, ALIGN_CENTERHORIZONTAL,
 								L"(RapidFire) Ready");
-							break;
-						}
-						case 7: //getterhook spookyballs seownedde whatever the fuck
-						{
-				        int w = 80;
-					int h = 3;
-					int offset = 90;
-					int x = g_ScreenSize.c - w / 2;
-					int y = g_ScreenSize.h / 2 + offset;
-					// if you are reading this code, hi (from ascendedsion) euafeafaehfafhjjdnehjabnfaahj nbfdzg
-					g_Draw.GradientRectWH(x - 1, y - 1, w + 2, h + 2, { 113,109,102, 199 }, { 113,109,102, 199 }, true);
-					
-					g_Draw.GradientRectWH(x, y, w * ratio, h, { 121,178,114, 255 }, { 121,178,114, 255 }, true);
-					if (G::WaitForShift)
-					{
-						int w = 80;
-						int h = 3;
-						int offset = 100;
-						int x = g_ScreenSize.c - w / 2;
-						int y = g_ScreenSize.h / 2 + offset;
-
-						g_Draw.GradientRectWH(x - 1, y - 1, w + 2, h + 2, { 113,109,102, 199 }, { 113,109,102, 199 }, true);
-						
-						g_Draw.GradientRectWH(x, y, w * ratioshift, h, { 219,202,117, 255 }, { 219,202,117, 255 }, true);
 						}
 					}
 				}
