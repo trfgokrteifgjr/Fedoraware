@@ -1164,11 +1164,23 @@ void CAimbotProjectile::Run(CBaseEntity* pLocal, CBaseCombatWeapon* pWeapon, CUs
 				else if (pWeapon->GetWeaponID() == TF_WEAPON_CANNON && pWeapon->GetDetonateTime() > 0.0f)
 				{
 					const Vec3 vEyePos = pLocal->GetShootPos();
-					const float bestCharge = vEyePos.DistTo(G::PredictedPos) / 1453.9f;
+					const float bestCharge = vEyePos.DistTo(G::PredictedPos) / 1454.0f;
 
 					if (Vars::Aimbot::Projectile::ChargeLooseCannon.Value)
 					{
-						if (pWeapon->GetDetonateTime() - I::GlobalVars->curtime <= bestCharge)
+						if (target.m_TargetType == ETargetType::BUILDING) // please DONT double donk buildings
+						{
+							pCmd->buttons &= ~IN_ATTACK;
+						}
+
+						if (target.m_pEntity->GetHealth() > 50) //check if we even need to double donk to kill first
+						{
+							if (pWeapon->GetDetonateTime() - I::GlobalVars->curtime <= bestCharge)
+							{
+								pCmd->buttons &= ~IN_ATTACK;
+							}
+						}
+						else
 						{
 							pCmd->buttons &= ~IN_ATTACK;
 						}
