@@ -1168,9 +1168,9 @@ void CAimbotProjectile::Run(CBaseEntity* pLocal, CBaseCombatWeapon* pWeapon, CUs
 
 					if (Vars::Aimbot::Projectile::ChargeLooseCannon.Value)
 					{
-						if (target.m_TargetType == ETargetType::BUILDING) // please DONT double donk buildings
+						if (target.m_TargetType == ETargetType::BUILDING || target.m_TargetType == ETargetType::BOMBS) // please DONT double donk buildings or bombs
 						{
-							pCmd->buttons &= ~IN_ATTACK;
+							pCmd->buttons &= ~IN_ATTACK; 
 						}
 
 						if (target.m_pEntity->GetHealth() > 50) //check if we even need to double donk to kill first
