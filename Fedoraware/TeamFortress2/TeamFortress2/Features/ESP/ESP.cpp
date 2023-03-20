@@ -1069,7 +1069,7 @@ void CESP::DrawBuildings(CBaseEntity* pLocal) const
 			// Health text
 			if (Vars::ESP::Buildings::Health.Value)
 			{
-				g_Draw.String(FONT, nTextX, y + nTextOffset, healthColor, ALIGN_DEFAULT, L"%d / %d", nHealth, nMaxHealth);
+				g_Draw.String(FONT, nTextX, y + nTextOffset, healthColor, ALIGN_DEFAULT, L"%d HP", nHealth, nMaxHealth);
 				nTextOffset += g_Draw.m_vecFonts[FONT].nTall;
 			}
 
@@ -1169,7 +1169,7 @@ void CESP::DrawBuildings(CBaseEntity* pLocal) const
 				}
 				else
 				{
-					g_Draw.RectOverlay(x - 4, y + nHeight - nHeight * ratio, 2, nHeight * ratio, ratio, healthColor, barBackground, false);
+					g_Draw.RectOverlay(x - 4, y + h, 2, h, ratio, healthColor, barBackground, false);
 				}
 
 				if (Vars::ESP::Main::Outlinedbar.Value)
@@ -1180,11 +1180,7 @@ void CESP::DrawBuildings(CBaseEntity* pLocal) const
 
 				if (Vars::ESP::Players::HealthText.Value == 2)
 				{
-					if (Vars::ESP::Players::Choked.Value)
-					{
-						nTextOffset = 7;
-					}
-					g_Draw.String(FONT, x - 12 - nTextOffset, (y + h) - (ratio * h) - 2, Colors::White, ALIGN_CENTERHORIZONTAL, "%d", nHealth);
+					g_Draw.String(FONT, x - 6, (y + h) - (ratio * h) - 4, Colors::White, ALIGN_REVERSE, "%d", nHealth);
 				}
 
 				x += 1;
