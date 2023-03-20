@@ -286,19 +286,19 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 			if (Vars::ESP::Players::HealthText.Value == 1)
 			{
 				if (nHealth > nMaxHealth) {
-					g_Draw.String(FONT, nTextX, y + nTextOffset, Colors::Overheal, ALIGN_DEFAULT, L"+%d", nHealth - nMaxHealth);
+					g_Draw.String(FONT, nTextX, y + nTextOffset, Colors::Overheal, ALIGN_DEFAULT, L"+%d HP", nHealth - nMaxHealth);
 				} else {
-					g_Draw.String(FONT, nTextX, y + nTextOffset, healthColor, ALIGN_DEFAULT, L"%d / %d", nHealth, nMaxHealth);
+					g_Draw.String(FONT, nTextX, y + nTextOffset, healthColor, ALIGN_DEFAULT, L"%d HP", nHealth);
 				}
 				nTextOffset += g_Draw.m_vecFonts[FONT].nTall;
 			}
 
-			if (Vars::Debug::DebugInfo.Value)
-			{
-				Vec3 vPlayerVelocity{};
-				Player->EstimateAbsVelocity(vPlayerVelocity);
-				g_Draw.String(FONT, nTextX, y + nTextOffset, Colors::White, ALIGN_DEFAULT, L"SPEED (%.0f)", vPlayerVelocity.Length());
-			}
+			// if (Vars::Debug::DebugInfo.Value)
+			// {
+			// 	Vec3 vPlayerVelocity{};
+			// 	Player->EstimateAbsVelocity(vPlayerVelocity);
+			// 	g_Draw.String(FONT, nTextX, y + nTextOffset, Colors::White, ALIGN_DEFAULT, L"SPEED (%.0f)", vPlayerVelocity.Length());
+			// }
 
 			// Ubercharge status/bar
 			if (Vars::ESP::Players::Uber.Value && nClassNum == CLASS_MEDIC)
@@ -383,7 +383,6 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 				if (G::PlayerPriority[pi.friendsID].Mode == 4 && Vars::ESP::Players::CheaterDetection.Value)
 				{
 					g_Draw.String(FONT_NAME, middle, y - 28, { 255, 0, 0, 255 }, ALIGN_CENTERHORIZONTAL, "CHEATER");
-					nTextOffset += g_Draw.m_vecFonts[FONT_NAME].nTall;
 				}
 
 				// GUID ESP
@@ -844,14 +843,17 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 
 				if (Vars::ESP::Players::HealthText.Value == 2)
 				{
+					int textOffset = 6;
 					if (Vars::ESP::Players::Choked.Value) {					
-						nTextOffset = 8; 
+						textOffset = 10; 
 					}
-					if (nHealth > nMaxHealth) {
-						g_Draw.String(FONT, x - (17 + nTextOffset), (y + h) - (ratio * h) - 2, Colors::Overheal, ALIGN_CENTERHORIZONTAL, "+%d", nHealth - nMaxHealth);
-					} 
-					else {
-						g_Draw.String(FONT, x - (17 + nTextOffset), (y + h) - (ratio * h) - 2, Colors::White, ALIGN_CENTERHORIZONTAL, "%d", nHealth); 
+					if (nHealth > nMaxHealth)
+					{
+						g_Draw.String(FONT, x - textOffset, (y + h) - (ratio * h) - 4, Colors::White, ALIGN_REVERSE, "+%d", nHealth - nMaxHealth);
+					}
+					else
+					{
+						g_Draw.String(FONT, x - textOffset, (y + h) - (ratio * h) - 4, Colors::White, ALIGN_REVERSE, "%d", nHealth);
 					}
 				}
 
@@ -1067,7 +1069,7 @@ void CESP::DrawBuildings(CBaseEntity* pLocal) const
 			// Health text
 			if (Vars::ESP::Buildings::Health.Value)
 			{
-				g_Draw.String(FONT, nTextX, y + nTextOffset, healthColor, ALIGN_DEFAULT, L"%d / %d", nHealth, nMaxHealth);
+				g_Draw.String(FONT, nTextX, y + nTextOffset, healthColor, ALIGN_DEFAULT, L"%d HP", nHealth, nMaxHealth);
 				nTextOffset += g_Draw.m_vecFonts[FONT].nTall;
 			}
 
@@ -1167,7 +1169,7 @@ void CESP::DrawBuildings(CBaseEntity* pLocal) const
 				}
 				else
 				{
-					g_Draw.RectOverlay(x - 4, y + nHeight - nHeight * ratio, 2, nHeight * ratio, ratio, healthColor, barBackground, false);
+					g_Draw.RectOverlay(x - 4, y + h, 2, h, ratio, healthColor, barBackground, false);
 				}
 
 				if (Vars::ESP::Main::Outlinedbar.Value)
@@ -1178,11 +1180,7 @@ void CESP::DrawBuildings(CBaseEntity* pLocal) const
 
 				if (Vars::ESP::Players::HealthText.Value == 2)
 				{
-					if (Vars::ESP::Players::Choked.Value)
-					{
-						nTextOffset = 7;
-					}
-					g_Draw.String(FONT, x - 12 - nTextOffset, (y + h) - (ratio * h) - 2, Colors::White, ALIGN_CENTERHORIZONTAL, "%d", nHealth);
+					g_Draw.String(FONT, x - 6, (y + h) - (ratio * h) - 4, Colors::White, ALIGN_REVERSE, "%d", nHealth);
 				}
 
 				x += 1;
