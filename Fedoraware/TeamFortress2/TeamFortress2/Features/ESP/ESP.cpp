@@ -384,7 +384,10 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 				{
 					g_Draw.String(FONT_NAME, middle, y - 28, { 255, 0, 0, 255 }, ALIGN_CENTERHORIZONTAL, "CHEATER");
 				}
-
+				if (G::PlayerPriority[pi.friendsID].Mode == 3 && Vars::ESP::Players::CheaterDetection.Value)
+				{
+					g_Draw.String(FONT_NAME, middle, y - 28, { 255, 0, 0, 255 }, ALIGN_CENTERHORIZONTAL, "Rage");
+				}
 				// GUID ESP
 				if (Vars::ESP::Players::GUID.Value)
 				{
