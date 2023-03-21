@@ -379,7 +379,7 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 					}
 				}
 
-				// Priority Text
+				// Priority Text 
 				if (Vars::ESP::Players::CheaterDetection.Value)
 				{
 					if (G::PlayerPriority[pi.friendsID].Mode == 4 && !g_EntityCache.IsFriend(nIndex))
