@@ -874,34 +874,34 @@ namespace Vars
 	{
 		namespace FONT_ESP
 		{
-			inline std::string szName = "Tahoma";
-			inline CVar<int> nTall = { 12 };
-			inline CVar<int> nWeight = { 800 };
-			inline CVar<int> nFlags = { FONTFLAG_ANTIALIAS };
+			inline std::string szName = "Arial";
+			inline CVar<int> nTall = { 14 };
+			inline CVar<int> nWeight = { 400 };
+			inline CVar<int> nFlags = { FONTFLAG_OUTLINE };
 		}
 
 		namespace FONT_ESP_NAME
 		{
-			inline std::string szName = "Tahoma";
+			inline std::string szName = "Arial";
 			inline CVar<int> nTall = { 14 };
-			inline CVar<int> nWeight = { 800 };
-			inline CVar<int> nFlags = { FONTFLAG_ANTIALIAS };
+			inline CVar<int> nWeight = { 400 };
+			inline CVar<int> nFlags = { FONTFLAG_OUTLINE };
 		}
 
 		namespace FONT_ESP_COND
 		{
-			inline std::string szName = "Tahoma";
-			inline CVar<int> nTall = { 10 };
-			inline CVar<int> nWeight = { 800 };
-			inline CVar<int> nFlags = { FONTFLAG_ANTIALIAS };
+			inline std::string szName = "Arial";
+			inline CVar<int> nTall = { 14 };
+			inline CVar<int> nWeight = { 400 };
+			inline CVar<int> nFlags = { FONTFLAG_OUTLINE };
 		}
 
 		namespace FONT_ESP_PICKUPS
 		{
-			inline std::string szName = "Tahoma";
-			inline CVar<int> nTall = { 13 };
-			inline CVar<int> nWeight = { 800 };
-			inline CVar<int> nFlags = { FONTFLAG_ANTIALIAS };
+			inline std::string szName = "Arial";
+			inline CVar<int> nTall = { 14 };
+			inline CVar<int> nWeight = { 400 };
+			inline CVar<int> nFlags = { FONTFLAG_OUTLINE };
 		}
 
 		namespace FONT_MENU
