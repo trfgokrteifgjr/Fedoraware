@@ -1107,13 +1107,6 @@ void CESP::DrawBuildings(CBaseEntity* pLocal) const
 				nTextOffset += g_Draw.m_vecFonts[FONT].nTall;
 			}
 
-			if (flConstructed < 100.0f && static_cast<int>(flConstructed) != 0)
-			{
-				g_Draw.String(FONT, nTextX, y + nTextOffset, Colors::Cond, ALIGN_DEFAULT, L"Building: %0.f%%",
-					flConstructed);
-				nTextOffset += g_Draw.m_vecFonts[FONT].nTall;
-			}
-
 			// Building level
 			if (Vars::ESP::Buildings::Level.Value && !bIsMini)
 			{
@@ -1126,6 +1119,13 @@ void CESP::DrawBuildings(CBaseEntity* pLocal) const
 			if (Vars::ESP::Buildings::Cond.Value)
 			{
 				std::vector<std::wstring> condStrings{};
+
+				if (flConstructed < 100.0f && static_cast<int>(flConstructed) != 0)
+				{
+					g_Draw.String(FONT, nTextX, y + nTextOffset, Colors::Cond, ALIGN_DEFAULT, L"Building: %0.f%%",
+						flConstructed);
+					nTextOffset += g_Draw.m_vecFonts[FONT].nTall;
+				}
 
 				if (nType == EBuildingType::SENTRY && building->GetControlled())
 				{
