@@ -1098,8 +1098,8 @@ void CESP::DrawBuildings(CBaseEntity* pLocal) const
 			// Building level
 			if (Vars::ESP::Buildings::Level.Value && !bIsMini)
 			{
-				g_Draw.String(FONT, nTextX, y + nTextOffset, Colors::Cond, ALIGN_DEFAULT, L"%d/3",
-					building->GetLevel());
+				g_Draw.String(FONT, nTextX, y + nTextOffset, Colors::Cond, ALIGN_DEFAULT, L"%d/%d",
+					building->GetLevel(), building->GetHighestLevel());
 				nTextOffset += g_Draw.m_vecFonts[FONT].nTall;
 			}
 
