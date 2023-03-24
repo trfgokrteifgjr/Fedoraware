@@ -520,7 +520,6 @@ void CMenu::MenuVisuals()
 					SectionTitle("ESP Main");
 					WToggle("ESP###EnableESP", &Vars::ESP::Main::Active.Value); HelpMarker("Global ESP master switch");
 					WToggle("Animated Health Bars", &Vars::ESP::Main::AnimatedHealthBars.Value);
-					WToggle("Outlined health bars", &Vars::ESP::Main::Outlinedbar.Value); HelpMarker("Will outline the health bars");
 					WToggle("Relative colours", &Vars::ESP::Main::EnableTeamEnemyColors.Value); HelpMarker("Chooses colors relative to your team (team/enemy)");
 					if (Vars::ESP::Main::EnableTeamEnemyColors.Value)
 					{

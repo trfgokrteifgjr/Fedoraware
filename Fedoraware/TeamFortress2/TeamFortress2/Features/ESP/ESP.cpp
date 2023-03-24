@@ -241,20 +241,14 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 				int height = h + 1; //don't ask me /shrug
 
 				g_Draw.OutlinedRect(x, y, w, height, drawColor);
-				if (Vars::ESP::Main::Outlinedbar.Value)
-				{
-					g_Draw.OutlinedRect(x - 1, y - 1, w + 2, height + 2, Colors::OutlineESP);
-				}
+				g_Draw.OutlinedRect(x - 1, y - 1, w + 2, height + 2, Colors::OutlineESP);
 
 				break;
 			}
 			case 2:
 			{
 				g_Draw.CornerRect(x, y, w, h, 3, 5, drawColor);
-				if (Vars::ESP::Main::Outlinedbar.Value)
-				{
-					g_Draw.CornerRect(x - 1, y - 1, w + 2, h + 2, 3, 5, Colors::OutlineESP);
-				}
+				g_Draw.CornerRect(x - 1, y - 1, w + 2, h + 2, 3, 5, Colors::OutlineESP);
 
 				break;
 			}
@@ -849,17 +843,15 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 
 				float ratio = flHealth / flMaxHealth;
 
-				static Color_t transparent = { 0, 0, 0, 0 };
-				Color_t barBackground = Vars::ESP::Main::Outlinedbar.Value ? Colors::OutlineESP : transparent;
 				if (Vars::ESP::Players::HealthBarStyle.Value == 0 && Vars::ESP::Players::HealthBar.Value)
 				{
 					if (Vars::ESP::Main::AnimatedHealthBars.Value)
 					{
-						g_Draw.OutlinedGradientBar(x - 4, y + h, 2, h, prev_player_hp[Player->GetIndex()] / player_hp_max, clr.startColour, clr.endColour, barBackground, false);
+						g_Draw.OutlinedGradientBar(x - 4, y + h, 2, h, prev_player_hp[Player->GetIndex()] / player_hp_max, clr.startColour, clr.endColour, Colors::OutlineESP, false);
 					}
 					else
 					{
-						g_Draw.OutlinedGradientBar(x - 4, y + h, 2, h, ratio, clr.startColour, clr.endColour, barBackground, false);
+						g_Draw.OutlinedGradientBar(x - 4, y + h, 2, h, ratio, clr.startColour, clr.endColour, Colors::OutlineESP, false);
 					}
 				}
 
@@ -867,11 +859,11 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 				{
 					if (Vars::ESP::Main::AnimatedHealthBars.Value)
 					{
-						g_Draw.RectOverlay(x - 4, y + h, 2, h, prev_player_hp[Player->GetIndex()] / player_hp_max, HealthColor, barBackground, false);
+						g_Draw.RectOverlay(x - 4, y + h, 2, h, prev_player_hp[Player->GetIndex()] / player_hp_max, HealthColor, Colors::OutlineESP, false);
 					}
 					else
 					{
-						g_Draw.RectOverlay(x - 4, y + h, 2, h, ratio, HealthColor, barBackground, false);
+						g_Draw.RectOverlay(x - 4, y + h, 2, h, ratio, HealthColor, Colors::OutlineESP, false);
 					}
 				}
 
