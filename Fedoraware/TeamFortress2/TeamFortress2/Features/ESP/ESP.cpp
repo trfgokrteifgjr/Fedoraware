@@ -961,11 +961,7 @@ void CESP::DrawBuildings(CBaseEntity* pLocal) const
 				h += 1;
 
 				g_Draw.OutlinedRect(x, y, w, h, drawColor);
-
-				if (Vars::ESP::Main::Outlinedbar.Value)
-				{
-					g_Draw.OutlinedRect(x - 1, y - 1, w + 2, h + 2, Colors::OutlineESP);
-				}
+				g_Draw.OutlinedRect(x - 1, y - 1, w + 2, h + 2, Colors::OutlineESP);
 
 				h -= 1;
 				break;
@@ -973,11 +969,8 @@ void CESP::DrawBuildings(CBaseEntity* pLocal) const
 			case 2:
 			{
 				g_Draw.CornerRect(x, y, w, h, 3, 5, drawColor);
+				g_Draw.CornerRect(x - 1, y - 1, w + 2, h + 2, 3, 5, Colors::OutlineESP);
 
-				if (Vars::ESP::Main::Outlinedbar.Value)
-				{
-					g_Draw.CornerRect(x - 1, y - 1, w + 2, h + 2, 3, 5, Colors::OutlineESP);
-				}
 				break;
 			}
 			case 3:
@@ -1183,8 +1176,6 @@ void CESP::DrawBuildings(CBaseEntity* pLocal) const
 				int nHeight2 = h + 1;
 
 				const float ratio = flHealth / flMaxHealth;
-				static Color_t transparent = { 0, 0, 0, 0 };
-				Color_t barBackground = Vars::ESP::Main::Outlinedbar.Value ? Colors::OutlineESP : transparent;
 
 				if (Vars::ESP::Main::AnimatedHealthBars.Value)
 				{
@@ -1198,7 +1189,7 @@ void CESP::DrawBuildings(CBaseEntity* pLocal) const
 					else
 						prev_building_hp[building->GetIndex()] = building_hp;
 
-					g_Draw.RectOverlay(x - 4, y + h, 2, h, prev_building_hp[building->GetIndex()] / building_hp_max, healthColor, barBackground, false);
+					g_Draw.RectOverlay(x - 4, y + h, 2, h, prev_building_hp[building->GetIndex()] / building_hp_max, healthColor, Colors::OutlineESP, false);
 				}
 				else
 				{
@@ -1322,9 +1313,7 @@ void CESP::DrawWorld() const
 			case 2:
 			{
 				g_Draw.CornerRect(x, y, w, h, 3, 5, Colors::Health);
-
-				if (Vars::ESP::Main::Outlinedbar.Value)
-					g_Draw.CornerRect(x - 1, y - 1, w + 2, h + 2, 3, 5, Colors::OutlineESP);
+				g_Draw.CornerRect(x - 1, y - 1, w + 2, h + 2, 3, 5, Colors::OutlineESP);
 
 				break;
 			}
@@ -1391,9 +1380,7 @@ void CESP::DrawWorld() const
 			case 2:
 			{
 				g_Draw.CornerRect(x, y, w, h, 3, 5, Colors::Ammo);
-
-				if (Vars::ESP::Main::Outlinedbar.Value)
-					g_Draw.CornerRect(x - 1, y - 1, w + 2, h + 2, 3, 5, Colors::OutlineESP);
+				g_Draw.CornerRect(x - 1, y - 1, w + 2, h + 2, 3, 5, Colors::OutlineESP);
 
 				break;
 			}
@@ -1498,9 +1485,7 @@ void CESP::DrawWorld() const
 			case 2:
 			{
 				g_Draw.CornerRect(x, y, w, h, 3, 5, Colors::NPC);
-
-				if (Vars::ESP::Main::Outlinedbar.Value)
-					g_Draw.CornerRect(x - 1, y - 1, w + 2, h + 2, 3, 5, Colors::OutlineESP);
+				g_Draw.CornerRect(x - 1, y - 1, w + 2, h + 2, 3, 5, Colors::OutlineESP);
 
 				break;
 			}
@@ -1589,9 +1574,7 @@ void CESP::DrawWorld() const
 			case 2:
 			{
 				g_Draw.CornerRect(x, y, w, h, 3, 5, Colors::Bomb);
-
-				if (Vars::ESP::Main::Outlinedbar.Value)
-					g_Draw.CornerRect(x - 1, y - 1, w + 2, h + 2, 3, 5, Colors::OutlineESP);
+				g_Draw.CornerRect(x - 1, y - 1, w + 2, h + 2, 3, 5, Colors::OutlineESP);
 
 				break;
 			}
