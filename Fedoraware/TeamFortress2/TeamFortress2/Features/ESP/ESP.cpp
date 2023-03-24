@@ -1086,8 +1086,6 @@ void CESP::DrawBuildings(CBaseEntity* pLocal) const
 				}
 			}
 
-			const float flConstructed = building->GetConstructed() * 100.0f;
-
 			// Health text
 			if (Vars::ESP::Buildings::Health.Value)
 			{
@@ -1108,6 +1106,7 @@ void CESP::DrawBuildings(CBaseEntity* pLocal) const
 			{
 				std::vector<std::wstring> condStrings{};
 
+				const float flConstructed = building->GetConstructed() * 100.0f;
 				if (flConstructed < 100.0f && static_cast<int>(flConstructed) != 0)
 				{
 					g_Draw.String(FONT, nTextX, y + nTextOffset, Colors::Cond, ALIGN_DEFAULT, L"Building: %0.f%%",
