@@ -219,7 +219,6 @@ namespace Vars
 		namespace Main
 		{
 			inline CVar<bool> Active{ false };
-			inline CVar<bool> Outlinedbar{ false };
 			inline CVar<bool> AnimatedHealthBars{ true }; //credits to 14
 			inline CVar<bool> EnableTeamEnemyColors{ false };
 			inline CVar<bool> DistanceToAlpha{ false };

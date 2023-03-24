@@ -1053,7 +1053,6 @@ bool CConfigManager::SaveVisual(const std::string& configName)
 		SAVE_OTHER(Vars::Aimbot::Projectile::PredictionColor);
 		SAVE_VAR(Vars::ESP::Main::Active);
 		SAVE_VAR(Vars::ESP::Main::AnimatedHealthBars);
-		SAVE_VAR(Vars::ESP::Main::Outlinedbar);
 		SAVE_VAR(Vars::ESP::Main::EnableTeamEnemyColors);
 		SAVE_VAR(Vars::ESP::Main::DistanceToAlpha);
 		SAVE_VAR(Vars::ESP::Main::DormantSoundESP);
@@ -1435,7 +1434,6 @@ bool CConfigManager::LoadVisual(const std::string& configName)
 		//ESP
 		LOAD_VAR(Vars::ESP::Main::Active);
 		LOAD_VAR(Vars::ESP::Main::AnimatedHealthBars);
-		LOAD_VAR(Vars::ESP::Main::Outlinedbar);
 		LOAD_VAR(Vars::ESP::Main::EnableTeamEnemyColors);
 		LOAD_VAR(Vars::ESP::Main::DistanceToAlpha);
 		LOAD_VAR(Vars::ESP::Main::DormantSoundESP);
