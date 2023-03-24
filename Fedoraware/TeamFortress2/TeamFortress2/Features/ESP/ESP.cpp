@@ -628,10 +628,9 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 				const Color_t pink = { 255, 100, 200, 255 };
 				const Color_t green = { 0, 255, 0, 255 };
 				const Color_t yellow = { 255, 255, 0, 255 };
-				auto uber = (nCond & TFCond_Ubercharged || nCondEx & TFCondEx_UberchargedHidden || nCondEx & TFCondEx_UberchargedCanteen);
 
 				{ //this is here just so i can collapse this entire section to reduce clutter
-					if (uber)
+					if (nCond & TFCond_Ubercharged || nCondEx & TFCondEx_UberchargedHidden || nCondEx & TFCondEx_UberchargedCanteen)
 					{
 						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, Colors::UberColor, ALIGN_DEFAULT, "UBER");
 						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
@@ -722,8 +721,8 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
 					}
 
-					if (!uber && (nCond & TFCond_MarkedForDeath) || !uber && (nCondEx & TFCondEx_MarkedForDeathSilent))
-					{ //no reason to show marked for death if ubered
+					if (nCond & TFCond_MarkedForDeath || nCondEx & TFCondEx_MarkedForDeathSilent)
+					{ 
 						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, yellow, ALIGN_DEFAULT, "MARKED");
 						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
 					}
