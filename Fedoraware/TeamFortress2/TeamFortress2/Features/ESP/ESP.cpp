@@ -1039,7 +1039,14 @@ void CESP::DrawBuildings(CBaseEntity* pLocal) const
 				}
 				case EBuildingType::TELEPORTER:
 				{
-					szName = L"Teleporter";
+					if (building->GetObjectMode())
+					{
+						szName = L"Teleporter Exit";
+					}
+					else
+					{
+						szName = L"Teleporter Entrance";
+					}
 					break;
 				}
 				default:
