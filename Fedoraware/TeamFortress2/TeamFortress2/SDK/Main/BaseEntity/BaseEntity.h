@@ -113,7 +113,7 @@ public: //Netvars & conditions
 		M_OFFSETGET(PipebombType, int, 0x8F8)												//	4
 		M_OFFSETGET(PipebombPulsed, bool, 0x908)	//	this is incredibly fucking lazy.	//	16
 		M_OFFSETGET(Touched, bool, 0x8FC)													//	0
-		M_OFFSETGET(CreationTime, float, 0x8FC)	// type + 4
+		M_OFFSETGET(CreationTime, float, 0x900)	// type + 8
 		M_OFFSETGET(PunchAngles, Vec3, 0xE8C)
 		M_OFFSETGET(VecVelocity, Vec3, 0x120)
 		M_OFFSETGET(WaterJumpTime, float, 0x10FC)
