@@ -187,7 +187,7 @@ namespace Vars
 			inline CVar<int> DetonateTargets{ 0b00001 };
 			inline CVar<bool> Stickies{ false };
 			inline CVar<bool> Flares{ false };
-			inline CVar<float> RadiusScale{ 1.0f };
+			inline CVar<float> RadiusScale{ 0.9f };
 		}
 
 		namespace Blast
