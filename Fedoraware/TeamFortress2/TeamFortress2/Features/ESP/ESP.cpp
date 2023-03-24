@@ -329,12 +329,8 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 						float ratio = flUber / flMaxUber;
 						g_Draw.Rect(x + RECT_WIDTH, y + nHeight - nHeight * ratio, RECT_WIDTH, nHeight * ratio,
 							Colors::UberColor);
-
-						if (Vars::ESP::Main::Outlinedbar.Value)
-						{
-							g_Draw.OutlinedRect(x + RECT_WIDTH - 1, y + nHeight - nHeight * ratio - 1, RECT_WIDTH + 2,
-								nHeight * ratio + 2, Colors::OutlineESP);
-						}
+						g_Draw.OutlinedRect(x + RECT_WIDTH - 1, y + nHeight - nHeight * ratio - 1, RECT_WIDTH + 2,
+							nHeight * ratio + 2, Colors::OutlineESP);
 
 						x -= w + 1;
 					}
@@ -1193,14 +1189,11 @@ void CESP::DrawBuildings(CBaseEntity* pLocal) const
 				}
 				else
 				{
-					g_Draw.RectOverlay(x - 4, y + h, 2, h, ratio, healthColor, barBackground, false);
+					g_Draw.RectOverlay(x - 4, y + h, 2, h, ratio, healthColor, Colors::OutlineESP, false);
 				}
 
-				if (Vars::ESP::Main::Outlinedbar.Value)
-				{
-					g_Draw.OutlinedRect(x - 5, y + nHeight - nHeight * ratio - 1, 4,
-						nHeight * ratio + 1, Colors::OutlineESP);
-				}
+				g_Draw.OutlinedRect(x - 5, y + nHeight - nHeight * ratio - 1, 4,
+					nHeight * ratio + 1, Colors::OutlineESP);
 
 				if (Vars::ESP::Players::HealthText.Value == 2)
 				{
@@ -1303,9 +1296,7 @@ void CESP::DrawWorld() const
 				h += 1;
 
 				g_Draw.OutlinedRect(x, y, w, h, Colors::Health);
-
-				if (Vars::ESP::Main::Outlinedbar.Value)
-					g_Draw.OutlinedRect(x - 1, y - 1, w + 2, h + 2, Colors::OutlineESP);
+				g_Draw.OutlinedRect(x - 1, y - 1, w + 2, h + 2, Colors::OutlineESP);
 
 				h -= 1;
 				break;
@@ -1370,9 +1361,7 @@ void CESP::DrawWorld() const
 				h += 1;
 
 				g_Draw.OutlinedRect(x, y, w, h, Colors::Ammo);
-
-				if (Vars::ESP::Main::Outlinedbar.Value)
-					g_Draw.OutlinedRect(x - 1, y - 1, w + 2, h + 2, Colors::OutlineESP);
+				g_Draw.OutlinedRect(x - 1, y - 1, w + 2, h + 2, Colors::OutlineESP);
 
 				h -= 1;
 				break;
@@ -1475,9 +1464,7 @@ void CESP::DrawWorld() const
 				h += 1;
 
 				g_Draw.OutlinedRect(x, y, w, h, Colors::NPC);
-
-				if (Vars::ESP::Main::Outlinedbar.Value)
-					g_Draw.OutlinedRect(x - 1, y - 1, w + 2, h + 2, Colors::OutlineESP);
+				g_Draw.OutlinedRect(x - 1, y - 1, w + 2, h + 2, Colors::OutlineESP);
 
 				h -= 1;
 				break;
@@ -1564,9 +1551,7 @@ void CESP::DrawWorld() const
 				h += 1;
 
 				g_Draw.OutlinedRect(x, y, w, h, Colors::Bomb);
-
-				if (Vars::ESP::Main::Outlinedbar.Value)
-					g_Draw.OutlinedRect(x - 1, y - 1, w + 2, h + 2, Colors::OutlineESP);
+				g_Draw.OutlinedRect(x - 1, y - 1, w + 2, h + 2, Colors::OutlineESP);
 
 				h -= 1;
 				break;
