@@ -257,7 +257,7 @@ namespace Vars
 			inline CVar<bool> Dlights{ false };
 			inline CVar<float> DlightRadius{ 200.0f };
 			inline CVar<float> Alpha{ 1.0f };
-			inline CVar<bool> CheaterDetection{ false };
+			inline CVar<bool> PriorityText{ false };
 			inline CVar<bool> SniperSightlines{ false };
 		}
 
