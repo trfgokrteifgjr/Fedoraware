@@ -1,5 +1,6 @@
 #include "ESP.h"
 #include "../AntiHack/CheaterDetection/CheaterDetection.h"
+#include "../Backtrack/Backtrack.h"
 #include "../Vars.h"
 
 bool CESP::ShouldRun()
@@ -578,7 +579,7 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 					weaponoffset += Vars::Fonts::FONT_ESP::nTall.Value;
 
 					const int Distance = round(flDistance / 52.49);
-					g_Draw.String(FONT_ESP, x + (w / 2), y + h + weaponoffset + offset, Colors::White, ALIGN_CENTERHORIZONTAL, L"%dM", Distance);
+					g_Draw.String(FONT_ESP, x + (w / 2), y + h + weaponoffset + offset, Utils::GetEntityDrawColor(Player, Vars::ESP::Main::EnableTeamEnemyColors.Value), ALIGN_CENTERHORIZONTAL, L"%dM", Distance);
 				}
 			}
 
@@ -588,17 +589,36 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 				size_t FONT = FONT_ESP_COND;
 				int offset = g_Draw.m_vecFonts[FONT].nTall / 4;
 
+				// ping warning, idea from nitro
 				int ping = cResource->GetPing(Player->GetIndex());
-				const INetChannel* netChannel = I::EngineClient->GetNetChannelInfo();
-				if (!netChannel->IsLoopback()) // dont draw if in a local server, since every ping will be below 10 anyways, also reduces clutter 
+				if (const INetChannel* netChannel = I::EngineClient->GetNetChannelInfo()) //safety net
 				{
-						if ((ping >= 200 || ping <= 10) && ping != 0) // ping warning
+					if (!netChannel->IsLoopback()) // dont draw if in a local server, since every ping will be below 10 anyways, also reduces clutter 
+					{
+						if (ping != 0 && (ping >= 200 || ping <= 10))
 						{
-							g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 255, 95, 95, 255 }, ALIGN_DEFAULT, "%dMS", ping); //make it all caps so it matches with the condition esp
+							g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 255, 95, 95, 255 }, ALIGN_DEFAULT, "%dMS", ping);
 							nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
 						}
+					}
 				}
 
+				//lagcomp cond, idea from nitro
+				const float flSimTime = Player->GetSimulationTime(), flOldSimTime = Player->GetOldSimulationTime();
+				if (flSimTime != flOldSimTime) //stolen from CBacktrack::MakeRecords()
+				{
+					if (!F::Backtrack.mRecords[Player].empty())
+					{
+						const Vec3 vPrevOrigin = F::Backtrack.mRecords[Player].front().vOrigin;
+						const Vec3 vDelta = Player->m_vecOrigin() - vPrevOrigin;
+						if (vDelta.Length2DSqr() > 4096.f) //the actual lagcomp check
+						{
+							g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 255, 95, 95, 255 }, ALIGN_DEFAULT, "LAGCOMP");
+							nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
+						}
+					}
+				}
+				
 				const int nCond = Player->GetCond();
 				const int nCondEx = Player->GetCondEx();
 				const int nCondEx2 = Player->GetCondEx2();
@@ -608,9 +628,10 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 				const Color_t pink = { 255, 100, 200, 255 };
 				const Color_t green = { 0, 255, 0, 255 };
 				const Color_t yellow = { 255, 255, 0, 255 };
+				auto uber = (nCond & TFCond_Ubercharged || nCondEx & TFCondEx_UberchargedHidden || nCondEx & TFCondEx_UberchargedCanteen);
 
 				{ //this is here just so i can collapse this entire section to reduce clutter
-					if (nCond & TFCond_Ubercharged || nCondEx & TFCondEx_UberchargedHidden || nCondEx & TFCondEx_UberchargedCanteen)
+					if (uber)
 					{
 						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, Colors::UberColor, ALIGN_DEFAULT, "UBER");
 						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
@@ -701,8 +722,8 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
 					}
 
-					if (nCond & TFCond_MarkedForDeath || nCondEx & TFCondEx_MarkedForDeathSilent)
-					{
+					if (!uber && (nCond & TFCond_MarkedForDeath) || !uber && (nCondEx & TFCondEx_MarkedForDeathSilent))
+					{ //no reason to show marked for death if ubered
 						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, yellow, ALIGN_DEFAULT, "MARKED");
 						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
 					}
@@ -1283,7 +1304,7 @@ void CESP::DrawWorld() const
 			if (Vars::ESP::World::HealthDistance.Value)
 			{
 				const int Distance = round(flDistance / 52.49); 
-				g_Draw.String(FONT_ESP, x + (w / 2), y + h, Colors::White, ALIGN_CENTERHORIZONTAL, L"%dM", Distance);
+				g_Draw.String(FONT_ESP, x + (w / 2), y + h, Colors::Health, ALIGN_CENTERHORIZONTAL, L"%dM", Distance);
 			}
 
 			switch (Vars::ESP::World::HealthBox.Value)
@@ -1352,7 +1373,7 @@ void CESP::DrawWorld() const
 			if (Vars::ESP::World::AmmoDistance.Value)
 			{
 				const int Distance = round(flDistance / 52.49);
-				g_Draw.String(FONT_ESP, x + (w / 2), y + h, Colors::White, ALIGN_CENTERHORIZONTAL, L"%dM", Distance);
+				g_Draw.String(FONT_ESP, x + (w / 2), y + h, Colors::Ammo, ALIGN_CENTERHORIZONTAL, L"%dM", Distance);
 			}
 
 			switch (Vars::ESP::World::AmmoBox.Value)
@@ -1441,7 +1462,7 @@ void CESP::DrawWorld() const
 				}
 
 				nTextTopOffset += g_Draw.m_vecFonts[FONT].nTall + g_Draw.m_vecFonts[FONT].nTall / 4;
-				g_Draw.String(FONT, x + w / 2, y - nTextTopOffset, Utils::GetEntityDrawColor(NPC, true), ALIGN_CENTERHORIZONTAL, szName);
+				g_Draw.String(FONT, x + w / 2, y - nTextTopOffset, Colors::NPC, ALIGN_CENTERHORIZONTAL, szName);
 			}
 
 			if (Vars::ESP::World::NPCLine.Value)
@@ -1452,14 +1473,14 @@ void CESP::DrawWorld() const
 					Utils::W2S(pLocal->GetAbsOrigin(), vOrigin);
 
 				if (Utils::W2S(NPC->GetAbsOrigin(), vScreen))
-					g_Draw.Line(vOrigin.x, vOrigin.y, vScreen.x, vScreen.y, Utils::GetEntityDrawColor(NPC, true));
+					g_Draw.Line(vOrigin.x, vOrigin.y, vScreen.x, vScreen.y, Colors::NPC);
 			}
 
 			//Distance ESP
 			if (Vars::ESP::World::NPCDistance.Value)
 			{
 				const int Distance = round(flDistance / 52.49);
-				g_Draw.String(FONT_ESP, x + (w / 2), y + h, Colors::White, ALIGN_CENTERHORIZONTAL, L"%dM", Distance);
+				g_Draw.String(FONT_ESP, x + (w / 2), y + h, Colors::NPC, ALIGN_CENTERHORIZONTAL, L"%dM", Distance);
 			}
 
 			switch (Vars::ESP::World::NPCBox.Value)
@@ -1468,7 +1489,7 @@ void CESP::DrawWorld() const
 			{
 				h += 1;
 
-				g_Draw.OutlinedRect(x, y, w, h, Utils::GetEntityDrawColor(NPC, true));
+				g_Draw.OutlinedRect(x, y, w, h, Colors::NPC);
 
 				if (Vars::ESP::Main::Outlinedbar.Value)
 					g_Draw.OutlinedRect(x - 1, y - 1, w + 2, h + 2, Colors::OutlineESP);
@@ -1478,7 +1499,7 @@ void CESP::DrawWorld() const
 			}
 			case 2:
 			{
-				g_Draw.CornerRect(x, y, w, h, 3, 5, Utils::GetEntityDrawColor(NPC, true));
+				g_Draw.CornerRect(x, y, w, h, 3, 5, Colors::NPC);
 
 				if (Vars::ESP::Main::Outlinedbar.Value)
 					g_Draw.CornerRect(x - 1, y - 1, w + 2, h + 2, 3, 5, Colors::OutlineESP);
@@ -1487,7 +1508,7 @@ void CESP::DrawWorld() const
 			}
 			case 3:
 			{
-				Draw3DBox(vTrans, Utils::GetEntityDrawColor(NPC, true));
+				Draw3DBox(vTrans, Colors::NPC);
 				break;
 			}
 			default: break;
@@ -1533,7 +1554,7 @@ void CESP::DrawWorld() const
 				}
 
 				nTextTopOffset += g_Draw.m_vecFonts[FONT].nTall + g_Draw.m_vecFonts[FONT].nTall / 4;
-				g_Draw.String(FONT, x + w / 2, y - nTextTopOffset, Utils::GetEntityDrawColor(Bombs, true), ALIGN_CENTERHORIZONTAL, szName);
+				g_Draw.String(FONT, x + w / 2, y - nTextTopOffset, Colors::Bomb, ALIGN_CENTERHORIZONTAL, szName);
 			}
 
 			if (Vars::ESP::World::BombLine.Value)
@@ -1544,13 +1565,13 @@ void CESP::DrawWorld() const
 					Utils::W2S(pLocal->GetAbsOrigin(), vOrigin);
 
 				if (Utils::W2S(Bombs->GetAbsOrigin(), vScreen))
-					g_Draw.Line(vOrigin.x, vOrigin.y, vScreen.x, vScreen.y, Utils::GetEntityDrawColor(Bombs, true));
+					g_Draw.Line(vOrigin.x, vOrigin.y, vScreen.x, vScreen.y, Colors::Bomb);
 			}
 
 			if (Vars::ESP::World::BombDistance.Value)
 			{
 				const int Distance = round(flDistance / 52.49);
-				g_Draw.String(FONT_ESP, x + (w / 2), y + h, Colors::White, ALIGN_CENTERHORIZONTAL, L"%dM", Distance);
+				g_Draw.String(FONT_ESP, x + (w / 2), y + h, Colors::Bomb, ALIGN_CENTERHORIZONTAL, L"%dM", Distance);
 			}
 
 			switch (Vars::ESP::World::BombBox.Value)
@@ -1559,7 +1580,7 @@ void CESP::DrawWorld() const
 			{
 				h += 1;
 
-				g_Draw.OutlinedRect(x, y, w, h, Utils::GetEntityDrawColor(Bombs, true));
+				g_Draw.OutlinedRect(x, y, w, h, Colors::Bomb);
 
 				if (Vars::ESP::Main::Outlinedbar.Value)
 					g_Draw.OutlinedRect(x - 1, y - 1, w + 2, h + 2, Colors::OutlineESP);
@@ -1569,7 +1590,7 @@ void CESP::DrawWorld() const
 			}
 			case 2:
 			{
-				g_Draw.CornerRect(x, y, w, h, 3, 5, Utils::GetEntityDrawColor(Bombs, true));
+				g_Draw.CornerRect(x, y, w, h, 3, 5, Colors::Bomb);
 
 				if (Vars::ESP::Main::Outlinedbar.Value)
 					g_Draw.CornerRect(x - 1, y - 1, w + 2, h + 2, 3, 5, Colors::OutlineESP);
@@ -1578,7 +1599,7 @@ void CESP::DrawWorld() const
 			}
 			case 3:
 			{
-				Draw3DBox(vTrans, Utils::GetEntityDrawColor(Bombs, true));
+				Draw3DBox(vTrans, Colors::Bomb);
 				break;
 			}
 			default: break;
