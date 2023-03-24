@@ -373,22 +373,23 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 				// Priority Text 
 				if (Vars::ESP::Players::CheaterDetection.Value)
 				{
-					if (G::PlayerPriority[pi.friendsID].Mode == 4 && !g_EntityCache.IsFriend(nIndex))
+					switch (G::PlayerPriority[pi.friendsID].Mode)
 					{
-						g_Draw.String(FONT_NAME, middle, y - 28, { 255, 0, 0, 255 }, ALIGN_CENTERHORIZONTAL, "CHEATER");
-					} 
-					if (G::PlayerPriority[pi.friendsID].Mode == 3)
-					{
-						g_Draw.String(FONT_NAME, middle, y - 28, { 255, 255, 0, 255 }, ALIGN_CENTERHORIZONTAL, "RAGE");
-					} 
-					if (G::PlayerPriority[pi.friendsID].Mode == 1)
-					{
-						g_Draw.String(FONT_NAME, middle, y - 28, { 255, 255, 255, 255 }, ALIGN_CENTERHORIZONTAL, "IGNORED");
-					}
-					if (G::PlayerPriority[pi.friendsID].Mode == 0 || g_EntityCache.IsFriend(nIndex))
-					{
-						g_Draw.String(FONT_NAME, middle, y - 28, Colors::Friend, ALIGN_CENTERHORIZONTAL, "FRIEND");
-					}
+						case 4:
+							if(!g_EntityCache.IsFriend(nIndex))
+								g_Draw.String(FONT_NAME, middle, y - 28, { 255, 0, 0, 255 }, ALIGN_CENTERHORIZONTAL, "CHEATER");
+							break;
+						case 3:
+							g_Draw.String(FONT_NAME, middle, y - 28, { 255, 255, 0, 255 }, ALIGN_CENTERHORIZONTAL, "RAGE");
+							break;
+						case 1:
+							g_Draw.String(FONT_NAME, middle, y - 28, { 255, 255, 255, 255 }, ALIGN_CENTERHORIZONTAL, "IGNORED");
+							break;
+						case 0:
+							if(g_EntityCache.IsFriend(nIndex))
+								g_Draw.String(FONT_NAME, middle, y - 28, Colors::Friend, ALIGN_CENTERHORIZONTAL, "FRIEND");
+							break;
+						}
 				}
 				// GUID ESP
 				if (Vars::ESP::Players::GUID.Value)
