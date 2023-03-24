@@ -528,7 +528,6 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 				// Weapon icons
 				if (Vars::ESP::Players::WeaponIcon.Value)
 				{
-
 					CHudTexture* pIcon = pWeapon->GetWeaponIcon();
 					if (pIcon)
 					{
