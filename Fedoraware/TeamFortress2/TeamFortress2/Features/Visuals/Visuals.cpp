@@ -465,6 +465,10 @@ void CVisuals::DrawTickbaseInfo(CBaseEntity* pLocal)
 						{
 							g_Draw.String(FONT_INDICATORS, DTBox.x + DTBox.w, DTBox.y - 10, { 255, 46, 46, 255 }, ALIGN_REVERSE, L"DT IMPOSSIBLE");
 						}
+						else if (!pLocal->OnSolid())
+						{
+							g_Draw.String(FONT_INDICATORS, DTBox.x + DTBox.w, DTBox.y - 10, { 255, 46, 46, 255 }, ALIGN_REVERSE, L"NOT ON GROUND");
+						}
 						else	// ready 
 						{
 							g_Draw.String(FONT_INDICATORS, DTBox.x + DTBox.w, DTBox.y - 10, { 66, 255, 0, 255 }, ALIGN_REVERSE, L"READY");
