@@ -635,7 +635,7 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 				}
 				else
 				{
-					if (kills >= 12) //test
+					if (kills >= 12)
 					{
 						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 255, 95, 95, 255 }, ALIGN_DEFAULT, "HIGH K/D [%d]", kills);
 						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
