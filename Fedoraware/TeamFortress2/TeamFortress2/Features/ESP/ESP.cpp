@@ -622,6 +622,26 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 					}
 				}
 
+				const int kills = cResource->GetKills(Player->GetIndex());
+				const int deaths = cResource->GetDeaths(Player->GetIndex());
+				if (deaths > 0)
+				{
+					const int kd = kills / deaths;
+					if (kills >= 12 && kd >= 6) //dont just say they have a high kd because they just joined and got a couple kills
+					{
+						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 255, 95, 95, 255 }, ALIGN_DEFAULT, "HIGH K/D [%d]", kd);
+						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
+					}
+				}
+				else
+				{
+					if (kills >= 12)
+					{
+						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 255, 95, 95, 255 }, ALIGN_DEFAULT, "HIGH K/D [%d]", kills);
+						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
+					}
+				}
+				
 				//lagcomp cond, idea from nitro
 				const float flSimTime = Player->GetSimulationTime(), flOldSimTime = Player->GetOldSimulationTime();
 				if (flSimTime != flOldSimTime) //stolen from CBacktrack::MakeRecords()
