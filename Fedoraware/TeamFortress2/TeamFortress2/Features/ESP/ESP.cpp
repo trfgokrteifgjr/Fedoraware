@@ -624,7 +624,7 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 
 				const int kills = cResource->GetKills(Player->GetIndex());
 				const int deaths = cResource->GetDeaths(Player->GetIndex());
-				if (deaths > 0)
+				if (deaths > 0) //idea from rijin
 				{
 					const int kd = kills / deaths;
 					if (kills >= 12 && kd >= 6) //dont just say they have a high kd because they just joined and got a couple kills
