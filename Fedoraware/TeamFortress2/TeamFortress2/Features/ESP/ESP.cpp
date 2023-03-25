@@ -794,8 +794,8 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 						if (const auto& pWeapon = Player->GetActiveWeapon())
 						{
 							if (pWeapon->GetWeaponID() == TF_WEAPON_MINIGUN)
-							{															//dark gray
-								g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 68, 68, 68, 255 }, ALIGN_DEFAULT, "REV");
+							{															//gray
+								g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 128, 128, 128, 255 }, ALIGN_DEFAULT, "REV");
 								nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
 							}
 							if (pWeapon->GetWeaponID() == TF_WEAPON_COMPOUND_BOW)
