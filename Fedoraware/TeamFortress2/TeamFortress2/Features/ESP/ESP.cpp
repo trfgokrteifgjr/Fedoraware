@@ -307,32 +307,43 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 						nTextOffset += g_Draw.m_vecFonts[FONT].nTall;
 					}
 
+					float flUber = pMedGun->GetUberCharge() * (pMedGun->GetItemDefIndex() == Medic_s_TheVaccinator
+						? 400.0f
+						: 100.0f);
+
+					float flMaxUber = (pMedGun->GetItemDefIndex() == Medic_s_TheVaccinator ? 400.0f : 100.0f);
+
+					if (flUber > flMaxUber)
+					{
+						flUber = flMaxUber;
+					}
+
+					static constexpr int RECT_WIDTH = 2;
+					int nHeight = h + (flUber < flMaxUber ? 2 : 1);
+					int nHeight2 = h + 1;
+					float ratio = flUber / flMaxUber;
+					int bar = static_cast<int>(std::round((w - 2) * ratio));
+
 					if (Vars::ESP::Players::Uber.Value == 2 && pMedGun->GetUberCharge())
 					{
 						x += w + 1;
 
-						float flUber = pMedGun->GetUberCharge() * (pMedGun->GetItemDefIndex() == Medic_s_TheVaccinator
-							? 400.0f
-							: 100.0f);
-
-						float flMaxUber = (pMedGun->GetItemDefIndex() == Medic_s_TheVaccinator ? 400.0f : 100.0f);
-
-						if (flUber > flMaxUber)
-						{
-							flUber = flMaxUber;
-						}
-
-						static constexpr int RECT_WIDTH = 2;
-						int nHeight = h + (flUber < flMaxUber ? 2 : 1);
-						int nHeight2 = h + 1;
-
-						float ratio = flUber / flMaxUber;
-						g_Draw.Rect(x + RECT_WIDTH, y + nHeight - nHeight * ratio, RECT_WIDTH, nHeight * ratio,
-							Colors::UberColor);
-						g_Draw.OutlinedRect(x + RECT_WIDTH - 1, y + nHeight - nHeight * ratio - 1, RECT_WIDTH + 2,
-							nHeight * ratio + 2, Colors::OutlineESP);
+						g_Draw.RectOverlay(x - w, y + h + 3, bar, 2, 4, Colors::UberColor, Colors::OutlineESP, false);
 
 						x -= w + 1;
+					}
+
+					if (Vars::ESP::Players::Uber.Value == 3)
+					{
+						if (pMedGun->GetUberCharge())
+						{
+							x += w + 1;
+							g_Draw.RectOverlay(x - w, y + h + 3, bar, 2, 4, Colors::UberColor, Colors::OutlineESP, false);
+							x -= w + 1;
+						}
+						g_Draw.String(FONT, nTextX, y + nTextOffset, Colors::UberColor, ALIGN_DEFAULT, L"%.0f%%",
+							pMedGun->GetUberCharge() * 100.0f);
+						nTextOffset += g_Draw.m_vecFonts[FONT].nTall;
 					}
 				}
 			}

@@ -239,7 +239,7 @@ namespace Vars
 			inline CVar<bool> NameCustom{ false };
 			inline Color_t NameColor{ 255, 255, 255, 255 };
 			inline CVar<bool> NameBox{ false };
-			inline CVar<int> Uber{ 0 }; //0 - Off, 1 - Text, 2 - Bar
+			inline CVar<int> Uber{ 0 }; //0 - Off, 1 - Text, 2 - Bar, 3 - Both
 			inline CVar<int> Class{ 0 }; // 0 - Off, 1 - Icon, 2 - Text, 3 - Both
 			inline CVar<bool> WeaponIcon{ false };
 			inline CVar<bool> WeaponText{ false };

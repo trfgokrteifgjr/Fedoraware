@@ -555,7 +555,7 @@ void CMenu::MenuVisuals()
 					ColorPickerL("Friend colour", Colors::Friend);
 					WCombo("Ignore cloaked###IgnoreCloakESPp", &Vars::ESP::Players::IgnoreCloaked.Value, { "Off", "All", "Only enemies" }); HelpMarker("Which cloaked spies the ESP will ignore drawing on");
 					ColorPickerL("Cloaked colour", Colors::Cloak);
-					WCombo("Ubercharge###PlayerUber", &Vars::ESP::Players::Uber.Value, { "Off", "Text", "Bar" }); HelpMarker("Will draw how much ubercharge a medic has");
+					WCombo("Ubercharge###PlayerUber", &Vars::ESP::Players::Uber.Value, { "Off", "Text", "Bar", "Both" }); HelpMarker("Will draw how much ubercharge a medic has");
 					ColorPickerL("Ubercharge colour", Colors::UberColor);
 					WCombo("Class###PlayerIconClass", &Vars::ESP::Players::Class.Value, { "Off", "Icon", "Text", "Both" }); HelpMarker("Will draw the class the player is");
 					WToggle("Weapon text", &Vars::ESP::Players::WeaponText.Value);
