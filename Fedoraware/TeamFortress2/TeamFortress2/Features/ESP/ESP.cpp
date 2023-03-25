@@ -777,6 +777,12 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
 					}
 
+					if (nCond & TFCond_OnFire)
+					{															//orange
+						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 239, 129, 90, 255 }, ALIGN_DEFAULT, "BURNING");
+						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
+					}
+
 					if (nCond & TFCond_Milked)
 					{
 						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, Colors::White, ALIGN_DEFAULT, "MILK");
