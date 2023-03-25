@@ -582,7 +582,6 @@ void CMenu::MenuVisuals()
 					WToggle("Distance", &Vars::ESP::Players::Distance.Value); HelpMarker("Shows the distance from you to the player in meters");
 					WToggle("Condition", &Vars::ESP::Players::Cond.Value); HelpMarker("Will draw what conditions the player is under");
 					ColorPickerL("Condition colour", Colors::Cond);
-					WToggle("Friend Text", &Vars::ESP::Players::FriendText.Value); HelpMarker("Will draw text to show when a player is your friend or not");
 					WToggle("GUID", &Vars::ESP::Players::GUID.Value); HelpMarker("Show's the players Steam ID");
 					WToggle("Choked Packets", &Vars::ESP::Players::Choked.Value); HelpMarker("Shows how many packets the player has choked");
 					ColorPickerL("Choked Bar Top", Colors::ChokedBar.startColour);

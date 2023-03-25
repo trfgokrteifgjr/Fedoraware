@@ -404,6 +404,18 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 						g_Draw.String(FONT_NAME, middle, y - 28, { 255, 255, 255, 255 }, ALIGN_CENTERHORIZONTAL, "IGNORED");
 						break;
 					}
+					case 0:
+					{
+						if (Player != pLocal)
+						{
+							if (g_EntityCache.IsFriend(nIndex))
+							{
+								g_Draw.String(FONT_NAME, middle, y - 28, Colors::Friend, ALIGN_CENTERHORIZONTAL, "FRIEND");
+								nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
+							}							
+						}
+						break;
+					}
 					default: break;
 					}
 				}
@@ -806,18 +818,6 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 					if (nCond & TFCond_Disguising || nCondEx & TFCondEx_DisguisedRemoved || nCond & TFCond_Disguised)
 					{															//gray
 						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 128, 128, 128, 255}, ALIGN_DEFAULT, "DISGUISE");
-						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
-					}
-				}
-			}
-
-			if (Vars::ESP::Players::FriendText.Value)
-			{
-				if (Player != pLocal)
-				{
-					if (g_EntityCache.IsFriend(Player->GetIndex()) || G::PlayerPriority[pi.friendsID].Mode == 0)
-					{
-						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, Colors::Friend, ALIGN_DEFAULT, "FRIEND"); //make it all caps so it matches with the condition esp
 						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
 					}
 				}
