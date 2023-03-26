@@ -766,6 +766,15 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
 					}
 
+					if (Vars::Visuals::RemoveTaunts.Value) // i dont really see a need for this condition unless you have this enabled
+					{
+						if (nCond & TFCond_Taunting)
+						{
+							g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, pink, ALIGN_DEFAULT, "TAUNTING");
+							nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
+						}
+					}
+
 					if (nCond & TFCond_Healing || nCond & TFCond_MegaHeal || Player->IsKingBuffed())
 					{
 						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, Colors::Overheal, ALIGN_DEFAULT, "HP++");
