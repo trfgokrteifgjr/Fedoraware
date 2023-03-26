@@ -768,12 +768,12 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 
 					if (nCond & TFCond_Healing || nCond & TFCond_MegaHeal || Player->IsKingBuffed())
 					{
-						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, green, ALIGN_DEFAULT, "HP++");
+						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, Colors::Overheal, ALIGN_DEFAULT, "HP++");
 						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
 					}
 					else if (Player->GetHealth() > Player->GetMaxHealth())
 					{
-						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, green, ALIGN_DEFAULT, "HP+");
+						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, Colors::Overheal, ALIGN_DEFAULT, "HP+");
 						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
 					}
 
