@@ -852,7 +852,7 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 
 					if (nCond & TFCond_Disguising || nCondEx & TFCondEx_DisguisedRemoved || nCond & TFCond_Disguised)
 					{															//gray
-						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 128, 128, 128, 255}, ALIGN_DEFAULT, "DISGUISE");
+						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 128, 128, 128, 255}, ALIGN_DEFAULT, "DISGUISED");
 						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
 					}
 				}
