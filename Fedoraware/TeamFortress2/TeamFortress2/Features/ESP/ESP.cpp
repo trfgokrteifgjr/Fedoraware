@@ -814,7 +814,7 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 								g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 128, 128, 128, 255 }, ALIGN_DEFAULT, "REV");
 								nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
 							}
-							if (pWeapon->GetWeaponID() == TF_WEAPON_COMPOUND_BOW)
+							else if (pWeapon->GetWeaponID() == TF_WEAPON_COMPOUND_BOW)
 							{
 								bool charged = (I::GlobalVars->curtime - pWeapon->GetChargeBeginTime()) >= 1.0f;
 								if (charged)
@@ -826,6 +826,11 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 									g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, Colors::Cond, ALIGN_DEFAULT, "CHARGING");
 								}
 								nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall; //just put this here since it should draw something regardless
+							}
+							else
+							{
+								g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 128, 128, 128, 255 }, ALIGN_DEFAULT, "SLOWED");
+								nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall; 
 							}
 						}
 					}
