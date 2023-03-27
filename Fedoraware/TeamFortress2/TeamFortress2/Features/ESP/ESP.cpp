@@ -729,8 +729,9 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 					{
 						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, teamColors, ALIGN_DEFAULT, "BUFF BANNER");
 						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
-					} // id rather show buff banner instead of mini crits here because knowing team-wide buffs is more important
-					else if (nCond & TFCond_CritCola || nCond & TFCond_NoHealingDamageBuff)
+					} 
+
+					if (nCond & TFCond_CritCola || nCond & TFCond_NoHealingDamageBuff)
 					{
 						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, yellow, ALIGN_DEFAULT, "MINI-CRITS");
 						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
