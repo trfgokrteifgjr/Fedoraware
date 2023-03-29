@@ -52,22 +52,20 @@ MAKE_HOOK(CBaseHudChat_ChatPrintf, Utils::GetVFuncPtr(I::ClientModeShared->m_pCh
 		ChatFlags_t chatFlag;
 		bool flagSet = false;
 
-		static constexpr auto Green = Color_t{ 0, 255, 0, 255 };
-		static constexpr auto Red = Color_t{ 255, 0, 0, 255 };
-
 		if (iPlayerIndex == I::EngineClient->GetLocalPlayer())
 		{
-			chatFlag = { Green.to_hex_alpha(), "[You]" };
+			chatFlag = { Colors::Local.to_hex_alpha(), "[You]" };
 			flagSet = true;
 		}
 		else if (g_EntityCache.IsFriend(iPlayerIndex))
 		{
-			chatFlag = { Green.to_hex_alpha(), "[Friend]"};
+			chatFlag = { Colors::Friend.to_hex_alpha(), "[Friend]" };
 			flagSet = true;
 		}
 		else if (I::EngineClient->GetPlayerInfo(iPlayerIndex, &info) && G::PlayerPriority[info.friendsID].Mode == 4)
 		{
-			chatFlag = { Red.to_hex_alpha(), "[Cheater]" };
+			static constexpr auto RED = Color_t{ 255, 0, 0, 255 };
+			chatFlag = { RED.to_hex_alpha(), "[Cheater]" };
 			flagSet = true;
 		}
 
