@@ -42,13 +42,13 @@ MAKE_HOOK(EngineVGui_Paint, Utils::GetVFuncPtr(I::EngineVGui, 14), void, __fastc
 
 		if (!bInitIcons)
 		{
-			for (int nIndex = 0; nIndex < ICONS::TEXTURE_AMOUNT; nIndex++)
-			{
-				ICONS::ID[nIndex] = -1;
-				g_Draw.Texture(-200, 0, 18, 18, Colors::White, nIndex);
-			}
+for (int nIndex = 0; nIndex < ICONS::TEXTURE_AMOUNT; nIndex++)
+{
+	ICONS::ID[nIndex] = -1;
+	g_Draw.Texture(-200, 0, 18, 18, Colors::White, nIndex);
+}
 
-			bInitIcons = true;
+bInitIcons = true;
 		}
 	}
 
@@ -64,7 +64,7 @@ MAKE_HOOK(EngineVGui_Paint, Utils::GetVFuncPtr(I::EngineVGui, 14), void, __fastc
 			{
 				VMatrix worldToView = {}, viewToProjection = {}, worldToPixels = {};
 				I::RenderView->GetMatricesForView(viewSetup, &worldToView, &viewToProjection,
-												  &G::WorldToProjection, &worldToPixels);
+					&G::WorldToProjection, &worldToPixels);
 			}
 		}
 
@@ -121,7 +121,7 @@ MAKE_HOOK(EngineVGui_Paint, Utils::GetVFuncPtr(I::EngineVGui, 14), void, __fastc
 					{ 0x0, Vars::Fonts::FONT_INDICATORS::szName.c_str(), Vars::Fonts::FONT_INDICATORS::nTall.Value, Vars::Fonts::FONT_INDICATORS::nWeight.Value, Vars::Fonts::FONT_INDICATORS::nFlags.Value},
 					{ 0x0, "Verdana", 18, 1600, FONTFLAG_ANTIALIAS},
 					{ 0x0, "Verdana", 12, 800, FONTFLAG_DROPSHADOW},
-				 });
+					});
 			}
 
 			if (I::EngineVGui->IsGameUIVisible()) //Snow
@@ -129,16 +129,26 @@ MAKE_HOOK(EngineVGui_Paint, Utils::GetVFuncPtr(I::EngineVGui, 14), void, __fastc
 				if (!I::EngineClient->IsInGame())
 				{
 					static time_t curTime = time(0);
-					static tm* curCalTime = localtime(&curTime);					
-					
-					if (F::Menu.IsOpen && Vars::Visuals::MenuCelebration.Value)
+					static tm* curCalTime = localtime(&curTime);
+
+					if (F::Menu.IsOpen)
 					{
-						g_Draw.String(FONT_MENU, 5, g_ScreenSize.h - 5 - Vars::Fonts::FONT_MENU::nTall.Value, { 116, 255, 48, 255 }, ALIGN_DEFAULT, __DATE__);
+					#ifdef _DEBUG
+						g_Draw.String(FONT_MENU, 5, g_ScreenSize.h - 2 - Vars::Fonts::FONT_MENU::nTall.Value, { 200, 200, 200, 255 }, ALIGN_DEFAULT, L"Debug Build of %hs", __DATE__);
+					#else
+						g_Draw.String(FONT_MENU, 5, g_ScreenSize.h - 2 - Vars::Fonts::FONT_MENU::nTall.Value, { 200, 200, 200, 255 }, ALIGN_DEFAULT, L"Build of %hs", __DATE__);
+					#endif
 						F::Visuals.DrawDVD();
-						if (curCalTime->tm_mon == 11)
+						if (Vars::Visuals::MenuCelebration.Value)
 						{
-							g_Draw.String(FONT_MENU, g_ScreenSize.c, 150, { 255,255,255,255 }, ALIGN_CENTERHORIZONTAL, "MERRY CHRISTMAS!!!!!!!");
-							F::Visuals.DrawMenuSnow();
+							if (curCalTime->tm_mon == 11 && curCalTime->tm_mday == 25)
+							{
+								g_Draw.String(FONT_MENU, g_ScreenSize.c, 150, { 255,255,255,255 }, ALIGN_CENTERHORIZONTAL, "MERRY CHRISTMAS!!!!!!!");
+							}
+							if (curCalTime->tm_mon == 11 || curCalTime->tm_mon == 0 || curCalTime->tm_mon == 1)
+							{
+								F::Visuals.DrawMenuSnow();
+							}
 						}
 					}
 				}
