@@ -60,12 +60,15 @@ bool CAutoDetonate::CheckDetonation(CBaseEntity* pLocal, const std::vector<CBase
 			}
 
 			const bool isPlayer = Vars::Triggerbot::Detonate::DetonateTargets.Value & (PLAYER) && pTarget->IsPlayer();
-			const bool isBuilding = Vars::Triggerbot::Detonate::DetonateTargets.Value & (BUILDING) && pTarget->IsBuilding();
+			const bool isSentry = Vars::Triggerbot::Detonate::DetonateTargets.Value & (SENTRY) && pTarget->GetClassID() == ETFClassID::CObjectSentrygun;
+			const bool isDispenser = Vars::Triggerbot::Detonate::DetonateTargets.Value & (DISPENSER) && pTarget->GetClassID() == ETFClassID::CObjectDispenser;
+			const bool isTeleporter = Vars::Triggerbot::Detonate::DetonateTargets.Value & (TELEPORTER) && pTarget->GetClassID() == ETFClassID::CObjectTeleporter;
 			const bool isNPC = Vars::Triggerbot::Detonate::DetonateTargets.Value & (NPC) && pTarget->IsNPC();
 			const bool isBomb = Vars::Triggerbot::Detonate::DetonateTargets.Value & (BOMB) && pTarget->IsBomb();
 			const bool isSticky = Vars::Triggerbot::Detonate::DetonateTargets.Value & (STICKY) && (G::CurItemDefIndex == Demoman_s_TheQuickiebombLauncher || G::CurItemDefIndex == Demoman_s_TheScottishResistance);
 
-			if (isPlayer || isBuilding || isNPC || isBomb || pTarget->GetPipebombType() == TYPE_STICKY && isSticky)
+
+			if (isPlayer || isSentry || isDispenser || isTeleporter || isNPC || isBomb || pTarget->GetPipebombType() == TYPE_STICKY && isSticky)
 			{
 				if (isPlayer && F::AutoGlobal.ShouldIgnore(pTarget))
 				{

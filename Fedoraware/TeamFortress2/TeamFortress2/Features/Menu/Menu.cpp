@@ -460,8 +460,8 @@ void CMenu::MenuTrigger()
 			SectionTitle("Auto Detonate");
 			WToggle("Autodetonate###TriggerDet", &Vars::Triggerbot::Detonate::Active.Value);
 			{
-				static std::vector Names{ "Players", "Buildings", "NPCs", "Bombs", "Stickies" };
-				static std::vector Values{ 1 << 0, 1 << 1, 1 << 2, 1 << 3, 1 << 4 };
+				static std::vector Names{ "Players", "Sentries", "Dispensers", "Teleporters", "NPCs", "Bombs", "Stickies" };
+				static std::vector Values{ 1 << 0, 1 << 1, 1 << 2, 1 << 3, 1 << 4, 1 << 5, 1 << 6 };
 
 				MultiFlags(Names, Values, &Vars::Triggerbot::Detonate::DetonateTargets.Value, "Targets###TriggerbotDetonateTargets");
 			}
