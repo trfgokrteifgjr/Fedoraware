@@ -92,7 +92,7 @@ std::vector<Target_t> CAimbotHitscan::GetTargets(CBaseEntity* pLocal, CBaseComba
 	const bool respectFOV = (sortMethod == ESortMethod::FOV) || (Vars::Aimbot::Hitscan::RespectFOV.Value);
 
 	// Players
-	if (Vars::Aimbot::Global::AimPlayers.Value)
+	if (Vars::Aimbot::Global::AimAt.Value & (ToAimAt::PLAYER))
 	{
 		int nHitbox = GetHitbox(pLocal, pWeapon);
 		const bool bIsMedigun = pWeapon->GetWeaponID() == TF_WEAPON_MEDIGUN;
@@ -179,10 +179,18 @@ std::vector<Target_t> CAimbotHitscan::GetTargets(CBaseEntity* pLocal, CBaseComba
 	}
 
 	// Buildings
-	if (Vars::Aimbot::Global::AimBuildings.Value)
+	if (Vars::Aimbot::Global::AimAt.Value)
 	{
 		for (const auto& pBuilding : g_EntityCache.GetGroup(EGroupType::BUILDINGS_ENEMIES))
 		{
+			bool isSentry = pBuilding->GetClassID() == ETFClassID::CObjectSentrygun;
+			bool isDispenser = pBuilding->GetClassID() == ETFClassID::CObjectDispenser;
+			bool isTeleporter = pBuilding->GetClassID() == ETFClassID::CObjectTeleporter;
+
+			if (!(Vars::Aimbot::Global::AimAt.Value & (ToAimAt::SENTRY)) && isSentry) { continue; }
+			if (!(Vars::Aimbot::Global::AimAt.Value & (ToAimAt::DISPENSER)) && isDispenser) { continue; }
+			if (!(Vars::Aimbot::Global::AimAt.Value & (ToAimAt::TELEPORTER)) && isTeleporter) { continue; }
+
 			// Is the building valid and alive?
 			if (!pBuilding || !pBuilding->IsAlive()) { continue; }
 
@@ -198,12 +206,12 @@ std::vector<Target_t> CAimbotHitscan::GetTargets(CBaseEntity* pLocal, CBaseComba
 
 			// The target is valid! Add it to the target vector.
 			const float flDistTo = vLocalPos.DistTo(vPos);
-			validTargets.push_back({ pBuilding, ETargetType::BUILDING, vPos, vAngleTo, flFOVTo, flDistTo });
+			validTargets.push_back({ pBuilding, isSentry ? ETargetType::SENTRY : (isDispenser ? ETargetType::DISPENSER : ETargetType::TELEPORTER), vPos, vAngleTo, flFOVTo, flDistTo});
 		}
 	}
 
 	// Stickies
-	if (Vars::Aimbot::Global::AimStickies.Value)
+	if (Vars::Aimbot::Global::AimAt.Value & (ToAimAt::STICKY))
 	{
 		for (const auto& pProjectile : g_EntityCache.GetGroup(EGroupType::WORLD_PROJECTILES))
 		{
@@ -238,7 +246,7 @@ std::vector<Target_t> CAimbotHitscan::GetTargets(CBaseEntity* pLocal, CBaseComba
 	}
 
 	// NPCs
-	if (Vars::Aimbot::Global::AimNPC.Value)
+	if (Vars::Aimbot::Global::AimAt.Value & (ToAimAt::NPC))
 	{
 		for (const auto& pNPC : g_EntityCache.GetGroup(EGroupType::WORLD_NPC))
 		{
@@ -259,7 +267,7 @@ std::vector<Target_t> CAimbotHitscan::GetTargets(CBaseEntity* pLocal, CBaseComba
 	}
 
 	//Bombs
-	if (Vars::Aimbot::Global::AimBombs.Value)
+	if (Vars::Aimbot::Global::AimAt.Value & (ToAimAt::BOMB))
 	{
 		//TODO: Check if player is close enough to bomb to damage
 		for (const auto& pBomb : g_EntityCache.GetGroup(EGroupType::WORLD_BOMBS))
@@ -368,7 +376,7 @@ bool CAimbotHitscan::ScanHitboxes(CBaseEntity* pLocal, Target_t& target)
 		}
 	}
 
-	else if (target.m_TargetType == ETargetType::BUILDING)
+	else if (target.m_TargetType == ETargetType::SENTRY || target.m_TargetType == ETargetType::DISPENSER || target.m_TargetType == ETargetType::TELEPORTER)
 	{
 		for (int nHitbox = 0; nHitbox < target.m_pEntity->GetNumOfHitboxes(); nHitbox++)
 		{
@@ -454,7 +462,9 @@ bool CAimbotHitscan::VerifyTarget(CBaseEntity* pLocal, Target_t& target)
 			}
 			return false;
 		}
-		case ETargetType::BUILDING:
+		case ETargetType::SENTRY:
+		case ETargetType::DISPENSER:
+		case ETargetType::TELEPORTER:
 		{
 			if (!Utils::VisPos(pLocal, target.m_pEntity, pLocal->GetShootPos(), target.m_vPos))
 			{

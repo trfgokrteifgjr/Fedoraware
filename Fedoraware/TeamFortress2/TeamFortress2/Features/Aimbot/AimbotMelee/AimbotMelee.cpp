@@ -140,7 +140,7 @@ std::vector<Target_t> CAimbotMelee::GetTargets(CBaseEntity* pLocal, CBaseCombatW
 	const bool respectFOV = (sortMethod == ESortMethod::FOV || Vars::Aimbot::Melee::RespectFOV.Value);
 
 	// Players
-	if (Vars::Aimbot::Global::AimPlayers.Value)
+	if (Vars::Aimbot::Global::AimAt.Value & (ToAimAt::PLAYER))
 	{
 		const auto groupType = GetGroupType(pWeapon);
 
@@ -170,7 +170,7 @@ std::vector<Target_t> CAimbotMelee::GetTargets(CBaseEntity* pLocal, CBaseCombatW
 	}
 
 	// Buildings
-	if (Vars::Aimbot::Global::AimBuildings.Value)
+	if (Vars::Aimbot::Global::AimAt.Value)
 	{
 		const bool hasWrench = (pWeapon->GetWeaponID() == TF_WEAPON_WRENCH);
 		const bool canDestroySapper = (G::CurItemDefIndex == Pyro_t_Homewrecker || G::CurItemDefIndex == Pyro_t_TheMaul || G::CurItemDefIndex == Pyro_t_NeonAnnihilator || G::CurItemDefIndex ==
@@ -178,6 +178,14 @@ std::vector<Target_t> CAimbotMelee::GetTargets(CBaseEntity* pLocal, CBaseCombatW
 
 		for (const auto& pObject : g_EntityCache.GetGroup(hasWrench || canDestroySapper ? EGroupType::BUILDINGS_ALL : EGroupType::BUILDINGS_ENEMIES))
 		{
+			bool isSentry = pObject->GetClassID() == ETFClassID::CObjectSentrygun;
+			bool isDispenser = pObject->GetClassID() == ETFClassID::CObjectDispenser;
+			bool isTeleporter = pObject->GetClassID() == ETFClassID::CObjectTeleporter;
+
+			if (!(Vars::Aimbot::Global::AimAt.Value & (ToAimAt::SENTRY)) && isSentry) { continue; }
+			if (!(Vars::Aimbot::Global::AimAt.Value & (ToAimAt::DISPENSER)) && isDispenser) { continue; }
+			if (!(Vars::Aimbot::Global::AimAt.Value & (ToAimAt::TELEPORTER)) && isTeleporter) { continue; }
+
 			const auto& pBuilding = reinterpret_cast<CBaseObject*>(pObject);
 
 			// Is the building valid and alive?
@@ -212,12 +220,12 @@ std::vector<Target_t> CAimbotMelee::GetTargets(CBaseEntity* pLocal, CBaseCombatW
 			}
 
 			const float flDistTo = sortMethod == ESortMethod::DISTANCE ? vLocalPos.DistTo(vPos) : 0.0f;
-			validTargets.push_back({ pObject, ETargetType::BUILDING, vPos, vAngleTo, flFOVTo, flDistTo });
+			validTargets.push_back({ pObject, isSentry ? ETargetType::SENTRY : (isDispenser ? ETargetType::DISPENSER : ETargetType::TELEPORTER), vPos, vAngleTo, flFOVTo, flDistTo });
 		}
 	}
 
 	// NPCs
-	if (Vars::Aimbot::Global::AimNPC.Value)
+	if (Vars::Aimbot::Global::AimAt.Value & (ToAimAt::NPC))
 	{
 		for (const auto& pNPC : g_EntityCache.GetGroup(EGroupType::WORLD_NPC))
 		{

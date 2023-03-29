@@ -68,11 +68,7 @@ namespace Vars
 			inline CVar<bool> AutoShoot{ false };
 			inline CVar<bool> DontWaitForShot{ false };
 			inline CVar<bool> FlickatEnemies{ false };
-			inline CVar<bool> AimPlayers{ true };
-			inline CVar<bool> AimBuildings{ false };
-			inline CVar<bool> AimStickies{ false };
-			inline CVar<bool> AimNPC{ false };
-			inline CVar<bool> AimBombs{ false };
+			inline CVar<int> AimAt{ 0b1000000 }; //players, sentry, dispenser, teleporter, stickies, npcs, bombs
 			inline CVar<int> IgnoreOptions{ 0b0000000 }; //disguised, fakelagging players, vaccinator, taunting, friends, deadringer,cloaked, invul
 			inline CVar<int> TickTolerance{ 7 };
 			inline CVar<bool> BAimLethal{ false }; // This is in global cause i remmebered hunterman exists

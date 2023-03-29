@@ -279,11 +279,7 @@ bool CConfigManager::SaveConfig(const std::string& configName)
 				SAVE_VAR(Vars::Aimbot::Global::AutoShoot);
 				SAVE_VAR(Vars::Aimbot::Global::DontWaitForShot);
 				SAVE_VAR(Vars::Aimbot::Global::FlickatEnemies);
-				SAVE_VAR(Vars::Aimbot::Global::AimPlayers);
-				SAVE_VAR(Vars::Aimbot::Global::AimBuildings);
-				SAVE_VAR(Vars::Aimbot::Global::AimStickies);
-				SAVE_VAR(Vars::Aimbot::Global::AimNPC);
-				SAVE_VAR(Vars::Aimbot::Global::AimBombs);
+				SAVE_VAR(Vars::Aimbot::Global::AimAt);
 				SAVE_VAR(Vars::Aimbot::Global::IgnoreOptions);
 				SAVE_VAR(Vars::Aimbot::Global::TickTolerance);
 				SAVE_VAR(Vars::Aimbot::Global::BAimLethal);
@@ -664,11 +660,7 @@ bool CConfigManager::LoadConfig(const std::string& configName)
 				LOAD_VAR(Vars::Aimbot::Global::AutoShoot);
 				LOAD_VAR(Vars::Aimbot::Global::DontWaitForShot);
 				LOAD_VAR(Vars::Aimbot::Global::FlickatEnemies);
-				LOAD_VAR(Vars::Aimbot::Global::AimPlayers);
-				LOAD_VAR(Vars::Aimbot::Global::AimBuildings);
-				LOAD_VAR(Vars::Aimbot::Global::AimStickies);
-				LOAD_VAR(Vars::Aimbot::Global::AimNPC);
-				LOAD_VAR(Vars::Aimbot::Global::AimBombs);
+				LOAD_VAR(Vars::Aimbot::Global::AimAt);
 				LOAD_VAR(Vars::Aimbot::Global::IgnoreOptions);
 				LOAD_VAR(Vars::Aimbot::Global::TickTolerance);
 				LOAD_VAR(Vars::Aimbot::Global::BAimLethal);

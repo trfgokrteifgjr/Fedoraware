@@ -731,7 +731,7 @@ std::vector<Target_t> CAimbotProjectile::GetTargets(CBaseEntity* pLocal, CBaseCo
 	const bool respectFOV = (sortMethod == ESortMethod::FOV || Vars::Aimbot::Projectile::RespectFOV.Value);
 
 	// Players
-	if (Vars::Aimbot::Global::AimPlayers.Value)
+	if (Vars::Aimbot::Global::AimAt.Value & (ToAimAt::PLAYER))
 	{
 		const bool bIsCrossbow = pWeapon->GetWeaponID() == TF_WEAPON_CROSSBOW;
 
@@ -772,37 +772,42 @@ std::vector<Target_t> CAimbotProjectile::GetTargets(CBaseEntity* pLocal, CBaseCo
 	}
 
 	// Buildings
-	if (Vars::Aimbot::Global::AimBuildings.Value)
+	const bool bIsRescueRanger = pWeapon->GetWeaponID() == TF_WEAPON_SHOTGUN_BUILDING_RESCUE;
+
+	for (const auto& pBuilding : g_EntityCache.GetGroup(bIsRescueRanger ? EGroupType::BUILDINGS_ALL : EGroupType::BUILDINGS_ENEMIES))
 	{
-		const bool bIsRescueRanger = pWeapon->GetWeaponID() == TF_WEAPON_SHOTGUN_BUILDING_RESCUE;
+		bool isSentry = pBuilding->GetClassID() == ETFClassID::CObjectSentrygun;
+		bool isDispenser = pBuilding->GetClassID() == ETFClassID::CObjectDispenser;
+		bool isTeleporter = pBuilding->GetClassID() == ETFClassID::CObjectTeleporter;
 
-		for (const auto& pBuilding : g_EntityCache.GetGroup(bIsRescueRanger ? EGroupType::BUILDINGS_ALL : EGroupType::BUILDINGS_ENEMIES))
+		if (!(Vars::Aimbot::Global::AimAt.Value & (ToAimAt::SENTRY)) && isSentry) { continue; }
+		if (!(Vars::Aimbot::Global::AimAt.Value & (ToAimAt::DISPENSER)) && isDispenser) { continue; }
+		if (!(Vars::Aimbot::Global::AimAt.Value & (ToAimAt::TELEPORTER)) && isTeleporter) { continue; }
+
+		const auto& Building = reinterpret_cast<CBaseObject*>(pBuilding);
+
+		if (!pBuilding->IsAlive()) { continue; }
+
+		// Check if the Rescue Ranger should shoot at friendly buildings
+		if (bIsRescueRanger && (pBuilding->GetTeamNum() == pLocal->GetTeamNum()))
 		{
-			const auto& Building = reinterpret_cast<CBaseObject*>(pBuilding);
-
-			if (!pBuilding->IsAlive()) { continue; }
-
-			// Check if the Rescue Ranger should shoot at friendly buildings
-			if (bIsRescueRanger && (pBuilding->GetTeamNum() == pLocal->GetTeamNum()))
-			{
-				if (Building->GetHealth() >= Building->GetMaxHealth()) { continue; }
-			}
-
-			Vec3 vPos = pBuilding->GetWorldSpaceCenter();
-			Vec3 vAngleTo = Math::CalcAngle(vLocalPos, vPos);
-			const float flFOVTo = Math::CalcFov(vLocalAngles, vAngleTo);
-
-			if ((sortMethod == ESortMethod::FOV || Vars::Aimbot::Projectile::RespectFOV.Value) && flFOVTo > Vars::Aimbot::Projectile::AimFOV.Value)
-			{
-				continue;
-			}
-			const float flDistTo = sortMethod == ESortMethod::DISTANCE ? vLocalPos.DistTo(vPos) : 0.0f;
-			validTargets.push_back({ pBuilding, ETargetType::BUILDING, vPos, vAngleTo, flFOVTo, flDistTo });
+			if (Building->GetHealth() >= Building->GetMaxHealth()) { continue; }
 		}
+
+		Vec3 vPos = pBuilding->GetWorldSpaceCenter();
+		Vec3 vAngleTo = Math::CalcAngle(vLocalPos, vPos);
+		const float flFOVTo = Math::CalcFov(vLocalAngles, vAngleTo);
+
+		if ((sortMethod == ESortMethod::FOV || Vars::Aimbot::Projectile::RespectFOV.Value) && flFOVTo > Vars::Aimbot::Projectile::AimFOV.Value)
+		{
+			continue;
+		}
+		const float flDistTo = sortMethod == ESortMethod::DISTANCE ? vLocalPos.DistTo(vPos) : 0.0f;
+		validTargets.push_back({ pBuilding, isSentry ? ETargetType::SENTRY : (isDispenser ? ETargetType::DISPENSER : ETargetType::TELEPORTER), vPos, vAngleTo, flFOVTo, flDistTo });
 	}
 
 	// NPCs
-	if (Vars::Aimbot::Global::AimNPC.Value)
+	if (Vars::Aimbot::Global::AimAt.Value & (ToAimAt::NPC))
 	{
 		for (const auto& NPC : g_EntityCache.GetGroup(EGroupType::WORLD_NPC))
 		{
@@ -822,7 +827,7 @@ std::vector<Target_t> CAimbotProjectile::GetTargets(CBaseEntity* pLocal, CBaseCo
 	}
 
 	//Bombs
-	if (Vars::Aimbot::Global::AimBombs.Value)
+	if (Vars::Aimbot::Global::AimAt.Value & (ToAimAt::BOMB))
 	{
 		//This is pretty bad with projectiles
 		for (const auto& Bombs : g_EntityCache.GetGroup(EGroupType::WORLD_BOMBS))
@@ -1178,7 +1183,10 @@ void CAimbotProjectile::Run(CBaseEntity* pLocal, CBaseCombatWeapon* pWeapon, CUs
 
 					if (Vars::Aimbot::Projectile::ChargeLooseCannon.Value)
 					{
-						if (target.m_TargetType == ETargetType::BUILDING || target.m_TargetType == ETargetType::BOMBS) // please DONT double donk buildings or bombs
+						if (target.m_TargetType == ETargetType::SENTRY || 
+							target.m_TargetType == ETargetType::DISPENSER || 
+							target.m_TargetType == ETargetType::TELEPORTER || 
+							target.m_TargetType == ETargetType::BOMBS) // please DONT double donk buildings or bombs
 						{
 							pCmd->buttons &= ~IN_ATTACK; 
 						}
