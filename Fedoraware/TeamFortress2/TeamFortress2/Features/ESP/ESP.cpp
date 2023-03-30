@@ -614,7 +614,7 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 				{
 					if (!netChannel->IsLoopback()) // dont draw if in a local server, since every ping will be below 10 anyways, also reduces clutter 
 					{
-						if (ping != 0 && (ping >= 200 || ping <= 10))
+						if (ping != 0 && (ping >= 200 || ping <= 20))
 						{
 							g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 255, 95, 95, 255 }, ALIGN_DEFAULT, "%dMS", ping);
 							nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
