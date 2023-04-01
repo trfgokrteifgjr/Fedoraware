@@ -676,7 +676,7 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 					}
 					else if (nCond & TFCond_Bonked)
 					{															//purple
-						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 135, 60, 255, 255 }, ALIGN_DEFAULT, "BONK");
+						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, Colors::Invuln, ALIGN_DEFAULT, "BONK");
 						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
 					} // no need to show bonk effect if they are ubered, right?
 
