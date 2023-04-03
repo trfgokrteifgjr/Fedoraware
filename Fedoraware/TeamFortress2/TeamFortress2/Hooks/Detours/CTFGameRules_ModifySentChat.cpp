@@ -2,7 +2,7 @@
 
 struct s_CTFGameRules
 {
-	char pad[1031];
+	char pad[1051];
 	bool m_bPlayingMedieval;
 };
 
