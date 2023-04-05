@@ -316,6 +316,15 @@ public: //Everything else, lol.
 		return FN(this, iAmmoIndex);
 	}
 
+	__inline float GetInvisPercentage()
+	{
+		const float invisTime = I::Cvar->FindVar("tf_spy_invis_time")->GetFloat();
+		float GetInvisPercent = Math::RemapValClamped(GetInvisCompleteTime() - I::GlobalVars->curtime,
+			invisTime, 0.0f, 0.0f,
+			100.0f);
+
+		return GetInvisPercent;
+	}
 
 	__inline CBaseEntity* GetGroundEntity()
 	{

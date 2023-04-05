@@ -851,12 +851,7 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 
 					if (nCond & TFCond_Cloaked || nCond & TFCond_CloakFlicker || nCondEx2 & TFCondEx2_Stealthed || nCondEx2 & TFCondEx2_StealthedUserBuffFade)
 					{
-						const float invisTime = I::Cvar->FindVar("tf_spy_invis_time")->GetFloat();
-						const float GetInvisPercent = Math::RemapValClamped(Player->GetInvisCompleteTime() - I::GlobalVars->curtime, 
-																			invisTime, 0.0f, 0.0f, 
-																			100.0f);
-
-						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, Colors::Cloak, ALIGN_DEFAULT, L"INVIS %.0f%%", GetInvisPercent);
+						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, Colors::Cloak, ALIGN_DEFAULT, L"INVIS %.0f%%", Player->GetInvisPercentage());
 						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
 					}
 
