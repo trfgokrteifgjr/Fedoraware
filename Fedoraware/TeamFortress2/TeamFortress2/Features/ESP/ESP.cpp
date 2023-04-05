@@ -856,6 +856,7 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 																			invisTime, 0.0f, 0.0f, 
 																			100.0f);
 
+
 						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, Colors::Cloak, ALIGN_DEFAULT, L"INVIS %.0f%%", GetInvisPercent);
 						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
 					}
