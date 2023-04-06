@@ -188,7 +188,7 @@ void CVisuals::FOV(CViewSetup* pView)
 
 	if (pLocal && pView)
 	{
-		if (pLocal->GetObserverMode() == OBS_MODE_FIRSTPERSON || (pLocal->IsScoped() && !Vars::Visuals::RemoveZoom.Value))
+		if (pLocal->IsScoped() && !Vars::Visuals::RemoveZoom.Value)
 		{
 			return;
 		}
