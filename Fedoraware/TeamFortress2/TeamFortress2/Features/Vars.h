@@ -71,6 +71,7 @@ namespace Vars
 			inline CVar<int> AimAt{ 0b1000000 }; //players, sentry, dispenser, teleporter, stickies, npcs, bombs
 			inline CVar<int> IgnoreOptions{ 0b0000000 }; //disguised, fakelagging players, vaccinator, taunting, friends, deadringer,cloaked, invul
 			inline CVar<int> TickTolerance{ 7 };
+			inline CVar<int> IgnoreCloakPercentage{ 100 }; // if player cloak percent > ignore threshold, ignore them 
 			inline CVar<bool> BAimLethal{ false }; // This is in global cause i remmebered hunterman exists
 			inline CVar<bool> showHitboxes{ false }; // original codenz
 			inline CVar<bool> ClearPreviousHitbox{ false };
