@@ -5,7 +5,7 @@
 <h2 align="center" style="margin-top: 0px;">SE-Owned but coollllll</h2>
 <p align="center">
 <a href="https://github.com/stax132349/Fedoraware/stargazers"><img alt="GitHub Stars" src="https://img.shields.io/github/stars/stax132349/Fedoraware"></a>
-<a href="https://discord.gg/YcVKhnAAEY"><img alt="Fedoraware Discord Server" src="https://img.shields.io/discord/1069923050499354624?label=Discord&logo=Discord"></a>
+<a href="https://discord.gg/tbfT8W8sdP"><img alt="Fedoraware Discord Server" src="https://img.shields.io/discord/1069923050499354624?label=Discord&logo=Discord"></a>
 <a href="https://github.com/stax132349/Fedoraware/actions"><img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/stax132349/Fedoraware/MSBuild"></a>
 <a href="https://github.com/stax132349/Fedoraware/commits/main"><img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/w/stax132349/Fedoraware"></a>
 </p>  
@@ -43,7 +43,7 @@
   - [km-ch](https://github.com/km-ch)
   - [HutchyBean](https://github.com/HutchyBean)
   - [SinnerK0N](https://github.com/SinnerK0N)
-  - [John Page The Fourth](https://github.com/relaxtakenotes)
+  - [jp4](https://github.com/relaxtakenotes)
   - [canedoly](https://github.com/canedoly)
   - [lolnoenemy](https://github.com/lolnoenemy)
   - [reestart](https://github.com/restarrt)
