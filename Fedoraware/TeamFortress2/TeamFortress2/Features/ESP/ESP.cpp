@@ -675,7 +675,7 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
 					}
 					else if (nCond & TFCond_Bonked)
-					{															//purple
+					{															
 						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, Colors::Invuln, ALIGN_DEFAULT, "BONK");
 						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
 					} // no need to show bonk effect if they are ubered, right?
@@ -814,7 +814,8 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 								g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 128, 128, 128, 255 }, ALIGN_DEFAULT, "REV");
 								nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
 							}
-							else if (pWeapon->GetWeaponID() == TF_WEAPON_COMPOUND_BOW)
+
+							if (pWeapon->GetWeaponID() == TF_WEAPON_COMPOUND_BOW)
 							{
 								bool charged = (I::GlobalVars->curtime - pWeapon->GetChargeBeginTime()) >= 1.0f;
 								if (charged)
@@ -827,26 +828,24 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 								}
 								nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall; //just put this here since it should draw something regardless
 							}
-							else
-							{
-								g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 128, 128, 128, 255 }, ALIGN_DEFAULT, "SLOWED");
-								nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall; 
-							}
 						}
 					}
 
 					if (nCond & TFCond_Zoomed)
 					{															//aqua
-						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 0, 255, 255, 255 }, ALIGN_DEFAULT, "ZOOM");
+						g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 0, 255, 255, 255 }, ALIGN_DEFAULT, "ZOOMED");
 						nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
-						
-					/* CAN SOMEONE FIX THIS FOR ME, THIS IS CHARGE PERCENTAGE */
-					//	if (pWeapon)
-					//	{
-					//		const float flPercent = Math::RemapValClamped(pWeapon->GetChargeDamage(), 50.0f, 150.0f, 1.0f, 100.0f);
-					//		g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, teamColors, ALIGN_DEFAULT, "CHARGE %d%", std::clamp(static_cast<int>(flPercent), 1, 100));
-					//		nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
-					//	}
+
+//						if (pWeapon)
+//						{
+//							const float flPercent = Math::RemapValClamped(calculation, 2.0f, 1.0f, 1.0f, 100.0f);
+//							g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, teamColors, ALIGN_DEFAULT, "CHARGE %.0f%%", flPercent);
+//							nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
+//
+//							I::Cvar->ConsolePrintf("zoomTime = %f\n", zoomTime);
+//							I::Cvar->ConsolePrintf("curtime = %f\n", I::GlobalVars->curtime);
+//							I::Cvar->ConsolePrintf("calculation = %f\n", calculation);
+//						}
 					}
 
 					if (nCond & TFCond_Cloaked || nCond & TFCond_CloakFlicker || nCondEx2 & TFCondEx2_Stealthed || nCondEx2 & TFCondEx2_StealthedUserBuffFade)
@@ -1493,7 +1492,7 @@ void CESP::DrawWorld() const
 				}
 
 				nTextTopOffset += g_Draw.m_vecFonts[FONT].nTall + g_Draw.m_vecFonts[FONT].nTall / 4;
-				g_Draw.String(FONT, x + w / 2, y - nTextTopOffset, Colors::NPC, ALIGN_CENTERHORIZONTAL, szName);
+				g_Draw.String(FONT_ESP_NAME, x + w / 2, y - nTextTopOffset, Colors::NPC, ALIGN_CENTERHORIZONTAL, szName);
 			}
 
 			if (Vars::ESP::World::NPCLine.Value)
@@ -1580,8 +1579,8 @@ void CESP::DrawWorld() const
 				}
 				}
 
-				nTextTopOffset += g_Draw.m_vecFonts[FONT].nTall + g_Draw.m_vecFonts[FONT].nTall / 4;
-				g_Draw.String(FONT, x + w / 2, y - nTextTopOffset, Colors::Bomb, ALIGN_CENTERHORIZONTAL, szName);
+				nTextTopOffset += g_Draw.m_vecFonts[FONT_ESP_NAME].nTall + g_Draw.m_vecFonts[FONT_ESP_NAME].nTall / 4;
+				g_Draw.String(FONT_ESP_NAME, x + w / 2, y - nTextTopOffset, Colors::Bomb, ALIGN_CENTERHORIZONTAL, szName);
 			}
 
 			if (Vars::ESP::World::BombLine.Value)
