@@ -33,7 +33,8 @@ bool CSpectatorList::GetSpectators(CBaseEntity* pLocal)
 			float respawnTime = 0;
 			if (CTFPlayerResource* pResource = g_EntityCache.GetPR())
 			{
-				respawnTime = pResource->GetNextRespawnTime(pTeammate->GetIndex()) - I::GlobalVars->curtime;
+				const float NextRespawnTime = pResource->GetNextRespawnTime(pTeammate->GetIndex()) - I::GlobalVars->curtime;
+				respawnTime = std::clamp(NextRespawnTime, 0.0f, 1000.0f); //the 1000 is abitrary, i only did this to clamp it so it doesnt go below 0
 			}
 
 			PlayerInfo_t playerInfo{ };
