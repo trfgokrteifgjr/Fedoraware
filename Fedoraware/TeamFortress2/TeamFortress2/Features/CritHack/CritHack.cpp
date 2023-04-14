@@ -166,6 +166,12 @@ bool CCritHack::ShouldCrit()
 		case Soldier_t_TheEqualizer:
 		{
 			//The Equalizer does more damage the lower the local player's health is
+			if (CBaseEntity* pLocal = g_EntityCache.GetLocal())
+			{ //tf_weapon_shovel.cpp@L103
+				float healthRatio = pLocal->GetHealth() / pLocal->GetMaxHealth();
+				float damageScale = Math::RemapValClamped(healthRatio, 0.f, 1.f, 1.65f, 0.5f);
+				MeleeDamage = 65 * damageScale;
+			}
 			break;
 		}
 		case Pyro_t_HotHand:
