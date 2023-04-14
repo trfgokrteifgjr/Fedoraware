@@ -828,6 +828,12 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 								}
 								nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall; //just put this here since it should draw something regardless
 							}
+
+							if (pWeapon->GetWeaponID() == TF_WEAPON_PARTICLE_CANNON)
+							{
+								g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, Colors::Cond, ALIGN_DEFAULT, "CHARGING");
+								nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
+							}
 						}
 					}
 
