@@ -219,11 +219,11 @@ bool CCritHack::ShouldCrit()
 
 			if (CBaseEntity* pLocal = g_EntityCache.GetLocal())
 			{
-				if (pLocal->GetHealth() <= round(pLocal->GetMaxHealth() / 2))
+				if (pLocal->GetHealth() < pLocal->GetMaxHealth() * 0.5f)
 				{
 					MeleeDamage = 81;
 				}
-				else if (pLocal->GetHealth() > round(pLocal->GetMaxHealth() / 2))
+				else
 				{
 					MeleeDamage = 49;
 				}
