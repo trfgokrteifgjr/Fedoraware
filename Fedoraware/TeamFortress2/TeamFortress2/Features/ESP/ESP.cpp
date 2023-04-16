@@ -1,6 +1,7 @@
 #include "ESP.h"
 #include "../AntiHack/CheaterDetection/CheaterDetection.h"
 #include "../Backtrack/Backtrack.h"
+#include "GetWeaponName/GetWeaponName.h"
 #include "../Vars.h"
 
 bool CESP::ShouldRun()
@@ -468,91 +469,8 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 				// Weapon text
 				if (Vars::ESP::Players::WeaponText.Value)
 				{
-					static auto CTFPlayerSharedUtils_GetEconItemViewByLoadoutSlot = reinterpret_cast<void* (__cdecl*)(void*, int, void**)>(
-						g_Pattern.Find(L"client.dll", L"55 8B EC 83 EC 08 53 56 57 8B 7D 08 33 F6 8B 87 ? ? ? ? 81 C7 ? ? ? ? 89 45 FC 8D 49 00")
-						);
-
-					static auto C_EconItemView_GetItemName = reinterpret_cast<const char* (__thiscall*)(void*)>(
-						g_Pattern.Find(L"client.dll", L"56 8B F1 C6 86 ? ? ? ? ? E8 ? ? ? ? 8B 8E ? ? ? ? 5E 85 C9 75 06")
-						);
-
-					int iWeaponSlot = pWeapon->GetSlot();
-					int iPlayerClass = Player->GetClassNum();
-
-					const char* szItemName = "";
-
-					switch (iPlayerClass)
-					{
-					case CLASS_SPY:
-					{
-						switch (iWeaponSlot)
-						{
-						case 0: // Primary (gun)
-						{
-							iWeaponSlot = 1;
-							break;
-						}
-						case 1: // Sapper ????
-						{
-							iWeaponSlot = 4;
-							break;
-						}
-						// case 2: // Knife
-						case 3: // Disguise kit
-						{
-							iWeaponSlot = 5;
-							break;
-						}
-						}
-						break;
-					}
-					case CLASS_ENGINEER:
-					{
-						switch (iWeaponSlot)
-						{
-						case 3:
-						{
-							iWeaponSlot = 5;
-							break;
-						}
-						case 4:
-						{
-							iWeaponSlot = 6;
-							break;
-						}
-						}
-						break;
-					}
-					default: break;
-					}
-
-					void* pCurItemData = CTFPlayerSharedUtils_GetEconItemViewByLoadoutSlot(Player, iWeaponSlot, 0);
-					if (pCurItemData)
-					{
-						szItemName = C_EconItemView_GetItemName(pCurItemData);
-						g_Draw.String(FONT_ESP, x + (w / 2), y + h + (Vars::ESP::Players::WeaponIcon.Value ? 25 : 0), Colors::WeaponIcon, ALIGN_CENTERHORIZONTAL, "%ls", szItemName);
-					}
-
-
-					//static auto C_EconItemView_GetStaticData = reinterpret_cast<void* (__thiscall*)(void*)>(
-					//	g_Pattern.Find(L"client.dll", L"0F B7 41 24 50 E8 ? ? ? ? 8B C8 E8 ? ? ? ? 6A 00 68 ? ? ? ? 68 ? ? ? ? 6A 00 50 E8 ? ? ? ? 83 C4 14 C3")
-					//	);
-
-					//void* pItem = pWeapon->m_Item();
-
-					//void* pItemDefinition = C_EconItemView_GetStaticData(pItem);
-
-					//if (auto szItemName = C_EconItemView_GetItemName(pItemDefinition))
-					//{
-					//	
-					//}
-
-					/*wchar_t szItemName[128]{};
-					if (pWeapon->GetLocalizedBaseItemName(szItemName))
-					{
-						g_Draw.String(FONT_ESP, x + (w / 2), y + h, Colors::WeaponIcon, ALIGN_CENTERHORIZONTAL, "%ls", szItemName);
-						weaponoffset += Vars::Fonts::FONT_ESP::nTall.Value;
-					}*/
+					g_Draw.String(FONT_ESP, x + (w / 2), y + h + (Vars::ESP::Players::WeaponIcon.Value ? 25 : 0), Colors::WeaponIcon, ALIGN_CENTERHORIZONTAL, 
+						"%s", F::WESP.GetWeaponName(pWeapon->GetWeaponID(), G::CurItemDefIndex, G::CurWeaponType));
 				}
 
 				// Weapon icons
@@ -844,13 +762,9 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 
 //						if (pWeapon)
 //						{
-//							const float flPercent = Math::RemapValClamped(calculation, 2.0f, 1.0f, 1.0f, 100.0f);
+//							const float flPercent = Math::RemapValClamped(pWeapon->GetChargeDamage(), 50.0f, 150.0f, 1.0f, 100.0f);
 //							g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, teamColors, ALIGN_DEFAULT, "CHARGE %.0f%%", flPercent);
 //							nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
-//
-//							I::Cvar->ConsolePrintf("zoomTime = %f\n", zoomTime);
-//							I::Cvar->ConsolePrintf("curtime = %f\n", I::GlobalVars->curtime);
-//							I::Cvar->ConsolePrintf("calculation = %f\n", calculation);
 //						}
 					}
 

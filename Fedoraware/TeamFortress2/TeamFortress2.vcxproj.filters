@@ -186,6 +186,7 @@
     <ClCompile Include="TeamFortress2\Hooks\Detours\C_TFPlayer_FireEvent.cpp" />
     <ClCompile Include="TeamFortress2\Hooks\Detours\VGui_MenuBuilder_AddMenuItem.cpp" />
     <ClCompile Include="TeamFortress2\Hooks\Detours\C_PlayerResource_GetTeamColor.cpp" />
+    <ClCompile Include="TeamFortress2\Features\ESP\GetWeaponName\GetWeaponName.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TeamFortress2\Features\AutoQueue\AutoQueue.h" />
@@ -757,6 +758,7 @@
     <ClInclude Include="TeamFortress2\Features\TickHandler\TickHandler.h" />
     <ClInclude Include="TeamFortress2\Features\Misc\Notifications\Notifications.h" />
     <ClInclude Include="TeamFortress2\Features\ESP\LocalConditions\LocalConditions.h" />
+    <ClInclude Include="TeamFortress2\Features\ESP\GetWeaponName\GetWeaponName.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="TeamFortress2\SDK\DirectX\d3dx9.lib" />
