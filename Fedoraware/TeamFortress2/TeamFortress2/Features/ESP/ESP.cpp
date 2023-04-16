@@ -1086,23 +1086,23 @@ void CESP::DrawBuildings(CBaseEntity* pLocal) const
 				const float flConstructed = building->GetConstructed() * 100.0f;
 				if (flConstructed < 100.0f && static_cast<int>(flConstructed) != 0)
 				{
-					g_Draw.String(FONT, nTextX, y + nTextOffset, Colors::Cond, ALIGN_DEFAULT, L"Building: %0.f%%",
+					g_Draw.String(FONT, nTextX, y + nTextOffset, Colors::Cond, ALIGN_DEFAULT, L"BUILDING: %0.f%%",
 						flConstructed);
 					nTextOffset += g_Draw.m_vecFonts[FONT].nTall;
 				}
 
 				if (nType == EBuildingType::SENTRY && building->GetControlled())
 				{
-					condStrings.emplace_back(L"Wrangled");
+					condStrings.emplace_back(L"WRANGLED");
 				}
 
 				if (building->GetSapped())
 				{
-					condStrings.emplace_back(L"Sapped");
+					condStrings.emplace_back(L"SAPPED");
 				}
 				else if (building->GetDisabled()) //Building->IsSpook()
 				{
-					condStrings.emplace_back(L"Disabled");
+					condStrings.emplace_back(L"DISABLED");
 				}
 
 				if (building->IsSentrygun() && !building->GetConstructing())
@@ -1115,10 +1115,10 @@ void CESP::DrawBuildings(CBaseEntity* pLocal) const
 					building->GetAmmoCount(iShells, iMaxShells, iRockets, iMaxRockets);
 
 					if (iShells == 0)
-						condStrings.emplace_back(L"No Ammo");
+						condStrings.emplace_back(L"NO AMMO");
 
 					if (!bIsMini && iRockets == 0)
-						condStrings.emplace_back(L"No Rockets");
+						condStrings.emplace_back(L"NO ROCKETS");
 				}
 
 				if (!condStrings.empty())
