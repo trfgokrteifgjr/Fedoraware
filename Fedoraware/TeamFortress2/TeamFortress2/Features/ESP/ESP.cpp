@@ -560,21 +560,21 @@ void CESP::DrawPlayers(CBaseEntity* pLocal)
 					}
 				}
 				
-				//lagcomp cond, idea from nitro
-				const float flSimTime = Player->GetSimulationTime(), flOldSimTime = Player->GetOldSimulationTime();
-				if (flSimTime != flOldSimTime) //stolen from CBacktrack::MakeRecords()
-				{
-					if (!F::Backtrack.mRecords[Player].empty())
-					{
-						const Vec3 vPrevOrigin = F::Backtrack.mRecords[Player].front().vOrigin;
-						const Vec3 vDelta = Player->m_vecOrigin() - vPrevOrigin;
-						if (vDelta.Length2DSqr() > 4096.f) //the actual lagcomp check
-						{
-							g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 255, 95, 95, 255 }, ALIGN_DEFAULT, "LAGCOMP");
-							nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
-						}
-					}
-				}
+				////lagcomp cond, idea from nitro
+				//const float flSimTime = Player->GetSimulationTime(), flOldSimTime = Player->GetOldSimulationTime();
+				//if (flSimTime != flOldSimTime) //stolen from CBacktrack::MakeRecords()
+				//{
+				//	if (!F::Backtrack.mRecords[Player].empty())
+				//	{
+				//		const Vec3 vPrevOrigin = F::Backtrack.mRecords[Player].front().vOrigin;
+				//		const Vec3 vDelta = Player->m_vecOrigin() - vPrevOrigin;
+				//		if (vDelta.Length2DSqr() > 4096.f) //the actual lagcomp check
+				//		{
+				//			g_Draw.String(FONT_ESP_COND, nTextX, y + nTextOffset, { 255, 95, 95, 255 }, ALIGN_DEFAULT, "LAGCOMP");
+				//			nTextOffset += g_Draw.m_vecFonts[FONT_ESP_COND].nTall;
+				//		}
+				//	}
+				//}
 				
 				const int nCond = Player->GetCond();
 				const int nCondEx = Player->GetCondEx();
