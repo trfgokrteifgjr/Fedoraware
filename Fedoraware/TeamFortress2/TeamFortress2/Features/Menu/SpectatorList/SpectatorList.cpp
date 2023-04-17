@@ -116,7 +116,7 @@ void CSpectatorList::DrawDefault()
 	g_Draw.String(FONT_MENU,
 				  SpecListX + (SpecListW / 2),
 				  SpecListY + (SpecListTitleBarH / 2),
-				  Vars::Menu::Colors::MenuAccent,
+				  Vars::Menu::MenuAccent,
 				  ALIGN_CENTER,
 				  "%hs", "Spectators");
 

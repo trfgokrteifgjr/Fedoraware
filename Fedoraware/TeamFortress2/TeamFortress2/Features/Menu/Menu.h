@@ -14,9 +14,6 @@ class CMenu
 	void MenuMisc();
 	void SettingsWindow();
 	void DebugMenu();
-	void DrawCameraWindow();
-	void DrawCritDrag();
-
 
 	void AddDraggable(const char* szTitle, DragBox_t& info, bool bShouldDraw, bool setSize = false);
 

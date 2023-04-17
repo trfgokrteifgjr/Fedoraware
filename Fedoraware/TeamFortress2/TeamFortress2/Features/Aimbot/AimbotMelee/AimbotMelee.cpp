@@ -137,8 +137,6 @@ std::vector<Target_t> CAimbotMelee::GetTargets(CBaseEntity* pLocal, CBaseCombatW
 	const Vec3 vLocalPos = pLocal->GetShootPos();
 	const Vec3 vLocalAngles = I::EngineClient->GetViewAngles();
 
-	const bool respectFOV = (sortMethod == ESortMethod::FOV || Vars::Aimbot::Melee::RespectFOV.Value);
-
 	// Players
 	if (Vars::Aimbot::Global::AimAt.Value & (ToAimAt::PLAYER))
 	{
@@ -158,7 +156,7 @@ std::vector<Target_t> CAimbotMelee::GetTargets(CBaseEntity* pLocal, CBaseCombatW
 			Vec3 vAngleTo = Math::CalcAngle(vLocalPos, vPos);
 			const float flFOVTo = Math::CalcFov(vLocalAngles, vAngleTo);
 
-			if (respectFOV && flFOVTo > Vars::Aimbot::Melee::AimFOV.Value)
+			if (flFOVTo > Vars::Aimbot::Melee::AimFOV.Value)
 			{
 				continue;
 			}
@@ -214,7 +212,7 @@ std::vector<Target_t> CAimbotMelee::GetTargets(CBaseEntity* pLocal, CBaseCombatW
 			Vec3 vAngleTo = Math::CalcAngle(vLocalPos, vPos);
 			const float flFOVTo = Math::CalcFov(vLocalAngles, vAngleTo);
 
-			if (respectFOV && flFOVTo > Vars::Aimbot::Melee::AimFOV.Value)
+			if (flFOVTo > Vars::Aimbot::Melee::AimFOV.Value)
 			{
 				continue;
 			}
@@ -235,7 +233,7 @@ std::vector<Target_t> CAimbotMelee::GetTargets(CBaseEntity* pLocal, CBaseCombatW
 			const float flFOVTo = Math::CalcFov(vLocalAngles, vAngleTo);
 			const float flDistTo = sortMethod == ESortMethod::DISTANCE ? vLocalPos.DistTo(vPos) : 0.0f;
 
-			if (respectFOV && flFOVTo > Vars::Aimbot::Melee::AimFOV.Value)
+			if (flFOVTo > Vars::Aimbot::Melee::AimFOV.Value)
 			{
 				continue;
 			}
@@ -274,16 +272,7 @@ bool CAimbotMelee::VerifyTarget(CBaseEntity* pLocal, CBaseCombatWeapon* pWeapon,
 		}
 	}
 
-
-
-	if (Vars::Aimbot::Melee::RangeCheck.Value && !(target.ShouldBacktrack))
-	{
-		if (!CanMeleeHit(pLocal, pWeapon, target.m_vAngleTo, target.m_pEntity->GetIndex()))
-		{
-			return false;
-		}
-	}
-	else if (target.ShouldBacktrack)
+	if (target.ShouldBacktrack)
 	{
 		const float FL_DELAY = std::max(pWeapon->GetWeaponData().m_flSmackDelay - ((F::Ticks.MeleeDoubletapCheck(pLocal) && Vars::Misc::CL_Move::AntiWarp.Value) ? TICKS_TO_TIME(G::ShiftedTicks) : 0.f), 0.f);
 		if (FL_DELAY == 0.f) { return false; }
