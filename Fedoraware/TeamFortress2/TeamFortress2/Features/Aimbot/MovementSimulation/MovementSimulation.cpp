@@ -236,13 +236,14 @@ bool CMovementSimulation::StrafePrediction()
 
 		if (static_cast<int>(mVelocityRecord.size()) < 1)
 		{ return false; }
-		if (mVelocityRecord.empty()) { return false; }
+		const int iSamples = fmin(15, mVelocityRecord.size());
+		if (!iSamples) { return false; }
 
 		flInitialYaw = m_MoveData.m_vecViewAngles.y;		//Math::VelocityToAngles(m_MoveData.m_vecVelocity).y;
 		float flCompareYaw = flInitialYaw;
 
 		int i = 0;
-		for (; i < mVelocityRecord.size(); i++)
+		for (; i < iSamples; i++)
 		{
 			const float flRecordYaw = Math::VelocityToAngles(mVelocityRecord.at(i)).y;
 
@@ -278,7 +279,7 @@ bool CMovementSimulation::StrafePrediction()
 				return tmp;
 		};
 
-		const float flMaxDelta = (get_velocity_degree(flAverageYaw) / fmaxf((float)mVelocityRecord.size(), 2.f));
+		const float flMaxDelta = (get_velocity_degree(flAverageYaw) / fmaxf((float)iSamples, 2.f));
 
 		if (fabsf(flAverageYaw) > flMaxDelta) {
 			m_Velocities[m_pPlayer->GetIndex()].clear();
