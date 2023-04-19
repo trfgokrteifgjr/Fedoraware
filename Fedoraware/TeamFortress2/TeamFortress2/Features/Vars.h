@@ -236,6 +236,7 @@ namespace Vars
 				inline CVar<bool> LagComp{ false };
 				inline CVar<bool> Ping{ true };
 				inline CVar<bool> KD{ false };
+				inline CVar<bool> Dormant{ true };
 			}
 		}
 
