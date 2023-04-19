@@ -551,7 +551,10 @@ void CMenu::MenuVisuals()
 					WToggle("Conditions", &Vars::ESP::Players::Conditions::Enabled.Value);
 					if (Vars::ESP::Players::Conditions::Enabled.Value)
 					{
-						MultiCombo({ "Lag Compensation", "Ping", }, { &Vars::ESP::Players::Conditions::LagComp.Value, &Vars::ESP::Players::Conditions::Ping.Value }, "Condition List");
+						MultiCombo({ "Buffs", "Debuffs", "Other Conditions", "Lag Compensation", "KD", "Ping", }, 
+								   { &Vars::ESP::Players::Conditions::Buffs.Value, &Vars::ESP::Players::Conditions::Debuffs.Value, &Vars::ESP::Players::Conditions::Other.Value, 
+									 &Vars::ESP::Players::Conditions::LagComp.Value, &Vars::ESP::Players::Conditions::KD.Value, &Vars::ESP::Players::Conditions::Ping.Value },
+								     "Condition List");
 					}
 					ColorPickerL("Condition colour", Colors::Cond);
 					WToggle("Priority Text", &Vars::ESP::Players::PriorityText.Value); HelpMarker("Will show you what priority the enemy is. (Attempts to automatically mark cheaters.)");
