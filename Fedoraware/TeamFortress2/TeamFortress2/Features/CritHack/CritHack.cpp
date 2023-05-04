@@ -25,51 +25,86 @@ bool CCritHack::IsEnabled()
 
 bool CCritHack::IsAttacking(const CUserCmd* pCmd, CBaseCombatWeapon* pWeapon)
 {
-	if (G::CurItemDefIndex == Soldier_m_TheBeggarsBazooka)
+	if (pWeapon->GetSlot() == SLOT_MELEE)
 	{
-		static bool bLoading = false;
+		if (pWeapon->GetWeaponID() == TF_WEAPON_KNIFE)
+			return ((pCmd->buttons & IN_ATTACK) && G::WeaponCanAttack);
 
-		if (pWeapon->GetClip1() > 0)
-		{
-			bLoading = true;
-		}
-
-		if (!(pCmd->buttons & IN_ATTACK) && bLoading)
-		{
-			bLoading = false;
-			return true;
-		}
+		else return fabs(pWeapon->GetSmackTime() - I::GlobalVars->curtime) < I::GlobalVars->interval_per_tick * 2.0f;
 	}
 
 	else
 	{
-		if (pWeapon->GetWeaponID() == TF_WEAPON_COMPOUND_BOW || pWeapon->GetWeaponID() == TF_WEAPON_PIPEBOMBLAUNCHER)
+		if (G::CurItemDefIndex == Soldier_m_TheBeggarsBazooka)
 		{
-			static bool bCharging = false;
+			static bool bLoading = false;
 
-			if (pWeapon->GetChargeBeginTime() > 0.0f)
-			{
-				bCharging = true;
-			}
+			if (pWeapon->GetClip1() > 0)
+				bLoading = true;
 
-			if (!(pCmd->buttons & IN_ATTACK) && bCharging)
-			{
-				bCharging = false;
+			if (!(pCmd->buttons & IN_ATTACK) && bLoading) {
+				bLoading = false;
 				return true;
 			}
 		}
 
-		//pssst..
-		//Dragon's Fury has a gauge (seen on the weapon model) maybe it would help for pSilent hmm..
-		/*
-		if (pWeapon->GetWeaponID() == 109) {
-		}*/
-
 		else
 		{
-			if ((pCmd->buttons & IN_ATTACK) && G::WeaponCanAttack)
+			int ID = pWeapon->GetWeaponID();
+			switch (ID) {
+			case TF_WEAPON_COMPOUND_BOW:
+			case TF_WEAPON_PIPEBOMBLAUNCHER:
 			{
-				return true;
+				static bool bCharging = false;
+
+				if (pWeapon->GetChargeBeginTime() > 0.0f)
+					bCharging = true;
+
+				if (!(pCmd->buttons & IN_ATTACK) && bCharging) {
+					bCharging = false;
+					return true;
+				}
+				break;
+			}
+			case TF_WEAPON_CANNON:
+			{
+				static bool bCharging = false;
+
+				if (pWeapon->GetDetonateTime() > 0.0f)
+					bCharging = true;
+
+				if (!(pCmd->buttons & IN_ATTACK) && bCharging) {
+					bCharging = false;
+					return true;
+				}
+				break;
+			}
+			//ig below you can remove even tho you can crit hack with them..
+			case TF_WEAPON_JAR:
+			case TF_WEAPON_JAR_MILK:
+			case TF_WEAPON_JAR_GAS:
+			case TF_WEAPON_GRENADE_JAR_GAS:
+			case TF_WEAPON_CLEAVER:
+			{
+				static float flThrowTime = 0.0f;
+
+				if ((pCmd->buttons & IN_ATTACK) && G::WeaponCanAttack && !flThrowTime)
+					flThrowTime = I::GlobalVars->curtime + I::GlobalVars->interval_per_tick;
+
+				if (flThrowTime && I::GlobalVars->curtime >= flThrowTime) {
+					flThrowTime = 0.0f;
+					return true;
+				}
+				break;
+			}
+			default:
+			{
+				if ((pCmd->buttons & IN_ATTACK) && G::WeaponCanAttack)
+				{
+					return true;
+				}
+				break;
+			}
 			}
 		}
 	}
@@ -161,7 +196,7 @@ void CCritHack::ScanForCrits(const CUserCmd* pCmd, int loops)
 {
 	static int previousWeapon = 0;
 	static int previousCrit = 0;
-	static int startingNum = I::ClientState->m_NetChannel->m_nOutSequenceNr = pCmd->command_number - 1;
+	static int startingNum = pCmd->command_number;
 
 	const auto& pLocal = g_EntityCache.GetLocal();
 	if (!pLocal) { return; }
