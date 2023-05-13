@@ -284,7 +284,7 @@ bool CAimbotProjectile::SolveProjectile(CBaseEntity* pLocal, CBaseCombatWeapon* 
 				if (!aimPosition)
 				{
 					bNeedsTimeCheck = true;
-					continue; 
+					break;
 				} // don't remove.
 
 				//const Vec3 vAimDelta = predictor.m_pEntity->GetAbsOrigin() - aimPosition;
