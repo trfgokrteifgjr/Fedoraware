@@ -4,7 +4,7 @@
 // i hate crithack
 
 /* Returns whether random crits are enabled on the server */
-bool CCritHack::AreRandomCritsEnabled()
+bool CCritHack::AreRandomCritsEnabled(CBaseCombatWeapon* pWeapon)
 {
 	if (static auto tf_weapon_criticals = g_ConVars.FindVar("tf_weapon_criticals"); tf_weapon_criticals)
 	{
@@ -17,7 +17,7 @@ bool CCritHack::AreRandomCritsEnabled()
 bool CCritHack::IsEnabled()
 {
 	if (!Vars::CritHack::Active.Value) { return false; }
-	if (!AreRandomCritsEnabled()) { return false; }
+	//if (!AreRandomCritsEnabled()) { return false; }
 	if (!I::EngineClient->IsInGame()) { return false; }
 
 	return true;
@@ -119,42 +119,40 @@ bool CCritHack::NoRandomCrits(CBaseCombatWeapon* pWeapon)
 	{
 		return true;
 	}
-	else 
-	return false;
 	//list of weapons that cant random crit, but dont have the attribute for it
 	switch (pWeapon->GetWeaponID())
 	{
 		//scout
-		case TF_WEAPON_JAR_MILK:
+	case TF_WEAPON_JAR_MILK:
 		//soldier
-		case TF_WEAPON_BUFF_ITEM:
+	case TF_WEAPON_BUFF_ITEM:
 		//pyro
-		case TF_WEAPON_JAR_GAS:
-		case TF_WEAPON_FLAME_BALL:
-		case TF_WEAPON_ROCKETPACK:
+	case TF_WEAPON_JAR_GAS:
+	case TF_WEAPON_FLAME_BALL:
+	case TF_WEAPON_ROCKETPACK:
 		//demo
-		case TF_WEAPON_PARACHUTE: //also for soldier
+	case TF_WEAPON_PARACHUTE: //also for soldier
 		//heavy
-		case TF_WEAPON_LUNCHBOX:
+	case TF_WEAPON_LUNCHBOX:
 		//engineer
-		case TF_WEAPON_PDA_ENGINEER_BUILD:
-		case TF_WEAPON_PDA_ENGINEER_DESTROY:
-		case TF_WEAPON_LASER_POINTER:
+	case TF_WEAPON_PDA_ENGINEER_BUILD:
+	case TF_WEAPON_PDA_ENGINEER_DESTROY:
+	case TF_WEAPON_LASER_POINTER:
 		//medic
-		case TF_WEAPON_MEDIGUN:
+	case TF_WEAPON_MEDIGUN:
 		//sniper
-		case TF_WEAPON_SNIPERRIFLE:
-		case TF_WEAPON_SNIPERRIFLE_CLASSIC:
-		case TF_WEAPON_SNIPERRIFLE_DECAP:
-		case TF_WEAPON_COMPOUND_BOW:
-		case TF_WEAPON_JAR:
+	case TF_WEAPON_SNIPERRIFLE:
+	case TF_WEAPON_SNIPERRIFLE_CLASSIC:
+	case TF_WEAPON_SNIPERRIFLE_DECAP:
+	case TF_WEAPON_COMPOUND_BOW:
+	case TF_WEAPON_JAR:
 		//spy
-		case TF_WEAPON_KNIFE:
-		case TF_WEAPON_PDA_SPY_BUILD:
-		case TF_WEAPON_PDA_SPY:
-			return true;
-			break;
-		default: return false; break;
+	case TF_WEAPON_KNIFE:
+	case TF_WEAPON_PDA_SPY_BUILD:
+	case TF_WEAPON_PDA_SPY:
+		return true;
+		break;
+	default: return false; break;
 	}
 }
 
@@ -304,10 +302,10 @@ void CCritHack::Draw()
 		g_Draw.String(FONT_INDICATORS, x, currentY += 15, { 255, 255, 255, 255, }, ALIGN_CENTERHORIZONTAL, tfm::format("%x", reinterpret_cast<float*>(pWeapon + 0xA54)).c_str());
 	}
 	// Are we currently forcing crits?
-	if (ShouldCrit() && NoRandomCrits(pWeapon) == false)
+	if (ShouldCrit() && AreRandomCritsEnabled(pWeapon) && NoRandomCrits(pWeapon) == false)
 	{
 		if (CritTicks.size() > 0)
-		{ 
+		{
 			g_Draw.String(FONT_INDICATORS, x, currentY += 15, { 0, 255, 0, 255 }, ALIGN_CENTERHORIZONTAL, "Forcing Crits");
 		}
 	}
@@ -316,8 +314,12 @@ void CCritHack::Draw()
 	{
 		g_Draw.String(FONT_INDICATORS, x, currentY += 15, { 255, 95, 95, 255 }, ALIGN_CENTERHORIZONTAL, L"No Random Crits");
 	}
+	if (AreRandomCritsEnabled(pWeapon) == false)
+	{
+		g_Draw.String(FONT_INDICATORS, x, currentY += 15, { 255, 95, 95, 255 }, ALIGN_CENTERHORIZONTAL, L"Server Disabled Crits");
+	}
 	//Crit banned check
-	if (CritTicks.size() == 0 && NoRandomCrits(pWeapon) == false)
+	if (CritTicks.size() == 0 && AreRandomCritsEnabled(pWeapon) && NoRandomCrits(pWeapon) == false)
 	{
 		g_Draw.String(FONT_INDICATORS, x, currentY += 15, { 255,0,0,255 }, ALIGN_CENTERHORIZONTAL, L"Crit Banned");
 	}
@@ -325,10 +327,11 @@ void CCritHack::Draw()
 	const float bucketCap = tf_weapon_criticals_bucket_cap->GetFloat();
 	const std::wstring bucketstr = L"Bucket: " + std::to_wstring(static_cast<int>(bucket)) + L"/" + std::to_wstring(static_cast<int>(bucketCap));
 	// crit bucket string (this sucks)
-	if (NoRandomCrits(pWeapon) == false)
+	if (AreRandomCritsEnabled(pWeapon) && NoRandomCrits(pWeapon) == false)
 	{
 		g_Draw.String(FONT_INDICATORS, x, currentY += 15, { 181, 181, 181, 255 }, ALIGN_CENTERHORIZONTAL, bucketstr.c_str());
 	}
+
 	int w, h;
 	I::VGuiSurface->GetTextSize(g_Draw.m_vecFonts.at(FONT_INDICATORS).dwFont, bucketstr.c_str(), w, h);
 	if (w > longestW)

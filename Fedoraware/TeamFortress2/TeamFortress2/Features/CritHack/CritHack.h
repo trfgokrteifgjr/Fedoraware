@@ -4,7 +4,7 @@
 class CCritHack
 {
 private:
-	bool AreRandomCritsEnabled();
+	bool AreRandomCritsEnabled(CBaseCombatWeapon* pWeapon);
 	bool IsEnabled();
 	bool ShouldCrit();
 	bool NoRandomCrits(CBaseCombatWeapon* pWeapon);
